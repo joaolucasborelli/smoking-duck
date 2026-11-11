@@ -1,0 +1,36 @@
+name: Estudo de marca e vigia
+
+# Estudo: acordado pela fábrica quando você cria um ambiente novo (o time de agentes estuda a empresa por ~20 min).
+# Vigia: todo dia às 7h (Brasília) olha o que mudou em cada ambiente ativo e deixa avisos para você aprovar.
+# Identidade: token OIDC do próprio GitHub (nenhum segredo guardado aqui).
+on:
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: "vazio = estudo; vigia = roda o vigia agora"
+        required: false
+        default: ""
+  schedule:
+    - cron: "0 10 * * *"
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: estudo
+  cancel-in-progress: false
+
+jobs:
+  estudar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Pillow (recortar a foto do produto)
+        run: pip install -q pillow
+      - name: Estudo (fila) e vigia (de manhã)
+        run: python montagem/estudo.py ${{ (github.event_name == 'schedule' || github.event.inputs.modo == 'vigia') && '--vigia' || '' }}

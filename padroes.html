@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Padrões · Fábrica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--bg:#0e0f11;--card:#17181b;--line:#2a2c31;--tx:#f2f2ee;--mut:#9a9ea6;--am:#FFD21F;--ok:#3ecf8e;--no:#ff6b6b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.45 Inter,system-ui,sans-serif}
+header{position:sticky;top:0;z-index:5;background:rgba(14,15,17,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+header h1{font-size:18px;font-weight:800;margin-right:6px}
+.abas{display:flex;gap:6px;flex-wrap:wrap}
+.abas button{background:#1c1d21;border:1px solid var(--line);border-radius:99px;padding:6px 12px;font:inherit;font-size:13.5px;font-weight:600;color:var(--tx);cursor:pointer}
+.abas button.on{background:var(--am);color:#111;border-color:var(--am)}
+.sp{flex:1}.prog{font-size:13px;color:var(--mut)}
+a{color:var(--am)}
+.intro{max-width:1240px;margin:16px auto 0;padding:0 16px;color:var(--mut);font-size:14px}
+.intro b{color:var(--tx)}
+main{max-width:1240px;margin:12px auto 80px;padding:0 16px}
+.post{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:18px;overflow:hidden}
+.post.padrao{border-color:var(--am);box-shadow:0 0 0 1px var(--am) inset}
+.post.nao{opacity:.55}
+.ph{padding:14px 16px 8px;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.ph h3{font-size:16px;font-weight:800;flex:1;min-width:240px}
+.tag{font-size:12px;font-weight:700;border-radius:99px;padding:3px 9px;background:#25272c;color:#d9dbe0;white-space:nowrap}
+.tag.rec{background:rgba(255,210,31,.14);color:var(--am)}
+.tira{display:flex;align-items:flex-start;gap:10px;overflow-x:auto;padding:6px 16px 12px;scroll-snap-type:x proximity}
+.sl{flex:0 0 150px;scroll-snap-align:start;position:relative}
+.sl .im{height:188px;background:#000;border-radius:8px;overflow:hidden;cursor:zoom-in;border:2px solid transparent}
+.sl.on .im,.tile.on .im{border-color:var(--am)}
+.sl img,.tile img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .25s}.sl img.ok,.tile img.ok{opacity:1}.im{background:#1c1c1c url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724%27 height=%2724%27%3E%3Ccircle cx=%2712%27 cy=%2712%27 r=%279%27 fill=%27none%27 stroke=%27%23888%27 stroke-width=%272%27 stroke-dasharray=%2714 40%27/%3E%3C/svg%3E") center/24px no-repeat}
+.sl .rot{max-width:100%;font-size:11px;color:var(--mut);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.estrela{position:absolute;right:6px;top:6px;width:30px;height:30px;border-radius:99px;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:16px;cursor:pointer;line-height:30px}
+.on>.estrela,.on .estrela{background:var(--am);color:#111}
+.n{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.65);border-radius:6px;padding:1px 6px;font-size:11px;font-weight:700}
+.nota{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.75);border-radius:6px;padding:1px 7px;font-size:12px;font-weight:800}
+.nota.alta{background:var(--ok);color:#06150e}.nota.baixa{background:var(--no);color:#200}
+.pf{padding:0 16px 14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.esc button{background:#212328;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font:inherit;font-size:13.5px;font-weight:700;color:var(--tx);cursor:pointer}
+.esc button.on[data-v=padrao]{background:var(--am);color:#111;border-color:var(--am)}
+.esc button.on[data-v=talvez]{background:#3b3f4a;border-color:#6b7080}
+.esc button.on[data-v=nao]{background:rgba(255,107,107,.18);border-color:var(--no);color:#ffd0d0}
+.pf input{flex:1;min-width:220px;background:#101114;border:1px solid var(--line);border-radius:9px;padding:8px 10px;color:var(--tx);font:inherit;font-size:14px}
+.salvo{font-size:12px;color:var(--mut)}
+.fam{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--am);margin:30px 0 10px}
+.tipo{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px 4px;margin-bottom:14px}
+.tipo.padrao{border-color:var(--am);box-shadow:0 0 0 1px var(--am) inset}.tipo.nao{opacity:.5}
+.th{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}.th>div{flex:1;min-width:220px}
+.th h3{font-size:16px;font-weight:800}.th p{font-size:13.5px;color:var(--mut)}
+.tag.alta{background:rgba(62,207,142,.18);color:#bff3da}.tag.baixa{background:rgba(255,107,107,.16);color:#ffd0d0}
+.tipo .grade{grid-template-columns:repeat(4,1fr)}.tipo .pf{padding:12px 0}
+details{margin-top:10px}summary{cursor:pointer;color:var(--am);font-size:13.5px;font-weight:600}details .grade{margin-top:10px}
+.tile .estrela{display:none}
+.gr{font-size:17px;font-weight:800;margin:26px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.gr span{color:var(--mut);font-weight:600;font-size:13px}
+.gr small{display:block;color:var(--mut);font-weight:500;font-size:13px;margin-top:2px}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.ab{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:0 auto}
+.ab figure{margin:0;display:flex;flex-direction:column;gap:8px}
+.ab img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;border:3px solid transparent;background:#000;cursor:pointer}
+.ab img:hover{border-color:var(--yel,#FFD21F)}
+.ab button{padding:10px;border-radius:10px;font-weight:700;cursor:pointer}
+.abbar{max-width:900px;margin:14px auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}
+.abbar .chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line,#333);background:transparent;color:inherit;cursor:pointer;font-size:13px}
+.abbar .chip.on{background:var(--yel,#FFD21F);color:#111;border-color:transparent}
+.regras{max-width:900px;margin:22px auto;border:1px solid var(--line,#333);border-radius:12px;padding:14px 16px;white-space:pre-wrap;font-size:14px;line-height:1.5}
+@media (max-width:700px){.ab{grid-template-columns:1fr 1fr;gap:8px}}
+.tile{position:relative}
+.tile .im{aspect-ratio:4/5;background:#000;border-radius:9px;overflow:hidden;cursor:zoom-in;border:2px solid transparent}
+.tile .de{font-size:11.5px;color:var(--mut);margin-top:5px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.filtros select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px;color:var(--tx);font:inherit;font-size:13.5px}
+.vazio{color:var(--mut);padding:20px 0}
+#login{max-width:380px;margin:12vh auto;padding:24px;background:var(--card);border:1px solid var(--line);border-radius:14px;display:none}
+#login h2{font-size:18px;margin-bottom:6px}#login p{color:var(--mut);font-size:14px;margin-bottom:14px}
+#login input{width:100%;margin-bottom:10px;background:#101114;border:1px solid var(--line);border-radius:9px;padding:10px;color:var(--tx);font:inherit}
+.btn{background:var(--am);color:#111;border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;font:inherit}
+.zoom{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;z-index:20;padding:16px;gap:18px;align-items:center;justify-content:center}
+.zoom.on{display:flex}
+.zoom img{max-height:92vh;max-width:min(62vw,720px);border-radius:8px}
+.zoom .lado{max-width:360px;color:#ddd;font-size:14px;white-space:pre-wrap;max-height:88vh;overflow:auto}
+.zoom .lado b{color:var(--am)}
+.zoom .x,.zoom .ant,.zoom .prox{position:absolute;background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:99px;width:44px;height:44px;font-size:22px;cursor:pointer}
+.zoom .x{right:14px;top:14px}.zoom .ant{left:14px;top:50%}.zoom .prox{right:14px;top:50%}
+@media (max-width:700px){.zoom{flex-direction:column;overflow:auto;justify-content:flex-start}.zoom img{max-width:100%;max-height:70vh}.zoom .ant,.zoom .prox{top:auto;bottom:14px}.grade,.tipo .grade{grid-template-columns:repeat(2,1fr)}.sl{flex-basis:120px}.sl .im{height:150px}}
+</style>
+</head>
+<body>
+<form id="login"><h2>Entrar</h2><p>Mesmo e-mail e senha da fábrica.</p>
+  <input id="em" type="email" placeholder="E-mail" autocomplete="username" required>
+  <input id="pw" type="password" placeholder="Senha" autocomplete="current-password" required>
+  <button class="btn" type="submit">Entrar</button> <span id="lerr" class="salvo"></span></form>
+<div id="app" style="display:none">
+<header><h1>Padrões</h1>
+  <nav class="abas" id="abas">
+    <button data-aba="capas" class="on">Tipos de capa</button>
+    <button data-aba="slides">Tipos de slide</button>
+    <button data-aba="escolhidos">✓ Presets escolhidos</button>
+    <button data-aba="posts">Posts inteiros (consulta)</button>
+    <button data-aba="treinar">🏋 Treinar: qual é melhor?</button>
+  </nav>
+  <span class="sp"></span><span class="prog" id="prog"></span><a href="./">← Fábrica</a></header>
+<p class="intro" id="intro"></p>
+<main id="main"><p class="vazio">Carregando tudo…</p></main>
+</div>
+<div class="zoom" id="zoom"><button class="x" aria-label="Fechar">×</button><button class="ant" aria-label="Anterior">‹</button><img alt=""><div class="lado"></div><button class="prox" aria-label="Próximo">›</button></div>
+<script>
+const sb=supabase.createClient("https://odwbspgnxwcqmbcegkhw.supabase.co","sb_publishable_foge1lfQeHHmC2TXOPKMFA_r1McAIjh");
+const NOME={capa_f1:"Capa · foto + manchete no preto",capa_f1b:"Capa · portal (caixa alta)",capa_perfil:"Capa · portal com o nosso perfil",capa_comparacao:"Capa · comparação cortada ao meio",capa_tweet:"Capa · print de tweet + foto",capa_f3a:"Capa · foto cheia, frase no centro",capa_f3b:"Capa · foto cheia, legenda embaixo",capa_circulos:"Capa · foto + rosto em círculo",capa_marcatexto:"Capa · marca-texto amarelo",capa_revista:"Capa · revista (cor + objeto)",capa_numero:"Capa · número gigante",capa_caderno:"Capa · caderno / planner",capa:"Capa · montagem antiga",original:"Capa original do post",
+ meia_tela:"Meia tela (foto + texto)",foto_sticker:"Foto com adesivo",faixa_amarela:"Faixa amarela (a virada)",conta_visual:"Conta visual (a soma)",antes_hoje:"Antes × hoje",citacao:"Citação de alguém",papel_f2:"Texto no papel",cta_f6:"Pedido final (comenta PLANNER)",f1_corrido:"Texto corrido sobre foto",fecho_foto:"Fecho com foto",lista_linhas:"Lista em linhas",esc_checklist:"Checklist",esc_cards:"Cards",preto_f5:"Moral no fundo preto",esc_titulo_moldura:"Título com moldura",noticia:"Notícia (foto real ou data)",cupom:"Cupom / recibo somando",
+ famoso:"Famoso com fato real",_sem:"Sem tipo marcado"};
+const DESC={capa_f1:"Foto em cima, faixa preta embaixo com a manchete.",capa_f1b:"Jeito de portal de notícia: manchete em caixa alta sobre a foto.",capa_perfil:"Portal com a nossa foto e o nosso nome, como post de notícia.",capa_comparacao:"Tela cortada ao meio: dois caminhos lado a lado.",capa_tweet:"Print de tweet em cima, foto embaixo.",capa_f3a:"Foto cheia com frase curta no centro.",capa_f3b:"Foto cheia com legenda embaixo.",capa_circulos:"Foto grande + zoom de uma pessoa dentro de um círculo.",capa_marcatexto:"Frase com palavra grifada em marca-texto amarelo.",capa_revista:"Fundo de cor + objeto recortado, jeito de capa de revista.",capa_numero:"Número gigante na frente da foto.",capa_caderno:"Foto do caderno/planner aberto com a frase.",famoso:"Pessoa famosa com um fato real e verificável.",
+ meia_tela:"Metade foto, metade texto curto da história.",foto_sticker:"Foto cheia com uma frase em adesivo.",faixa_amarela:"A virada: frase de impacto numa faixa amarela.",conta_visual:"A soma em caixas: valor × tempo = resultado.",antes_hoje:"Mesma pessoa antes e hoje, tela dividida.",citacao:"Frase de alguém em destaque, com o nome.",papel_f2:"Texto corrido em fundo claro de papel.",f1_corrido:"Texto corrido por cima da foto.",fecho_foto:"Fechamento com foto e reflexão.",lista_linhas:"Lista numerada em linhas.",esc_checklist:"Checklist com ✓: passos para testar.",esc_cards:"Cards numerados com título e explicação.",preto_f5:"Moral da história em fundo preto.",esc_titulo_moldura:"Título grande com moldura e texto curto.",noticia:"Notícia: foto real com crédito, ou data gigante e fonte.",cupom:"Recibo somando os gastos, o último em destaque.",cta_f6:"Pedido final: comenta PLANNER."};
+const FAM=[["Foto de IA",["capa_f1","capa_f3a","capa_f3b","capa_f1b"]],["Famoso",["famoso","capa_perfil"]],["Tweet",["capa_tweet"]],["Comparação",["capa_comparacao","antes_hoje"]],["Foto + círculo",["capa_circulos"]],["Decorado",["capa_marcatexto","capa_numero","capa_revista","capa_caderno","conta_visual","esc_cards","esc_checklist","lista_linhas","cupom","foto_sticker","esc_titulo_moldura"]],["Notícia",["noticia"]],["História com foto",["meia_tela","f1_corrido","fecho_foto"]],["Texto",["papel_f2","faixa_amarela","citacao","preto_f5"]],["Fechamento",["cta_f6"]]];
+const famDe=m=>(FAM.find(f=>f[1].includes(m))||["Outros"])[0];
+const AV={infograficos_depois:["conta_visual","conta_visual","lista_linhas","antes_hoje","esc_cards","esc_checklist"],diretor_de_arte:["noticia","noticia","cupom","cupom","cupom"]};
+const FORA=["capa","original","_sem"];
+const REC_DB={1:"Confissão em 1ª pessoa",2:"Confissão em 1ª pessoa",3:"Pergunta curiosa",4:"Lista (isca)",5:"Lista (isca)",6:"Conselho da avó",7:"Pergunta curiosa",8:"Lista (isca)",9:"Notícia do momento"};
+const LOTE={lote1:"Lote 1",lote2:"Lote 2",lote3:"Lote 3","posts-de-teste":"Posts de teste","posts-montados":"Posts montados","opcoes-de-capa":"Opções de capa","tipos-novos":"Tipos novos"};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const limpa=s=>String(s??"").replace(/\*\*|\[\[|\]\]|_/g,"");
+let POSTS=[],CAPAS=[],URLS={},P={},ABA="capas",LISTA=[],IDX=0;
+let ESC=[],REGRAS_AB="",PAR=null,MOTIVOS=new Set();
+const MOT=["Mais bonito","Mais legível","Mais a cara da marca","Foto melhor","Texto melhor","Menos poluído","Gancho mais forte"];
+// sorteia 2 exemplos do MESMO tipo que você ainda não comparou (tipos reprovados ficam de fora)
+function novoPar(){
+  const pool=[...todasCapas(),...POSTS.flatMap(p=>slidesDe(p).filter((s,i)=>i>0))].filter(s=>s.imagem&&URLS[s.imagem]&&s.molde&&s.molde!=="_sem"&&(P["tipo:"+s.molde]||{}).escolha!=="nao");
+  const g={};pool.forEach(s=>(g[s.molde]=g[s.molde]||[]).push(s));
+  const feito=new Set(ESC.map(e=>[e.a,e.b].sort().join("|")));
+  const tipos=Object.keys(g).filter(m=>g[m].length>1);
+  for(let t=0;t<200;t++){const m=tipos[Math.floor(Math.random()*tipos.length)];const L=g[m];
+    const a=L[Math.floor(Math.random()*L.length)],b=L[Math.floor(Math.random()*L.length)];
+    if(a.imagem!==b.imagem&&!feito.has([a.imagem,b.imagem].sort().join("|")))return {tipo:m,a,b}}
+  return null;
+}
+
+function texto(d){if(!d)return"";const L=[];
+  ["chapeu","rotulo","numero","faixa_topo","titulo","texto","sub","pergunta"].forEach(k=>d[k]&&typeof d[k]==="string"&&L.push(d[k]));
+  ["paragrafos","itens","antes"].forEach(k=>Array.isArray(d[k])&&d[k].forEach(x=>typeof x==="string"&&L.push(x)));
+  if(d.faixa)L.push("» "+d.faixa);
+  Array.isArray(d.depois)&&d.depois.forEach(x=>L.push(x));
+  Array.isArray(d.cards)&&d.cards.forEach(c=>L.push(`${c.nome||""}: ${c.texto||""}`));
+  Array.isArray(d.caixas)&&d.caixas.forEach(c=>L.push(`${c.op||""} ${c.valor||""} (${c.rotulo||""})`));
+  Array.isArray(d.rotulos)&&d.rotulos.length&&L.push("["+d.rotulos.join(" | ")+"]");
+  d.nome&&L.push("— "+d.nome+(d.papel?", "+d.papel:""));
+  return limpa(L.join("\n"))}
+
+async function iniciar(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){document.getElementById("login").style.display="block";return}
+  document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";
+  const [ac,db,th,pd]=await Promise.all([
+    sb.storage.from("montagens").download("acervo/acervo.json").then(r=>r.data?r.data.text().then(JSON.parse):[]),
+    sb.from("posts").select("id,imagens,ficha").order("id"),
+    sb.from("thumbs_teste").select("*, avaliacoes_thumb(nota,gostei,nao_gostei,comentario)").order("criada_em").order("ordem"),
+    sb.from("padroes").select("*")]);
+  (pd.data||[]).forEach(r=>P[r.item]=r);
+  // treino: escolhas A/B já feitas e as regras que a fábrica já tirou delas
+  sb.from("escolhas_ab").select("tipo,a,b,vencedor").then(({data})=>{ESC=data||[]});
+  sb.from("config_fabrica").select("texto").eq("ambiente_id",1).eq("chave","regras_escolhas").maybeSingle().then(({data})=>{REGRAS_AB=data?data.texto:""});
+  // posts do banco (montados pela fábrica)
+  const dbp=(db.data||[]).filter(p=>(p.imagens||[]).length).map(p=>{const f=p.ficha||{};const ds=[f.capa||{}].concat(f.slides||[]);
+    return {id:"db_"+p.id,origem:"Fábrica · post "+p.id,receita:REC_DB[p.id]||"Outro",titulo:limpa((f.capa||{}).texto||"Post "+p.id),
+      slides:p.imagens.map((im,i)=>({imagem:im,molde:(ds[i]||{}).molde||"",dados:ds[i]||{}}))}});
+  const loc=(ac||[]).map(p=>({...p,titulo:limpa(p.titulo),origem:p.origem==="avulso"?"Slides avulsos":"Testes no computador"}));
+  POSTS=[...loc.filter(p=>p.origem!=="Slides avulsos"),...dbp,...loc.filter(p=>p.origem==="Slides avulsos")];
+  CAPAS=(th.data||[]).filter(t=>t.imagem).map(t=>{const a=(t.avaliacoes_thumb||[])[0]||{};return {key:"thumb:"+t.id,imagem:t.imagem,molde:(t.extra&&(t.extra.famoso||/famoso/.test(t.extra.estilo||"")))?"famoso":t.molde,texto:limpa(t.texto),nota:a.nota,coment:a.comentario,origem:LOTE[t.lote]||t.lote,extra:[...(a.gostei||[]).map(x=>"+ "+x),...(a.nao_gostei||[]).map(x=>"− "+x)].join("\n")}});
+  const caminhos=[...new Set([...POSTS.flatMap(p=>p.slides.map(s=>s.imagem)),...CAPAS.map(c=>c.imagem)])];
+  for(let i=0;i<caminhos.length;i+=100){const {data:u}=await sb.storage.from("montagens").createSignedUrls(caminhos.slice(i,i+100),7200);(u||[]).forEach(x=>URLS[x.path]=x.signedUrl)}
+  desenhar();
+}
+const slidesDe=p=>p.slides.map((s,i)=>({key:"slide:"+s.imagem,imagem:s.imagem,molde:s.molde||(AV[p.id]||[])[i]||"_sem",novo:!!AV[p.id],texto:texto(s.dados),post:p,i}));
+const nomeTipo=m=>m.startsWith("_av_")?(POSTS.find(p=>"_av_"+p.id===m)||{}).receita||m:(NOME[m]||m);
+function marcado(k){return P[k]&&P[k].escolha==="padrao"}
+
+function desenhar(){
+  document.querySelectorAll("#abas button").forEach(b=>b.classList.toggle("on",b.dataset.aba===ABA));
+  const M=document.getElementById("main"),I=document.getElementById("intro");
+  if(ABA==="posts"){
+    I.innerHTML=`Aqui estão <b>todos os ${POSTS.length} conjuntos</b> que já fizemos: posts testados no computador, os 9 montados pela fábrica e slides avulsos. Em cada post, marque <b>★ Padrão</b>, <b>Talvez</b> ou <b>Não</b>. Para guardar só um slide como exemplo do tipo dele, toque na ★ do slide. Toque na imagem para ver grande e ler o texto.`;
+    M.innerHTML=POSTS.map(p=>{const e=(P["post:"+p.id]||{}).escolha||"";const ss=slidesDe(p);
+      return `<section class="post ${e}" id="p_${esc(p.id)}"><div class="ph"><h3>${esc(p.titulo)}</h3><span class="tag rec">${esc(p.receita)}</span><span class="tag">${esc(p.origem)}</span><span class="tag">${p.slides.length} slides</span></div>
+      <div class="tira">${ss.map((s,i)=>tileSlide(s,i,"sl")).join("")}</div>
+      ${p.origem==="Slides avulsos"?"":`<div class="pf"><span class="esc">${["padrao","talvez","nao"].map(v=>`<button data-post="${esc(p.id)}" data-v="${v}" class="${e===v?"on":""}">${{padrao:"★ Padrão",talvez:"Talvez",nao:"Não"}[v]}</button>`).join(" ")}</span>
+      <input data-com="post:${esc(p.id)}" data-tipo="${esc(p.receita)}" placeholder="Por quê? (opcional)" value="${esc((P["post:"+p.id]||{}).comentario||"")}"><span class="salvo" id="s_post_${esc(p.id)}"></span></div>`}</section>`}).join("");
+  } else if(ABA==="treinar"){
+    if(!PAR)PAR=novoPar();
+    I.innerHTML=`<b>Treino rápido:</b> toque na imagem melhor (ou em "Empate"). Se quiser, marque o motivo antes. Cada escolha ensina a fábrica. Você já fez <b>${ESC.length}</b> escolha${ESC.length===1?"":"s"}.`;
+    M.innerHTML=(PAR?`<p class="intro" style="text-align:center;padding:0 0 10px"><b>${esc(NOME[PAR.tipo]||PAR.tipo)}</b></p>
+      <div class="ab"><figure><img src="${URLS[PAR.a.imagem]}" data-ab="a" alt="Opção A"><button data-ab="a">A é melhor</button></figure>
+      <figure><img src="${URLS[PAR.b.imagem]}" data-ab="b" alt="Opção B"><button data-ab="b">B é melhor</button></figure></div>
+      <div class="abbar">${MOT.map(m=>`<button class="chip ${MOTIVOS.has(m)?"on":""}" data-mot="${esc(m)}">${esc(m)}</button>`).join("")}<button class="chip" data-ab="empate">Empate</button><button class="chip" data-ab="pular">Pular</button></div>`
+      :`<p class="vazio">Você já comparou todos os pares disponíveis. Novos posts montados trazem novos pares.</p>`)
+      +`<div class="regras"><b>O que a fábrica aprendeu com as suas escolhas</b>\n${REGRAS_AB?esc(REGRAS_AB):"Ainda nada. Depois de 10 escolhas, toque no botão abaixo."}\n\n<button class="chip" data-regras ${ESC.length<10?"disabled":""}>Tirar regras das minhas escolhas (${ESC.length}/10)</button> <span id="s_regras"></span></div>`;
+  } else if(ABA==="slides"){
+    I.innerHTML=`Cada bloco é um <b>tipo de slide</b> com os melhores exemplos. Escolha <b>✓ Vira preset</b> nos tipos que a fábrica pode usar. Toque numa imagem para ver grande.`;
+    M.innerHTML=tipos(POSTS.flatMap(p=>slidesDe(p).filter((s,i)=>i>0||AV[p.id])));
+  } else if(ABA==="capas"){
+    I.innerHTML=`Cada bloco é um <b>tipo de capa</b> com os melhores exemplos e a sua nota média. Escolha <b>✓ Vira preset</b> nos tipos que a fábrica pode usar.`;
+    M.innerHTML=tipos(todasCapas());
+  } else {
+    I.innerHTML=`Os tipos que você escolheu. É esta lista que vira preset na fábrica.`;
+    const tc=tipos(todasCapas(),"preset"),ts=tipos(POSTS.flatMap(p=>slidesDe(p).filter((s,i)=>i>0||AV[p.id])),"preset");
+    M.innerHTML=`<h2 class="gr">Capas</h2>`+(tc||`<p class="vazio">Nenhum tipo de capa escolhido ainda.</p>`)+`<h2 class="gr" style="margin-top:34px">Slides</h2>`+(ts||`<p class="vazio">Nenhum tipo de slide escolhido ainda.</p>`)
+      +(()=>{const v=Object.values(P).filter(r=>r.item.startsWith("tipo:"));const t=v.filter(r=>r.escolha==="talvez").map(r=>r.tipo),n=v.filter(r=>r.escolha==="nao").map(r=>r.tipo);
+        return (t.length?`<p class="intro" style="padding:0;margin-top:24px"><b>Talvez:</b> ${t.map(esc).join(" · ")}</p>`:"")+(n.length?`<p class="intro" style="padding:0;margin-top:6px"><b>Não usar:</b> ${n.map(esc).join(" · ")}</p>`:"")})();
+    progresso();return;
+    const posts=POSTS.filter(p=>marcado("post:"+p.id)),talvez=POSTS.filter(p=>(P["post:"+p.id]||{}).escolha==="talvez");
+    const todosSl=POSTS.flatMap(p=>slidesDe(p).filter((s,i)=>i>0||p.origem==="Slides avulsos")).filter(s=>marcado(s.key));
+    const capas=[...CAPAS,...POSTS.filter(p=>p.origem!=="Slides avulsos").map(p=>slidesDe(p)[0])].filter(s=>marcado(s.key));
+    const porRec={};posts.forEach(p=>(porRec[p.receita]=porRec[p.receita]||[]).push(p));
+    M.innerHTML=`<h2 class="gr">Posts padrão <span>${posts.length}</span></h2>`+(posts.length?Object.entries(porRec).map(([r,ps])=>`<p class="intro" style="margin:8px 0 4px;padding:0"><b>${esc(r)}</b>: ${ps.map(p=>`<a href="#" data-ir="${esc(p.id)}">${esc(p.titulo)}</a>`).join(" · ")}</p>`).join(""):`<p class="vazio">Nenhum post marcado ainda.</p>`)
+      +(talvez.length?`<p class="intro" style="padding:0;margin-top:8px">Talvez: ${talvez.map(p=>`<a href="#" data-ir="${esc(p.id)}">${esc(p.titulo)}</a>`).join(" · ")}</p>`:"")
+      +`<h2 class="gr" style="margin-top:30px">Capas padrão <span>${capas.length}</span></h2>`+(capas.length?grupos(capas,false,true):`<p class="vazio">Nenhuma capa marcada.</p>`)
+      +`<h2 class="gr" style="margin-top:30px">Slides padrão <span>${todosSl.length}</span></h2>`+(todosSl.length?grupos(todosSl,true,true):`<p class="vazio">Nenhum slide marcado.</p>`);
+  }
+  progresso();
+}
+function todasCapas(){return [...CAPAS,...POSTS.filter(p=>!AV[p.id]&&p.origem!=="Slides avulsos").map(p=>({...slidesDe(p)[0],origem:p.origem}))]}
+function tipos(lista,so){const g={};lista.filter(s=>!FORA.includes(s.molde)).forEach(s=>(g[s.molde]=g[s.molde]||[]).push(s));
+  const media=m=>{const n=g[m].filter(s=>s.nota!=null).map(s=>s.nota);return n.length?n.reduce((a,b)=>a+b,0)/n.length:null};
+  const fi=m=>{const i=FAM.findIndex(f=>f[1].includes(m));return i<0?99:i};
+  let ms=Object.keys(g).sort((a,b)=>fi(a)-fi(b)||(media(b)??5)-(media(a)??5));
+  if(so)ms=ms.filter(m=>(P["tipo:"+m]||{}).escolha==="padrao");
+  let fam="";return ms.map(m=>{const e=(P["tipo:"+m]||{}).escolha||"";const md=media(m);
+    const ex=g[m].slice().sort((a,b)=>(b.novo?1:0)-(a.novo?1:0)||(b.nota??-1)-(a.nota??-1));
+    const f=famDe(m),cab=f!==fam?`<h2 class="fam">${esc(f)}</h2>`:"";fam=f;
+    return cab+`<section class="tipo ${e}"><div class="th"><div><h3>${esc(NOME[m]||m)}</h3><p>${esc(DESC[m]||"")}</p></div>
+      <span class="tag">${g[m].length} exemplo${g[m].length>1?"s":""}</span>${md!=null?`<span class="tag ${md>=8?"alta":md<=4?"baixa":""}">sua nota média: ${md.toFixed(1).replace(".",",")}</span>`:""}</div>
+      <div class="grade">${ex.slice(0,so?2:4).map((s,i)=>tileSlide(s,i,"tile")).join("")}</div>
+      ${!so&&ex.length>4?`<details><summary>ver os outros ${ex.length-4}</summary><div class="grade">${ex.slice(4).map((s,i)=>tileSlide(s,i,"tile")).join("")}</div></details>`:""}
+      ${so?"":`<div class="pf"><span class="esc">${["padrao","talvez","nao"].map(v=>`<button data-tp="${esc(m)}" data-v="${v}" class="${e===v?"on":""}">${{padrao:"✓ Vira preset",talvez:"Talvez",nao:"Não usar"}[v]}</button>`).join(" ")}</span>
+      <input data-com="tipo:${esc(m)}" data-tipo="${esc(NOME[m]||m)}" placeholder="O que ajustar nesse tipo? (opcional)" value="${esc((P["tipo:"+m]||{}).comentario||"")}"><span class="salvo" id="s_tipo_${esc(m)}"></span></div>`}</section>`}).join("")}
+function grupos(lista,miolo,compacto){const g={};lista.forEach(s=>(g[s.molde]=g[s.molde]||[]).push(s));
+  const ordem=Object.keys(g).sort((a,b)=>g[b].length-g[a].length);
+  return ordem.map(m=>{const n=g[m].filter(s=>marcado(s.key)).length;
+    return `<h2 class="gr" style="${compacto?"font-size:15px;margin-top:16px":""}">${esc(nomeTipo(m))} <span>${g[m].length}${n&&!compacto?` · ★ ${n}`:""}</span></h2><div class="grade">${g[m].map((s,i)=>tileSlide(s,i,"tile")).join("")}</div>`}).join("")}
+function tileSlide(s,i,cls){const on=marcado(s.key);const de=s.post?(cls==="sl"?nomeTipo(s.molde):`${s.post.titulo}`):(s.origem||"");
+  const nota=s.nota!=null?`<span class="nota ${s.nota>=8?"alta":s.nota<=4?"baixa":""}">${s.nota}</span>`:"";
+  return `<div class="${cls} ${on?"on":""}" data-k="${esc(s.key)}"><div class="im" data-ver="${esc(s.key)}"><img loading="lazy" decoding="async" onload="this.classList.add('ok')" src="${esc(URLS[s.imagem]||"")}" alt="">${s.post?`<span class="n">${s.i+1}</span>`:""}${nota}</div>
+   <button class="estrela" data-star="${esc(s.key)}" data-tipo="${esc(s.molde)}" aria-label="Marcar como padrão">★</button>
+   <div class="${cls==="sl"?"rot":"de"}">${esc(cls==="sl"?de:(s.texto||de).slice(0,140))}</div></div>`}
+function progresso(){const v=Object.values(P);
+  document.getElementById("prog").textContent=`✓ ${v.filter(r=>r.escolha==="padrao"&&r.item.startsWith("tipo:")).length} tipos viraram preset`;return;`${v.filter(r=>r.escolha==="padrao"&&r.item.startsWith("post:")).length} posts · ${v.filter(r=>r.escolha==="padrao"&&/^capa|^original/.test(r.tipo||"")).length} capas · ${v.filter(r=>r.escolha==="padrao"&&r.item.startsWith("slide:")&&!/^capa|^original/.test(r.tipo||"")).length} slides marcados`}
+
+async function gravar(item,tipo,escolha,comentario){
+  const ant=P[item]||{};const r={item,tipo:tipo||ant.tipo||null,escolha:escolha===undefined?ant.escolha||null:escolha,comentario:comentario===undefined?ant.comentario||null:comentario,atualizada_em:new Date().toISOString()};
+  P[item]=r;
+  const {error}=(!r.escolha&&!r.comentario)?await sb.from("padroes").delete().eq("item",item):await sb.from("padroes").upsert(r,{onConflict:"item"});
+  if(!r.escolha&&!r.comentario)delete P[item];
+  return error}
+
+// visualizador grande com texto do slide
+function abrir(key){const todos=[...CAPAS,...POSTS.flatMap(slidesDe)];
+  const s=todos.find(x=>x.key===key);if(!s)return;
+  LISTA=s.post&&ABA==="posts"?slidesDe(s.post):[...document.querySelectorAll("#main [data-k]")].map(el=>todos.find(x=>x.key===el.dataset.k)).filter(Boolean);
+  IDX=Math.max(0,LISTA.findIndex(x=>x.key===key));mostrar();document.getElementById("zoom").classList.add("on")}
+function mostrar(){const s=LISTA[IDX];const z=document.getElementById("zoom");z.querySelector("img").src=URLS[s.imagem]||"";
+  z.querySelector(".lado").innerHTML=`<b>${esc(nomeTipo(s.molde||"_sem"))}</b>${s.post?`\n${esc(s.post.titulo)} · slide ${s.i+1}`:`\n${esc(s.origem||"")}${s.nota!=null?" · sua nota: "+s.nota:""}`}\n\n${esc(s.texto||"")}${s.extra?"\n\n"+esc(s.extra):""}${s.coment?"\n\nSeu comentário: "+esc(s.coment):""}`}
+document.addEventListener("click",async e=>{const t=e.target;
+  const ab=t.closest("[data-aba]");if(ab){ABA=ab.dataset.aba;desenhar();scrollTo(0,0);return}
+  const ir=t.closest("[data-ir]");if(ir){e.preventDefault();ABA="posts";desenhar();document.getElementById("p_"+ir.dataset.ir)?.scrollIntoView({behavior:"smooth"});return}
+  const st=t.closest("[data-star]");if(st){e.stopPropagation();const k=st.dataset.star;const novo=marcado(k)?null:"padrao";
+    document.querySelectorAll(`[data-k="${CSS.escape(k)}"]`).forEach(el=>el.classList.toggle("on",!!novo));
+    const err=await gravar(k,st.dataset.tipo,novo);if(err)alert("Erro ao salvar: "+err.message);
+    if(document.getElementById("zoom").classList.contains("on"))mostrar();progresso();if(ABA==="escolhidos")desenhar();return}
+  const pb=t.closest("[data-post]");if(pb){const id=pb.dataset.post,item="post:"+id;const v=(P[item]||{}).escolha===pb.dataset.v?null:pb.dataset.v;
+    const sec=document.getElementById("p_"+id);sec.className="post "+(v||"");sec.querySelectorAll("[data-post]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+    const p=POSTS.find(x=>x.id===id);const err=await gravar(item,p.receita,v);document.getElementById("s_post_"+id).textContent=err?"Erro: "+err.message:"✓ salvo";progresso();return}
+  const tp=t.closest("[data-tp]");if(tp){const m=tp.dataset.tp,item="tipo:"+m;const v=(P[item]||{}).escolha===tp.dataset.v?null:tp.dataset.v;
+    const sec=tp.closest(".tipo");sec.className="tipo "+(v||"");sec.querySelectorAll("[data-tp]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+    const err=await gravar(item,NOME[m]||m,v);document.getElementById("s_tipo_"+m).textContent=err?"Erro: "+err.message:"✓ salvo";progresso();return}
+  const mo=t.closest("[data-mot]");if(mo){const m=mo.dataset.mot;MOTIVOS.has(m)?MOTIVOS.delete(m):MOTIVOS.add(m);mo.classList.toggle("on");return}
+  const abv=t.closest("[data-ab]");if(abv&&PAR){const v=abv.dataset.ab;
+    if(v!=="pular"){const r={ambiente_id:1,tipo:PAR.tipo,a:PAR.a.imagem,b:PAR.b.imagem,vencedor:v,motivos:[...MOTIVOS]};
+      const {error}=await sb.from("escolhas_ab").insert(r);if(error){alert("Erro ao salvar: "+error.message);return}ESC.push(r)}
+    PAR=novoPar();MOTIVOS=new Set();desenhar();return}
+  const rg=t.closest("[data-regras]");if(rg){rg.disabled=true;document.getElementById("s_regras").textContent="Lendo as suas escolhas (uns 40 segundos)…";
+    const {data,error}=await sb.functions.invoke("roteiro",{body:{acao:"regras_escolhas"}});
+    if(error||!data||!data.ok){document.getElementById("s_regras").textContent="Não consegui: "+((data&&data.erro)||(error&&error.message)||"erro");rg.disabled=false;return}
+    REGRAS_AB=data.texto;desenhar();return}
+  const vr=t.closest("[data-ver]");if(vr){abrir(vr.dataset.ver);return}
+  const z=document.getElementById("zoom");
+  if(t.closest(".x")||t===z){z.classList.remove("on");return}
+  if(t.closest(".ant")){IDX=(IDX-1+LISTA.length)%LISTA.length;mostrar();return}
+  if(t.closest(".prox")){IDX=(IDX+1)%LISTA.length;mostrar();return}});
+document.addEventListener("keydown",e=>{const z=document.getElementById("zoom");if(!z.classList.contains("on"))return;
+  if(e.key==="Escape")z.classList.remove("on");if(e.key==="ArrowLeft"){IDX=(IDX-1+LISTA.length)%LISTA.length;mostrar()}if(e.key==="ArrowRight"){IDX=(IDX+1)%LISTA.length;mostrar()}});
+const tm={};
+document.addEventListener("input",e=>{const k=e.target.dataset.com;if(!k)return;clearTimeout(tm[k]);const id=k.replace(":","_");
+  tm[k]=setTimeout(async()=>{const err=await gravar(k,e.target.dataset.tipo,undefined,e.target.value||null);document.getElementById("s_"+id).textContent=err?"Erro: "+err.message:"✓ salvo"},600)});
+document.getElementById("login").onsubmit=async e=>{e.preventDefault();const {error}=await sb.auth.signInWithPassword({email:em.value,password:pw.value});if(error){lerr.textContent=error.message;return}iniciar()};
+iniciar();
+</script>
+</body>
+</html>

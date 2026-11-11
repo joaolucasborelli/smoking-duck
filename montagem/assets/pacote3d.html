@@ -1,0 +1,54 @@
+<!doctype html><html><body style="margin:0;background:transparent">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// Pacote stand-up em 3D: FRENTE = a arte real do rótulo (idêntica); VERSO = só volume (cores da própria frente, desfocadas,
+// sem texto), com o mesmo contorno. Fundo em sanfona para ficar em pé. Espessura moderada, como um pouch de 480 g.
+const P=new URLSearchParams(location.search);
+const W=+P.get('w')||900,H=+P.get('h')||1100, rotY=+P.get('ry')||-22, rotX=+P.get('rx')||4, lx=+P.get('lx')||-1.2, ly=+P.get('ly')||2.2;
+const camY=P.has('cy')?+P.get('cy'):0.35;
+const r=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
+r.setSize(W,H);r.setPixelRatio(1);r.toneMapping=THREE.ACESFilmicToneMapping;r.toneMappingExposure=0.82;
+r.outputEncoding=THREE.sRGBEncoding;r.physicallyCorrectLights=true;
+document.body.appendChild(r.domElement);
+const sc=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(28,W/H,0.1,50);cam.position.set(0,camY,4.2);cam.lookAt(0,0.05,0);
+const asp=+P.get('asp')||0.7, h=1.2, w=h*asp, seg=96;
+const D=0.085*w/0.84, G=0.13*w/0.84; // barriga e sanfona proporcionais à largura
+function zDe(x,y){ // x,y de -1 a 1
+  const bx=Math.pow(Math.max(0,1-x*x),0.45);
+  if(y>0.9) return 0;                                   // solda de cima: chapada
+  const ombro=y>0.72?Math.sin(Math.PI/2*(0.9-y)/0.18):1; // sobe suave até a solda
+  let z=D*bx*ombro;
+  if(y<-0.78){const t=(-0.78-y)/0.22; z=z*(1-t)+G*Math.pow(Math.max(0,1-x*x),0.35)*t;} // fundo abre em sanfona
+  z+=0.0035*Math.sin(x*8+y*3)*bx*(y<0.9?1:0);           // amassado leve do filme plástico
+  return z;
+}
+function geo(sinal){const g=new THREE.PlaneGeometry(w,h,seg,seg);const p=g.attributes.position;
+  for(let i=0;i<p.count;i++){const x=p.getX(i)/(w/2),y=p.getY(i)/(h/2);p.setZ(i,sinal*zDe(x,y));}
+  g.computeVertexNormals();return g;}
+let ok=0;
+const img=new Image();img.crossOrigin="anonymous";
+img.onload=()=>{
+  const frente=new THREE.Texture(img);frente.encoding=THREE.sRGBEncoding;frente.anisotropy=8;frente.needsUpdate=true;
+  // verso: a própria frente espelhada e bem desfocada (só cor, nada legível), com o mesmo contorno
+  const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const x=c.getContext('2d');
+  x.save();x.translate(c.width,0);x.scale(-1,1);x.filter='blur('+Math.round(img.width*0.06)+'px) saturate(0.9) brightness(0.92)';x.drawImage(img,0,0);x.restore();
+  x.globalCompositeOperation='destination-in';x.filter='none';x.save();x.translate(c.width,0);x.scale(-1,1);x.drawImage(img,0,0);x.restore();
+  const verso=new THREE.CanvasTexture(c);verso.encoding=THREE.sRGBEncoding;
+  const mF=new THREE.MeshStandardMaterial({map:frente,roughness:0.4,metalness:0,transparent:true,alphaTest:0.5});
+  const mV=new THREE.MeshStandardMaterial({map:verso,roughness:0.45,metalness:0,transparent:true,alphaTest:0.5,side:THREE.BackSide});
+  const g=new THREE.Group();g.add(new THREE.Mesh(geo(1),mF),new THREE.Mesh(geo(-1),mV));
+  // base da sanfona (oval), na cor da parte de baixo da frente
+  const amostra=document.createElement('canvas');amostra.width=1;amostra.height=1;const ax=amostra.getContext('2d');
+  ax.drawImage(img,img.width*0.3,img.height*0.93,img.width*0.4,img.height*0.04,0,0,1,1);const px=ax.getImageData(0,0,1,1).data;
+  const base=new THREE.Mesh(new THREE.CircleGeometry(1,48),new THREE.MeshStandardMaterial({color:new THREE.Color(`rgb(${px[0]},${px[1]},${px[2]})`).convertSRGBToLinear(),roughness:0.5}));
+  base.scale.set(w/2*0.98,G*0.98,1);base.rotation.x=Math.PI/2;base.position.y=-h/2+0.002;g.add(base);
+  g.position.y=h/2-0.55;g.rotation.y=THREE.MathUtils.degToRad(rotY);g.rotation.x=THREE.MathUtils.degToRad(rotX);
+  sc.add(g);ok=1;
+};
+img.src=P.get('tex');
+sc.add(new THREE.HemisphereLight(0xfff4ea,0x553344,1.0));
+const sol=new THREE.DirectionalLight(0xfff1e0,2.1);sol.position.set(lx,ly+2.2,1.6);sc.add(sol);
+const brilho=new THREE.PointLight(0xffffff,0.6);brilho.position.set(1.5,0.8,2.5);sc.add(brilho);
+(function loop(){r.render(sc,cam);if(ok)window.PRONTO=true;requestAnimationFrame(loop)})();
+</script></body></html>

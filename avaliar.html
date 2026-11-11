@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avaliar capas · Fábrica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--bg:#0e0f11;--card:#17181b;--line:#2a2c31;--tx:#f2f2ee;--mut:#9a9ea6;--am:#FFD21F;--ok:#3ecf8e;--no:#ff6b6b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.45 Inter,system-ui,sans-serif}
+header{position:sticky;top:0;z-index:5;background:rgba(14,15,17,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:14px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+header h1{font-size:18px;font-weight:800}
+header .sp{flex:1}
+.prog{font-size:13px;color:var(--mut)}
+.bar{width:160px;height:6px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--am);width:0;transition:width .3s}
+select,button,textarea{font:inherit;color:inherit}
+select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.intro{max-width:1200px;margin:16px auto 0;padding:0 16px;color:var(--mut);font-size:14px}
+.grid{max-width:1200px;margin:16px auto 60px;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.card.feito{border-color:#3a3f2a}
+.img{position:relative;aspect-ratio:4/5;background:#000;cursor:zoom-in}
+.img img{width:100%;height:100%;object-fit:cover;display:block}
+.num{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.7);border-radius:7px;padding:2px 8px;font-weight:700;font-size:13px}
+.selo{position:absolute;right:10px;top:10px;background:var(--am);color:#111;border-radius:7px;padding:2px 8px;font-weight:800;font-size:13px;display:none}
+.card.feito .selo{display:block}
+.corpo{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px}
+.meta{font-size:12px;color:var(--mut)}
+.pq{font-size:13px;color:#c9ccd2}
+.notas{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}
+.notas button{background:#212328;border:1px solid var(--line);border-radius:7px;padding:7px 0;font-weight:700;font-size:13px;cursor:pointer}
+.notas button.on{background:var(--am);color:#111;border-color:var(--am)}
+.lab{font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{background:#212328;border:1px solid var(--line);border-radius:99px;padding:5px 10px;font-size:12.5px;cursor:pointer}
+.chips.bom button.on{background:rgba(62,207,142,.18);border-color:var(--ok);color:#bff3da}
+.chips.ruim button.on{background:rgba(255,107,107,.16);border-color:var(--no);color:#ffd0d0}
+textarea{width:100%;min-height:62px;resize:vertical;background:#101114;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:14px}
+.salvo{font-size:12px;color:var(--mut);min-height:16px}
+#login{max-width:380px;margin:12vh auto;padding:24px;background:var(--card);border:1px solid var(--line);border-radius:14px;display:none}
+#login h2{font-size:18px;margin-bottom:6px}#login p{color:var(--mut);font-size:14px;margin-bottom:14px}
+#login input{width:100%;margin-bottom:10px;background:#101114;border:1px solid var(--line);border-radius:9px;padding:10px;color:var(--tx);font:inherit}
+.btn{background:var(--am);color:#111;border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer}
+.zoom{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:20;cursor:zoom-out;padding:16px}
+.zoom img{max-height:94vh;max-width:100%;border-radius:8px}
+a{color:var(--am)}
+.gr{grid-column:1/-1;font-size:16px;font-weight:800;margin-top:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}.gr span{color:var(--mut);font-weight:600;font-size:13px}
+@media (max-width:420px){.grid{grid-template-columns:1fr}.bar{width:100px}}
+</style>
+</head>
+<body>
+<form id="login"><h2>Entrar</h2><p>Mesmo e-mail e senha da fábrica.</p>
+  <input id="em" type="email" placeholder="E-mail" autocomplete="username" required>
+  <input id="pw" type="password" placeholder="Senha" autocomplete="current-password" required>
+  <button class="btn" type="submit">Entrar</button> <span id="lerr" class="salvo"></span></form>
+<div id="app" style="display:none">
+<header><h1>Avaliar capas</h1><select id="lote" aria-label="Lote"></select><select id="tipo" aria-label="Tipo de capa"></select><select id="filtro" aria-label="Avaliadas"><option value="">Todas</option><option value="falta">Só as que faltam</option><option value="feitas">Só as avaliadas</option></select><span class="sp"></span>
+  <span class="prog" id="prog">0 de 0</span><span class="bar"><i id="barra"></i></span><a href="./">← Fábrica</a></header>
+<p class="intro">Dê uma nota de 0 a 10 para cada capa e marque o que funcionou e o que não funcionou. Se quiser, explique no campo de comentário. Tudo é salvo sozinho, e a fábrica lê essas notas antes de criar as próximas capas.</p>
+<div class="grid" id="grid"></div>
+</div>
+<div class="zoom" id="zoom"><img alt=""></div>
+<script>
+const sb=supabase.createClient("https://odwbspgnxwcqmbcegkhw.supabase.co","sb_publishable_foge1lfQeHHmC2TXOPKMFA_r1McAIjh");
+const BOM=["Gancho forte","Texto curto e claro","Foto realista","Foto conta a história","Layout / molde","Emoção","Cara da marca","Letra legível"];
+const RUIM=["Gancho fraco","Texto longo","Foto artificial","Foto não combina","Layout feio","Sem emoção","Clichê","Letra difícil de ler","Parece anúncio"];
+const ROT={capa_f1:"Foto + manchete no preto",capa_f1b:"Portal (caixa alta)",capa_perfil:"Portal com o nosso perfil",capa_comparacao:"Comparação cortada ao meio",capa_tweet:"Print de tweet + foto",capa_f3a:"Foto cheia · frase no centro",capa_f3b:"Foto cheia · legenda embaixo",capa_circulos:"Foto + rosto em círculo",capa_marcatexto:"Marca-texto amarelo",capa_revista:"Revista (cor + objeto)",capa_numero:"Número gigante",capa_caderno:"Caderno / planner",capa:"Capa (montagem antiga)",original:"Capa original do post"};
+const EST={foto_real:"foto real",famoso:"famoso",famoso_composicao:"famoso + marcas (composição)",ilustracao:"ilustração",produto:"produto"};
+const LOTE={lote1:"Lote 1",lote2:"Lote 2",lote3:"Lote 3","posts-de-teste":"Posts de teste","posts-montados":"Posts montados","opcoes-de-capa":"Opções de capa","tipos-novos":"Tipos novos"};
+let TODAS=[],URLS={};
+let T=[],A={};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+async function iniciar(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){document.getElementById("login").style.display="block";return}
+  document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";
+  // carrega TODAS as capas de uma vez; os filtros só escondem
+  const {data}=await sb.from("thumbs_teste").select("*, avaliacoes_thumb(*)").order("criada_em").order("ordem");
+  TODAS=(data||[]).filter(t=>t.imagem);A={};
+  TODAS.forEach(t=>{const a=(t.avaliacoes_thumb||[])[0];A[t.id]=a?{nota:a.nota,gostei:a.gostei||[],nao_gostei:a.nao_gostei||[],comentario:a.comentario||""}:{nota:null,gostei:[],nao_gostei:[],comentario:""}});
+  for(let i=0;i<TODAS.length;i+=100){const {data:urls}=await sb.storage.from("montagens").createSignedUrls(TODAS.slice(i,i+100).map(t=>t.imagem),3600);(urls||[]).forEach(u=>URLS[u.path]=u.signedUrl)}
+  const lotes=[...new Set(TODAS.map(t=>t.lote))],tipos=[...new Set(TODAS.map(t=>t.molde))];
+  const cont=(f)=>TODAS.filter(f).length;
+  document.getElementById("lote").innerHTML=`<option value="">Todos os lotes (${TODAS.length})</option>`+lotes.map(l=>`<option value="${esc(l)}">${esc(LOTE[l]||l)} (${cont(t=>t.lote===l)})</option>`).join("");
+  document.getElementById("tipo").innerHTML=`<option value="">Todos os tipos (${tipos.length})</option>`+tipos.map(m=>`<option value="${esc(m)}">${esc(ROT[m]||m)} (${cont(t=>t.molde===m)})</option>`).join("");
+  ["lote","tipo","filtro"].forEach(id=>document.getElementById(id).onchange=carregar);
+  carregar();
+}
+function carregar(){
+  const l=document.getElementById("lote").value,m=document.getElementById("tipo").value,f=document.getElementById("filtro").value;
+  T=TODAS.filter(t=>(!l||t.lote===l)&&(!m||t.molde===m)&&(!f||(f==="feitas")===(A[t.id].nota!=null)));
+  // agrupado por tipo de capa
+  const grupos={};T.forEach(t=>(grupos[t.molde]=grupos[t.molde]||[]).push(t));
+  document.getElementById("grid").innerHTML=Object.entries(grupos).map(([mol,ts])=>`<h2 class="gr">${esc(ROT[mol]||mol)} <span>${ts.length}</span></h2>`+ts.map(t=>card(t,URLS[t.imagem])).join("")).join("")||'<p class="intro">Nenhuma capa com esse filtro.</p>';
+  progresso();
+}
+function card(t,url){const a=A[t.id];
+  return `<article class="card ${a.nota!=null?"feito":""}" id="c${t.id}">
+   <div class="img" data-zoom="${esc(url)}"><img src="${esc(url)}" alt="Capa ${t.ordem}" loading="lazy"><span class="num">${esc(LOTE[t.lote]||t.lote)} · ${t.ordem}</span><span class="selo">${a.nota??""}</span></div>
+   <div class="corpo"><div class="meta">${[ROT[t.molde]||t.molde,t.extra&&t.extra.estilo?EST[t.extra.estilo]||t.extra.estilo:"",t.tipo,t.persona,t.assunto,t.extra&&t.extra.marca?"marca: "+t.extra.marca:""].filter(Boolean).map(esc).join(" · ")}</div>
+    ${t.extra&&t.extra.famoso?`<div class="pq"><b>Famoso:</b> ${esc(t.extra.famoso)}. <b>Fato usado:</b> ${esc(t.extra.fato)}</div>`:""}
+    ${t.por_que?`<div class="pq"><b>Por que deve parar o dedo:</b> ${esc(t.por_que)}</div>`:""}
+    <div class="lab">Nota</div><div class="notas">${[...Array(11).keys()].map(n=>`<button type="button" data-nota="${t.id}:${n}" class="${a.nota===n?"on":""}">${n}</button>`).join("")}</div>
+    <div class="lab">O que funcionou</div><div class="chips bom">${BOM.map(x=>`<button type="button" data-chip="${t.id}|gostei|${esc(x)}" class="${a.gostei.includes(x)?"on":""}">${esc(x)}</button>`).join("")}</div>
+    <div class="lab">O que não funcionou</div><div class="chips ruim">${RUIM.map(x=>`<button type="button" data-chip="${t.id}|nao_gostei|${esc(x)}" class="${a.nao_gostei.includes(x)?"on":""}">${esc(x)}</button>`).join("")}</div>
+    <textarea data-com="${t.id}" placeholder="Comentário (opcional): o que você mudaria?">${esc(a.comentario)}</textarea>
+    <div class="salvo" id="s${t.id}"></div></div></article>`}
+function progresso(){const n=TODAS.filter(t=>A[t.id].nota!=null).length;document.getElementById("prog").textContent=`${n} de ${TODAS.length} avaliadas`;document.getElementById("barra").style.width=(TODAS.length?100*n/TODAS.length:0)+"%"}
+const timers={};
+function salvar(id){clearTimeout(timers[id]);document.getElementById("s"+id).textContent="salvando…";
+  timers[id]=setTimeout(async()=>{const a=A[id];
+    const {error}=await sb.from("avaliacoes_thumb").upsert({thumb_id:id,nota:a.nota,gostei:a.gostei,nao_gostei:a.nao_gostei,comentario:a.comentario||null,atualizada_em:new Date().toISOString()},{onConflict:"thumb_id"});
+    document.getElementById("s"+id).textContent=error?"Erro ao salvar: "+error.message:"✓ salvo";
+    const c=document.getElementById("c"+id);c.classList.toggle("feito",a.nota!=null);c.querySelector(".selo").textContent=a.nota??"";progresso()},500)}
+document.addEventListener("click",e=>{const b=e.target.closest("button,[data-zoom]");if(!b)return;
+  if(b.dataset.nota){const [id,n]=b.dataset.nota.split(":").map(Number);A[id].nota=n;b.parentNode.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));salvar(id)}
+  else if(b.dataset.chip){const [id,campo,v]=b.dataset.chip.split("|");const L=A[+id][campo];const i=L.indexOf(v);i>=0?L.splice(i,1):L.push(v);b.classList.toggle("on");salvar(+id)}
+  else if(b.dataset.zoom){const z=document.getElementById("zoom");z.querySelector("img").src=b.dataset.zoom;z.style.display="flex"}});
+document.addEventListener("input",e=>{const id=e.target.dataset.com;if(id){A[+id].comentario=e.target.value;salvar(+id)}});
+document.getElementById("zoom").onclick=e=>e.currentTarget.style.display="none";
+document.getElementById("login").onsubmit=async e=>{e.preventDefault();const {error}=await sb.auth.signInWithPassword({email:em.value,password:pw.value});if(error){lerr.textContent=error.message;return}iniciar()};
+iniciar();
+</script>
+</body>
+</html>

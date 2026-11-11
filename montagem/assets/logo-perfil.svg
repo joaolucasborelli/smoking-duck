@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <title>Do outro lado da Porta: logo de perfil</title>
+  <rect width="1080" height="1080" fill="#111111"/>
+  <polygon points="470,812 640,812 860,1080 250,1080" fill="#FFD21F" opacity="0.28"/>
+  <rect x="470" y="300" width="170" height="512" fill="#FFD21F"/>
+  <polygon points="470,300 392,338 392,850 470,812" fill="#262626" stroke="#F5F5F0" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="410" cy="580" r="7" fill="#FFD21F"/>
+  <rect x="458" y="288" width="194" height="536" fill="none" stroke="#F5F5F0" stroke-width="12" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudo de Marca · Fábrica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--bg:#0e0f11;--card:#17181b;--card2:#1d1f23;--line:#2a2c31;--tx:#f2f2ee;--mut:#9a9ea6;--am:#FFD21F;--ok:#3ecf8e;--no:#ff6b6b;--azul:#7aa2ff;
+  --tit:'Barlow Condensed','Arial Narrow',sans-serif;--txt:Inter,system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 var(--txt)}
+header{position:sticky;top:0;z-index:5;background:rgba(14,15,17,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+header h1{font:700 22px/1 var(--tit);text-transform:uppercase;letter-spacing:.02em}
+.abas{display:flex;gap:6px;flex-wrap:wrap}
+.abas button{background:#1c1d21;border:1px solid var(--line);border-radius:99px;padding:6px 12px;font:600 13.5px var(--txt);color:var(--tx);cursor:pointer}
+.abas button.on{background:var(--am);color:#111;border-color:var(--am)}
+.sp{flex:1}.prog{font-size:13px;color:var(--mut)}a{color:var(--am)}
+main{max-width:1060px;margin:0 auto;padding:18px 16px 80px}
+.intro{color:var(--mut);max-width:76ch;margin-bottom:6px}.intro b{color:var(--tx)}
+.passos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:16px 0 6px}
+.passo{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.passo b{display:block;font:700 18px/1.1 var(--tit);text-transform:uppercase;margin-bottom:4px}.passo span{font-size:13px;color:var(--mut)}
+.passo.hoje{border-color:var(--am)}
+h2{font:700 26px/1 var(--tit);text-transform:uppercase;margin:30px 0 4px}
+h2 small{font:500 13px var(--txt);color:var(--mut);text-transform:none;margin-left:8px}
+.bloco-desc{color:var(--mut);font-size:14px;margin-bottom:10px}
+.var{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px}
+.var.padrao{border-color:var(--ok)}.var.talvez{border-color:#6b7080}.var.nao{opacity:.5}
+.var h3{font-size:16px;font-weight:700}.var .n{color:var(--mut);font-weight:600;margin-right:6px}
+.var .perg{margin-top:2px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:3px 9px;color:var(--mut)}
+.chip b{color:var(--tx);font-weight:600}
+.vira{font-size:13px;color:var(--mut);margin-top:6px}.vira b{color:var(--am);font-weight:600}
+.dec{display:flex;flex-direction:column;gap:8px}
+.esc{display:flex;gap:6px}.esc button{flex:1;background:#212328;border:1px solid var(--line);border-radius:8px;padding:7px 0;font:700 13px var(--txt);color:var(--tx);cursor:pointer}
+.esc button.on[data-v=padrao]{background:var(--ok);color:#06150e;border-color:var(--ok)}
+.esc button.on[data-v=talvez]{background:#3b3f4a;border-color:#6b7080}
+.esc button.on[data-v=nao]{background:rgba(255,107,107,.2);border-color:var(--no);color:#ffd0d0}
+.dec textarea,.extra textarea{width:100%;min-height:52px;resize:vertical;background:#101114;border:1px solid var(--line);border-radius:8px;padding:7px 9px;color:var(--tx);font:13.5px var(--txt)}
+.salvo{font-size:12px;color:var(--mut);min-height:15px}
+.agentes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ag{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.ag b{display:block;font-size:15px}.ag span{font-size:13px;color:var(--mut)}.ag i{font-style:normal;color:var(--am);font-size:12px;font-weight:700}
+.extra{background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:14px;margin-top:12px}
+/* ---- exemplo do documento ---- */
+.aviso{background:rgba(255,210,31,.1);border:1px solid rgba(255,210,31,.4);color:#f0d86a;border-radius:10px;padding:10px 12px;font-size:13.5px;margin:12px 0}
+.doc{background:#f6f5f0;color:#16181c;border-radius:16px;padding:22px;margin-top:6px}
+.doc h3{font:700 30px/1 var(--tit);text-transform:uppercase}
+.doc .dsub{color:#5d636b;font-size:14px;margin-top:4px}
+.resumo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}
+.rbox{background:#fff;border:1px solid #e1dfd8;border-radius:10px;padding:12px}
+.rbox small{display:block;font:700 11px var(--txt);text-transform:uppercase;letter-spacing:.06em;color:#7a7f87;margin-bottom:4px}
+.rbox p{font-size:14px;line-height:1.4}
+.secao{margin-top:20px}
+.secao h4{font:700 20px/1 var(--tit);text-transform:uppercase;margin-bottom:8px}
+.item{background:#fff;border:1px solid #e1dfd8;border-radius:10px;padding:14px;margin-bottom:10px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.item .lab{font:700 11px var(--txt);text-transform:uppercase;letter-spacing:.06em;color:#7a7f87;margin-bottom:3px}
+.item p,.item li{font-size:14px;line-height:1.45}
+.item ul{padding-left:18px}
+.item .rod{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-top:1px dashed #e1dfd8;padding-top:10px;font-size:12.5px;color:#5d636b}
+.cert{font:700 11px var(--txt);text-transform:uppercase;padding:3px 7px;border-radius:5px}
+.c-alta{background:#dcfce7;color:#166534}.c-media{background:#fef3c7;color:#92400e}.c-baixa{background:#fee2e2;color:#991b1b}
+.fbtn{margin-left:auto;display:flex;gap:6px}.fbtn span{border:1px solid #c9c7bf;border-radius:7px;padding:5px 10px;font:600 12.5px var(--txt);color:#16181c}
+.fbtn span.pri{background:#16181c;color:#f6f5f0;border-color:#16181c}
+.tom{display:grid;gap:8px}.eixo{display:grid;grid-template-columns:90px 1fr 90px;gap:8px;align-items:center;font-size:12.5px;color:#5d636b}
+.eixo .barra{height:6px;background:#e7e5de;border-radius:9px;position:relative}.eixo .barra i{position:absolute;top:-4px;width:14px;height:14px;border-radius:50%;background:#16181c}
+.eixo span:last-child{text-align:right}
+.final{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:#16181c;color:#f6f5f0;border-radius:12px;padding:14px 16px}
+.final span.b{background:var(--am);color:#111;font:700 14px var(--txt);padding:9px 14px;border-radius:9px}
+#login{max-width:380px;margin:12vh auto;padding:24px;background:var(--card);border:1px solid var(--line);border-radius:14px;display:none}
+#login h2{font:700 22px var(--tit);margin:0 0 6px}#login p{color:var(--mut);font-size:14px;margin-bottom:14px}
+#login input{width:100%;margin-bottom:10px;background:#101114;border:1px solid var(--line);border-radius:9px;padding:10px;color:var(--tx);font:inherit}
+.btn{background:var(--am);color:#111;border:0;border-radius:9px;padding:10px 14px;font:800 14px var(--txt);cursor:pointer}
+@media (max-width:820px){.var,.item{grid-template-columns:1fr}.passos,.resumo{grid-template-columns:repeat(2,minmax(0,1fr))}.agentes{grid-template-columns:1fr}}
+@media (max-width:480px){.passos,.resumo{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<form id="login"><h2>Entrar</h2><p>Mesmo e-mail e senha da fábrica.</p>
+  <input id="em" type="email" placeholder="E-mail" autocomplete="username" required>
+  <input id="pw" type="password" placeholder="Senha" autocomplete="current-password" required>
+  <button class="btn" type="submit">Entrar</button> <span id="lerr" class="salvo"></span></form>
+<div id="app" style="display:none">
+<header><h1>Estudo de Marca</h1>
+  <nav class="abas" id="abas"><button data-aba="vars" class="on">1. O que o estudo investiga</button><button data-aba="time">2. O time de agentes</button><button data-aba="doc">3. Como o documento chega</button></nav>
+  <span class="sp"></span><span class="prog" id="prog"></span><a href="./">← Fábrica</a></header>
+<main id="main"></main>
+</div>
+<script>
+const sb=supabase.createClient("https://odwbspgnxwcqmbcegkhw.supabase.co","sb_publishable_foge1lfQeHHmC2TXOPKMFA_r1McAIjh");
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// O que o estudo investiga: cada variável = uma pergunta que a fábrica precisa responder antes de escrever 1 post daquele cliente
+const BLOCOS=[
+ {k:"A",t:"A empresa",d:"O básico que todo post precisa saber.",v:[
+  ["empresa_oferta","O que ela vende","Quais serviços, quantas unidades, em quais cidades, preços públicos e horários.","site, Google Maps, bio do Instagram","Pesquisador da empresa","dados fixos que os posts podem citar"],
+  ["empresa_objetivo","Para que servem as redes","O que a empresa quer que a pessoa faça: agendar, chamar no WhatsApp, confiar na marca, trabalhar lá.","links e botões atuais + pergunta ao cliente","Pesquisador da empresa","o pedido do fim do post"],
+  ["empresa_provas","Diferenciais e provas","Anos de mercado, nº de unidades, nota no Google, especialistas, equipamentos, prêmios.","site, Google Maps, imprensa","Pesquisador da empresa","frases de prova permitidas"]]},
+ {k:"B",t:"Posicionamento",d:"Por que alguém escolheria essa empresa e não outra.",v:[
+  ["pos_frase","Posicionamento em 1 frase","Para quem é, o que entrega e por que ela e não a concorrente.","cruzamento de tudo","Estrategista de marca","a régua de todo post"],
+  ["pos_promessa","Promessa e limites","O que a marca promete e o que nunca pode prometer.","site, regras do setor","Estrategista de marca","regras fixas da fábrica"],
+  ["pos_mapa","Lugar entre os concorrentes","Onde ela fica: preço, especialidade, atendimento, alcance (bairro, cidade, país).","concorrentes estudados","Estrategista de marca","o ângulo dos posts"]]},
+ {k:"C",t:"Público",d:"Quem lê, o que sente e o que faz agendar.",v:[
+  ["pub_personas","Personas (2 a 4)","Quem são, o que querem, do que têm medo, que objeções têm e que palavras usam.","comentários, avaliações no Google, perguntas frequentes","Analista de público","as personas da fábrica (hoje: jovem, homem, mulher)"],
+  ["pub_decisao","Momento da decisão","O que faz a pessoa sair do 'depois eu vejo' para 'vou agendar': dor, preço, confiança, urgência.","comentários, avaliações, concorrentes","Analista de público","o gancho das capas"]]},
+ {k:"D",t:"Voz e visual",d:"Como a marca fala e como ela aparece.",v:[
+  ["voz_tom","Tom de voz","Em 4 réguas: formal ou casual, sério ou leve, técnico ou simples, contido ou animado. Com frase certa e frase errada de exemplo.","legendas e respostas atuais","Estrategista de marca","regra de escrita"],
+  ["voz_palavras","Palavras que usa e que evita","Os termos da marca e os proibidos (gírias, termos técnicos, palavras que o conselho veta).","legendas, site, regras do setor","Estrategista de marca","lista que o Conferente cobra"],
+  ["visual_id","Identidade visual","Cores, fontes, logo, estilo de foto (foto real da clínica, da equipe ou de IA) e se aparecem rostos da equipe.","perfil, site, posts atuais","Diretor de Arte","cores e logo dos slides"]]},
+ {k:"E",t:"O que ela já posta",d:"A auditoria do perfil atual.",v:[
+  ["aud_formatos","Formatos, frequência e assuntos","O que posta, quantas vezes por semana e sobre o quê.","Instagram e TikTok da empresa","Leitor das redes","ponto de partida"],
+  ["aud_resultado","O que deu e o que não deu resultado","Os posts com mais curtidas, comentários e salvamentos, e os que ninguém viu.","Instagram e TikTok da empresa","Leitor das redes","o que repetir e o que evitar"],
+  ["aud_comentarios","Dúvidas e reclamações nos comentários","As perguntas que se repetem e as reclamações.","comentários e avaliações","Leitor das redes","pauta pronta de posts"]]},
+ {k:"F",t:"Mercado",d:"O que os outros fazem e onde está a brecha.",v:[
+  ["mer_concorrentes","Concorrentes diretos (5 a 10)","Locais e nacionais: o que postam e o que funciona para eles.","Instagram dos concorrentes","Pesquisador de mercado","os vencedores que a fábrica copia"],
+  ["mer_referencias","Referências fora do nicho","Formatos que dão muito resultado em outras áreas e servem para esse cliente (como os 60 formatos que estudamos).","páginas grandes de outros nichos","Pesquisador de mercado","presets e ganchos"],
+  ["mer_brecha","Brechas","O que ninguém do nicho está fazendo e que o público quer.","cruzamento","Editor-chefe","o diferencial do conteúdo"]]},
+ {k:"G",t:"Regras e riscos",d:"O que não pode, para não dar problema com o conselho nem com a lei.",v:[
+  ["reg_conselho","Regras do conselho da área","CFM para médicos, CFO para dentistas e assim por diante: antes e depois, preço, promoção, promessa de resultado, selos.","texto das resoluções","Guardião das regras","regras que o Conferente aplica em todo post"],
+  ["reg_cuidados","Temas proibidos e cuidados","Paciente identificável, criança, dados de saúde (LGPD), linguagem sensacionalista, foto que pode derrubar a conta.","resoluções, LGPD, regras das redes","Guardião das regras","lista do que nunca sai"]]},
+ {k:"H",t:"A fábrica do cliente",d:"O que tudo isso vira dentro da fábrica.",v:[
+  ["fab_pilares","Pilares de conteúdo (3 a 5)","Os assuntos fixos e a proporção de cada um (ex.: tirar dúvida, bastidores, prova, oferta).","cruzamento","Roteirista","os tipos de post"],
+  ["fab_arco","Arco do carrossel","A estrutura dos posts desse cliente (ex.: dúvida → explicação → quando procurar → pedido).","vencedores do nicho","Roteirista","o arco obrigatório"],
+  ["fab_pedido","Pedido do fim do post","O equivalente ao 'Comenta PLANNER' (ex.: 'Comenta AGENDA', link do WhatsApp).","objetivo das redes","Roteirista","o último slide"],
+  ["fab_presets","Presets de capa e de slide","Quais tipos de capa e de slide combinam com a marca.","identidade + concorrentes","Diretor de Arte","os presets do ambiente"],
+  ["fab_modelos","3 posts-modelo","Três posts escritos inteiros, no nível que a fábrica tem que alcançar.","tudo acima","Roteirista","a régua de escrita"],
+  ["fab_calendario","Calendário do setor","Datas que importam (ex.: Outubro Rosa, Novembro Azul, Dia das Mães) e assuntos do momento do nicho.","calendário + imprensa","Pesquisador de mercado","assuntos do momento"],
+  ["fab_medir","Como saber se deu certo","O que conta como resultado: agendamentos, mensagens, salvamentos, seguidores da cidade.","objetivo das redes","Editor-chefe","o placar do ambiente"]]},
+ {k:"I",t:"Lacunas",d:"O que o estudo não consegue descobrir sozinho.",v:[
+  ["lac_perguntas","Perguntas para o cliente","A lista do que só a empresa sabe (ex.: margem por serviço, unidade que precisa de mais pacientes, o que nunca pode aparecer), pronta para mandar.","o que ficou com certeza baixa","Editor-chefe","conversa com o cliente"]]},
+];
+const AGENTES=[
+ ["Leitor das redes","Lê o Instagram, o TikTok e as outras redes da empresa: formatos, frequência, posts que deram resultado, comentários.","E"],
+ ["Pesquisador da empresa","Site, Google Maps, avaliações e imprensa: o que vende, onde, provas e diferenciais.","A"],
+ ["Pesquisador de mercado","Concorrentes diretos, referências fora do nicho e o calendário do setor.","F, H"],
+ ["Analista de público","Comentários e avaliações para montar personas, objeções e o momento da decisão.","C"],
+ ["Estrategista de marca","Posicionamento, promessa, tom de voz e palavras.","B, D"],
+ ["Guardião das regras","Resoluções do conselho da área, LGPD e regras das redes.","G"],
+ ["Diretor de Arte","Identidade visual e presets de capa e de slide.","D, H"],
+ ["Roteirista","Pilares, arco, pedido do fim e os 3 posts-modelo.","H"],
+ ["Editor-chefe","Cruza tudo, aponta contradições, dá o nível de certeza de cada item, lista as perguntas para o cliente e monta o documento.","F, H, I"],
+];
+let P={},ABA="vars";
+const todas=()=>BLOCOS.flatMap(b=>b.v);
+async function iniciar(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){document.getElementById("login").style.display="block";return}
+  document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";
+  const {data}=await sb.from("padroes").select("*").like("item","estudo:%");(data||[]).forEach(r=>P[r.item]=r);
+  desenhar();
+}
+function desenhar(){
+  document.querySelectorAll("#abas button").forEach(b=>b.classList.toggle("on",b.dataset.aba===ABA));
+  const M=document.getElementById("main");
+  if(ABA==="vars"){
+    M.innerHTML=`<p class="intro">Quando você cadastrar uma empresa, o time de agentes passa uns <b>20 minutos</b> estudando estas <b>${todas().length} perguntas</b>. Marque o que fica, o que talvez fique e o que sai. Se faltar alguma, escreva no fim da página.</p>
+    <div class="passos"><div class="passo"><b>Cadastro</b><span>Nome e links das redes</span></div><div class="passo hoje"><b>Estudo</b><span>~20 min, estas perguntas</span></div><div class="passo"><b>Documento</b><span>Você aprova item por item</span></div><div class="passo"><b>Fábrica pronta</b><span>Gera posts como hoje</span></div></div>`+
+    BLOCOS.map(b=>`<h2>${b.k}. ${esc(b.t)}<small>${b.v.length} perguntas</small></h2><p class="bloco-desc">${esc(b.d)}</p>`+b.v.map((v,i)=>card(v,b.k+(i+1))).join("")).join("")+
+    `<div class="extra"><b>Falta alguma pergunta?</b><p class="bloco-desc" style="margin-top:4px">Escreva aqui o que o estudo também precisa descobrir.</p><textarea id="extra" data-com="estudo:faltou" placeholder="Ex.: quanto custa a consulta de cada concorrente">${esc((P["estudo:faltou"]||{}).comentario||"")}</textarea><div class="salvo" id="s_estudo_faltou"></div></div>`;
+  } else if(ABA==="time"){
+    M.innerHTML=`<p class="intro">São <b>9 agentes</b> trabalhando ao mesmo tempo. Cada um responde um bloco de perguntas, e o Editor-chefe cruza tudo no fim. Você acompanha pelo escritório, como já acontece na montagem dos posts.</p><h2>O time</h2><div class="agentes">${AGENTES.map(a=>`<div class="ag"><b>${esc(a[0])}</b><span>${esc(a[1])}</span><br><i>Blocos ${a[2]}</i></div>`).join("")}</div>`;
+  } else M.innerHTML=exemplo();
+  progresso();
+}
+function card(v,num){const [id,nome,perg,fonte,agente,vira]=v;const k="estudo:"+id;const e=(P[k]||{}).escolha||"";
+  return `<article class="var ${e}"><div><h3><span class="n">${num}</span>${esc(nome)}</h3><p class="perg">${esc(perg)}</p>
+   <div class="meta"><span class="chip">fonte: <b>${esc(fonte)}</b></span><span class="chip">quem: <b>${esc(agente)}</b></span></div>
+   <p class="vira">Vira na fábrica: <b>${esc(vira)}</b></p></div>
+   <div class="dec"><div class="esc">${[["padrao","Fica"],["talvez","Talvez"],["nao","Sai"]].map(([val,l])=>`<button data-k="${k}" data-v="${val}" class="${e===val?"on":""}">${l}</button>`).join("")}</div>
+   <textarea data-com="${k}" placeholder="Ajuste (opcional)">${esc((P[k]||{}).comentario||"")}</textarea><div class="salvo" id="s_${k.replace(":","_")}"></div></div></article>`}
+function progresso(){const n=todas().filter(v=>(P["estudo:"+v[0]]||{}).escolha).length;document.getElementById("prog").textContent=`${n} de ${todas().length} decididas`}
+// exemplo de como o documento chega (empresa inventada só para mostrar o formato)
+function exemplo(){return `<p class="intro">É assim que o resultado do estudo chega para você aprovar: primeiro um resumo de 1 tela, depois cada pergunta com <b>o que encontramos</b>, <b>a proposta</b>, <b>o nível de certeza</b> e <b>de onde veio</b>.</p>
+ <div class="aviso">Exemplo com uma empresa INVENTADA (Rede Sorriso Exemplo). Nenhum dado aqui é real. Serve só para mostrar o formato.</div>
+ <div class="doc">
+  <h3>Rede Sorriso Exemplo</h3><p class="dsub">Estudo feito em 20 min · 9 agentes · 27 perguntas · 6 itens com certeza baixa viraram perguntas para o cliente</p>
+  <div class="resumo">
+   <div class="rbox"><small>Posicionamento</small><p>Dentista de bairro com preço justo e horário estendido, para quem adia o tratamento por medo da conta.</p></div>
+   <div class="rbox"><small>Público principal</small><p>Mulher, 30 a 45, cuida da saúde da família e decide pelo preço e pela confiança.</p></div>
+   <div class="rbox"><small>Tom de voz</small><p>Simples e acolhedor, sem termo técnico e sem prometer resultado.</p></div>
+   <div class="rbox"><small>Pedido do fim</small><p>"Comenta AGENDA que a gente te chama no WhatsApp."</p></div>
+  </div>
+  <div class="secao"><h4>B. Posicionamento</h4>
+   <div class="item"><div><div class="lab">O que encontramos</div><ul><li>As avaliações citam muito "preço justo" e "atende à noite".</li><li>Os 3 concorrentes maiores falam de estética; ninguém fala de medo da conta.</li></ul></div>
+    <div><div class="lab">Proposta</div><p>"Para quem adia o dentista por medo da conta: tratamento com preço combinado antes e horário até 21h."</p></div>
+    <div class="rod"><span class="cert c-alta">certeza alta</span><span>fontes: avaliações no Google, Instagram de 3 concorrentes</span><span class="fbtn"><span>Ajustar</span><span class="pri">Aprovar</span></span></div></div></div>
+  <div class="secao"><h4>D. Tom de voz</h4>
+   <div class="item"><div><div class="lab">Proposta</div><div class="tom">
+     <div class="eixo"><span>formal</span><span class="barra"><i style="left:70%"></i></span><span>casual</span></div>
+     <div class="eixo"><span>sério</span><span class="barra"><i style="left:40%"></i></span><span>leve</span></div>
+     <div class="eixo"><span>técnico</span><span class="barra"><i style="left:85%"></i></span><span>simples</span></div>
+     <div class="eixo"><span>contido</span><span class="barra"><i style="left:30%"></i></span><span>animado</span></div></div></div>
+    <div><div class="lab">Frase certa e frase errada</div><p>Certa: "Dói? A gente explica cada passo antes de começar."</p><p style="margin-top:6px">Errada: "Sorriso perfeito garantido em 7 dias!"</p></div>
+    <div class="rod"><span class="cert c-media">certeza média</span><span>fontes: 40 legendas e 120 respostas a comentários</span><span class="fbtn"><span>Ajustar</span><span class="pri">Aprovar</span></span></div></div></div>
+  <div class="secao"><h4>G. Regras e riscos</h4>
+   <div class="item"><div><div class="lab">O que encontramos</div><ul><li>Dentista segue o conselho de odontologia, com regras próprias de antes e depois e de preço.</li><li>2 posts atuais mostram paciente identificável sem aviso de autorização.</li></ul></div>
+    <div><div class="lab">Proposta</div><ul><li>Nunca prometer resultado nem prazo.</li><li>Antes e depois só educativo e com autorização guardada.</li><li>Preço só com o que está incluso escrito.</li></ul></div>
+    <div class="rod"><span class="cert c-baixa">certeza baixa</span><span>falta confirmar com o cliente se ele tem as autorizações dos pacientes</span><span class="fbtn"><span>Ajustar</span><span class="pri">Aprovar</span></span></div></div></div>
+  <div class="secao"><h4>I. Perguntas para o cliente</h4>
+   <div class="item"><div><div class="lab">Só a empresa sabe</div><ul><li>Qual unidade precisa de mais pacientes agora?</li><li>Quais serviços dão mais margem?</li><li>Vocês têm autorização de imagem dos pacientes?</li></ul></div>
+    <div><div class="lab">O que muda com a resposta</div><p>A fábrica passa a puxar mais posts para a unidade e o serviço certos, e libera o antes e depois só se houver autorização.</p></div>
+    <div class="rod"><span>a lista sai pronta para mandar por WhatsApp</span></div></div></div>
+  <div class="final"><span>Depois de aprovar tudo, a fábrica deste cliente fica pronta.</span><span class="b">Aprovar e ligar a fábrica</span></div>
+ </div>`}
+async function gravar(item,escolha,comentario){
+  const ant=P[item]||{};const r={item,tipo:"estudo",escolha:escolha===undefined?ant.escolha||null:escolha,comentario:comentario===undefined?ant.comentario||null:comentario,atualizada_em:new Date().toISOString()};
+  P[item]=r;
+  const {error}=(!r.escolha&&!r.comentario)?await sb.from("padroes").delete().eq("item",item):await sb.from("padroes").upsert(r,{onConflict:"item"});
+  if(!r.escolha&&!r.comentario)delete P[item];return error}
+document.addEventListener("click",async e=>{const t=e.target;
+  const ab=t.closest("[data-aba]");if(ab){ABA=ab.dataset.aba;desenhar();scrollTo(0,0);return}
+  const b=t.closest("[data-k]");if(b&&b.dataset.v){const k=b.dataset.k;const v=(P[k]||{}).escolha===b.dataset.v?null:b.dataset.v;
+    const art=b.closest(".var");art.className="var "+(v||"");art.querySelectorAll("[data-v]").forEach(x=>x.classList.toggle("on",x.dataset.v===v));
+    const err=await gravar(k,v);document.getElementById("s_"+k.replace(":","_")).textContent=err?"Erro: "+err.message:"✓ salvo";progresso()}});
+const tm={};
+document.addEventListener("input",e=>{const k=e.target.dataset.com;if(!k)return;clearTimeout(tm[k]);
+  tm[k]=setTimeout(async()=>{const err=await gravar(k,undefined,e.target.value||null);const s=document.getElementById("s_"+k.replace(":","_"));if(s)s.textContent=err?"Erro: "+err.message:"✓ salvo"},600)});
+document.getElementById("login").onsubmit=async e=>{e.preventDefault();const {error}=await sb.auth.signInWithPassword({email:em.value,password:pw.value});if(error){lerr.textContent=error.message;return}iniciar()};
+iniciar();
+</script>
+</body>
+</html>
