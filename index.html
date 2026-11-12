@@ -459,7 +459,7 @@ function composer(where,ph){
   </form></div>`;
 }
 function renderTop(){
-  document.getElementById("accts").innerHTML=Object.entries(ACC).map(([k,A])=>`<button class="acct" data-acc="${k}" aria-pressed="${k===acc}"><span class="av ${A.avc}">${A.av}</span>${A.nome}${A.A&&A.A.status!=="ativo"?`<small class="amb-st">${A.A.status==="estudando"?"estudando":A.A.status==="aguardando"?"para aprovar":"parou"}</small>`:""}</button>`).join("")+(ACC[acc]&&ACC[acc].amb&&ACC[acc].amb!==1?`<button class="acct lixo" data-excluiramb="${ACC[acc].amb}" title="Excluir este ambiente" aria-label="Excluir o ambiente ${esc(ACC[acc].nome)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button>`:"")+`<button class="acct mais" data-novoamb title="Novo ambiente" aria-label="Criar um novo ambiente">+</button>`;
+  document.getElementById("accts").innerHTML=Object.entries(ACC).filter(([k])=>k!=="a1").map(([k,A])=>`<button class="acct" data-acc="${k}" aria-pressed="${k===acc}"><span class="av ${A.avc}">${A.av}</span>${A.nome}${A.A&&A.A.status!=="ativo"?`<small class="amb-st">${A.A.status==="estudando"?"estudando":A.A.status==="aguardando"?"para aprovar":"parou"}</small>`:""}</button>`).join("")+(ACC[acc]&&ACC[acc].amb&&ACC[acc].amb!==1?`<button class="acct lixo" data-excluiramb="${ACC[acc].amb}" title="Excluir este ambiente" aria-label="Excluir o ambiente ${esc(ACC[acc].nome)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button>`:"")+`<button class="acct mais" data-novoamb title="Novo ambiente" aria-label="Criar um novo ambiente">+</button>`;
   document.getElementById("tabs").innerHTML=[["posts","Posts e capas"],["chat","Chat"]].map(([k,l])=>`<button class="tab" data-tab="${k}" ${tab===k?'aria-current="page"':""}>${l}</button>`).join("");
 }
 // selos do cartão: status do post + andamento da montagem e das capas (para acompanhar sem abrir)
@@ -591,7 +591,7 @@ function renderDrawer(){
    <div class="acts">${x.st==="nova"?`<button class="btn primary" data-approve="${x.id}">Aprovar</button>`:`<span class="st st-ok">${esc(x.st)}</span>`}<button class="btn" data-detail="${x.id}">Detalhar no chat</button></div></div>`).join("")}</div></aside>`;
 }
 function render(){
-  if(!ACC[acc])acc="a1";
+  if(!ACC[acc]||acc==="a1")acc=Object.keys(ACC).find(k=>k!=="a1")||"a1"; // Smoking Duck: a base comum (ambiente 1) nao aparece como aba
   renderTop();
   const AA=ambAtual();
   if(AA.status!=="ativo"){const v0=document.getElementById("view");v0.innerHTML=renderEstudo(AA);v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";if(excluirAmb)drawExcluirAmb();else if(novoAmb)drawNovoAmb();return}
