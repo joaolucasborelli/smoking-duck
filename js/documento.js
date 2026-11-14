@@ -963,8 +963,10 @@ async function corrigir(manual) {
     if (MODO === "demo") {
       await new Promise(res => setTimeout(res, 450));
       const depois = manual ? novo : simularReescrita(c.valor, pedido);
-      r = { ok: true, versao_id: "demo-" + (historico.length + 1), antes: clone(c.valor), depois, modo: manual ? "manual" : "ensaio" };
+      const antesCampo = clone(c);
+      r = { ok: true, versao_id: "demo-" + (historico.length + 1), antes: clone(c.valor), depois, antes_campo: antesCampo, modo: manual ? "manual" : "ensaio" };
       c.valor = clone(depois); c.origem = manual ? "socio" : "agente"; if (manual) c.certeza = "alta";
+      r.depois_campo = clone(c);
     } else {
       const corpo = { acao: "corrigir_trecho", ambiente_id: AMB, caminho, pedido: pedido || "troca manual", confirmar: true };
       if (manual) corpo.novo_valor = novo;
@@ -972,7 +974,7 @@ async function corrigir(manual) {
       await recarregarFicha();
     }
   } catch (e) { espera.innerHTML = `Não deu certo: ${esc(e.message)}`; return; }
-  historico.unshift({ versao_id: r.versao_id, caminho, antes: r.antes, depois: r.depois, pedido: pedido || "troca manual", status: "aplicado", modo: r.modo });
+  historico.unshift({ versao_id: r.versao_id, caminho, antes: r.antes, depois: r.depois, antes_campo: r.antes_campo || null, pedido: pedido || "troca manual", status: "aplicado", modo: r.modo });
   CHAT.ultimo = historico[0];
   espera.innerHTML = `${r.modo === "ensaio" ? "<b>Ensaio:</b> resposta de exemplo; nada foi gasto (teria custado ~US$ " + CUSTO_TRECHO_REAL.toFixed(2).replace(".", ",") + ")." : r.modo === "manual" ? "Trocado pelo seu texto." : "Reescrito pelo agente."}${MODO === "demo" ? " <i>Modo demonstração: nada foi salvo.</i>" : ""}
     <div class="ad-chat"><div class="a"><b>Antes</b>${esc(valorComoTexto(r.antes))}</div><div class="d"><b>Depois</b>${esc(valorComoTexto(r.depois))}</div></div>
@@ -984,7 +986,12 @@ async function corrigir(manual) {
 async function desfazer(h, alvo) {
   if (!h || h.status === "desfeito") return;
   try {
-    if (MODO === "demo") { const c = pegar(F, h.caminho); c.valor = clone(h.antes); }
+    if (MODO === "demo") {
+      // volta o CAMPO inteiro (valor + origem + fonte + certeza + conferido_por): o selo volta junto
+      const c = pegar(F, h.caminho);
+      if (h.antes_campo && ehCampo(h.antes_campo)) { Object.keys(c).forEach(k => delete c[k]); Object.assign(c, clone(h.antes_campo)); }
+      else c.valor = clone(h.antes);
+    }
     else { await chamarMarca({ acao: "desfazer_trecho", ambiente_id: AMB, versao_id: h.versao_id }); await recarregarFicha(); }
   } catch (e) { aviso("Não deu para desfazer: " + e.message, 6000); return; }
   h.status = "desfeito";
@@ -1045,7 +1052,7 @@ async function recarregarFicha() {
   const v = q.get("versao") ? parseInt(q.get("versao"), 10) : null;
   const r = await chamarMarca({ acao: "ficha", ambiente_id: AMB, versao: v });
   VERSAO = r.versao || 1; F = normalizar(r.ficha || {});
-  historico.length = 0; (r.historico || []).forEach(h => historico.push({ versao_id: h.id, caminho: h.caminho, antes: h.antes, depois: h.depois, pedido: h.pedido || "", status: h.status, modo: "" }));
+  historico.length = 0; (r.historico || []).forEach(h => historico.push({ versao_id: h.id, caminho: h.caminho, antes: ehCampo(h.antes) ? h.antes.valor : h.antes, depois: ehCampo(h.depois) ? h.depois.valor : h.depois, antes_campo: ehCampo(h.antes) ? h.antes : null, pedido: h.pedido || "", status: h.status, modo: "" }));
 }
 
 /* ============================== cliente: responder ============================== */

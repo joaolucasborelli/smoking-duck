@@ -382,7 +382,7 @@ function renderAnexos(){
   $("#lista-anexos").innerHTML=l.length?`<p class="sep">${l.length} anexo${l.length>1?"s":""} desta marca</p>`+l.map(a=>`<div class="anexo">
     <span class="ic" data-ic="${a.id}">${esc(ext(a))}</span>
     <div style="min-width:0"><div class="nm" title="${esc(a.nome)}">${esc(a.nome)}</div><p class="ds">${esc(a.descricao||"sem descrição")}${a.tamanho_bytes?" · "+tam(a.tamanho_bytes):""}</p></div>
-    <div class="lado"><span class="origem p-${esc(a.papel)}">${esc(PAPEL_T[a.papel]||a.papel)}</span>${a.tipo==="link"?`<a class="lnk" href="${esc(/^https?:\/\//.test(a.nome)?a.nome:"#")}" target="_blank" rel="noopener">abrir link</a>`:a.caminho?`<button class="lnk" data-abrir="${a.id}">abrir</button>`:`<span class="dica">exemplo</span>`}</div>
+    <div class="lado"><span class="origem p-${esc(a.papel)}">${esc(PAPEL_T[a.papel]||a.papel)}</span>${a.tipo==="link"?`<a class="lnk" href="${esc(/^https?:\/\//.test(a.caminho||"")?a.caminho:/^https?:\/\//.test(a.nome||"")?a.nome:"#")}" target="_blank" rel="noopener">abrir link</a>`:a.caminho?`<button class="lnk" data-abrir="${a.id}">abrir</button>`:`<span class="dica">exemplo</span>`}</div>
   </div>`).join(""):`<p class="sub">Nenhum anexo ainda.</p>`;
   const pr=ANEXOS.filter(ehPrint);
   $("#prints").innerHTML=Array.from({length:10},(_,i)=>`<span class="pt${pr[i]?" tem":""}" data-pt="${pr[i]?.id||""}" title="${esc(pr[i]?.nome||"vazio")}">${i+1}</span>`).join("");
@@ -450,7 +450,7 @@ $("#lk-enviar").addEventListener("click",async()=>{
   if(!/^https?:\/\/\S+\.\S+/.test(url)){toast("Cole um endereço que comece com https://");return}
   if(DEMO){toast(NADA_SALVO);return}
   if(PROTEGIDA){toast("Marca protegida: aqui só se lê.");return}
-  const r=await chamar("anexar",{ambiente_id:AMB,caminho:`amb_${AMB}/${carimbo()}_link`,nome:url,tipo:"link",papel,descricao:desc,tamanho_bytes:0});
+  const r=await chamar("anexar",{ambiente_id:AMB,tipo:"link",url,caminho:url,nome:url,papel,descricao:desc});
   if(!r.ok){toast("Não guardou: "+r.erro);return}
   $("#lk-url").value="";$("#lk-desc").value="";await carregarVariaveis();renderAnexos();toast("Link guardado.");
 });
@@ -523,8 +523,9 @@ function corpoEstudo(est,origem,grupos){
 }
 async function pedirEstimativa(grupos){
   if(DEMO)return{est:estimativaLocal(grupos),origem:"Estimativa de exemplo (demonstração)."};
-  const r=await chamar("estudar",{ambiente_id:AMB,grupos:grupos&&grupos.length?grupos:undefined});
-  if(r.estimativa)return{est:r.estimativa,origem:"Estimativa do servidor.",erro:r.ok?null:(r.erro==="precisa confirmar"?null:r.erro)};
+  // sem confirmar:true o servidor só devolve a estimativa {grupos, medidor_usd, real_usd} e não muda nada
+  const r=await chamar("estudar",{ambiente_id:AMB,confirmar:false,grupos:grupos&&grupos.length?grupos:undefined});
+  if(r.estimativa&&r.estimativa.real_usd!=null)return{est:r.estimativa,origem:`Estimativa do servidor (${(r.estimativa.grupos||r.grupos||[]).length||18} grupos; nada foi pedido ainda).`,erro:r.ok?null:(r.erro==="precisa confirmar"?null:r.erro)};
   return{est:estimativaLocal(grupos),origem:"Estimativa da tela (pelas regras de preço): o servidor não devolveu a dele"+(r.erro?` (${r.erro})`:"")+".",erro:r.erro&&r.erro!=="precisa confirmar"?r.erro:null};
 }
 const gruposMarcados=()=>[...document.querySelectorAll("#est-grupos input:checked")].map(x=>x.value);

@@ -249,6 +249,7 @@ ul.lim li:last-child{border-bottom:0}
 .ap-tab td{padding:.4cqw .8cqw .4cqw 0;border-top:1px solid var(--line);vertical-align:top}
 .ap-tab td:first-child{white-space:nowrap;width:1%;color:var(--muted)}
 .ap-tab td:last-child{width:22%;color:var(--muted);font-size:.92em}
+.ap-tab td:not(:first-child){overflow-wrap:anywhere;word-break:break-word;min-width:0}
 .ap-col{columns:2;column-gap:3cqw}
 .ap-col > div{break-inside:avoid;margin-bottom:1.4cqw}
 
@@ -295,6 +296,11 @@ ul.lim li:last-child{border-bottom:0}
   .marco:before{top:3px;left:-22px}
   .parte-n{position:static;margin-top:16px}
   .ap-col{columns:1}
+  /* apêndice no celular: cada linha vira um cartão empilhado (nome · valor · fonte), nada passa da borda */
+  .ap-tab,.ap-tab tbody,.ap-tab tr,.ap-tab td{display:block;width:auto!important;max-width:100%}
+  .ap-tab tr{border-top:1px solid var(--line);padding:8px 0}
+  .ap-tab td{border-top:0;padding:2px 0;white-space:normal!important;overflow-wrap:anywhere;word-break:break-word}
+  .ap-tab td:last-child:not(:empty)::before{content:"fonte: ";font-weight:700}
   .pg-acoes{position:static;justify-content:flex-end;margin:-8px 0 8px}
   .nota-cliente{position:static;width:100%;margin-bottom:8px}
   .barra .nome{flex-basis:100%}
