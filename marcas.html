@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Source+Sans+3:wght@400;600;700&display=swap">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="css/marca.css?v=1">
+<link rel="stylesheet" href="css/marca.css?v=2">
 </head>
 <body>
 <div class="demo-faixa" id="faixa" hidden>Modo demonstração · Marca Exemplo (fictícia) · nada é salvo</div>
@@ -36,7 +36,7 @@
 <dialog id="dlg-nova">
   <form class="dlg" id="f-nova" method="dialog">
     <h2>Nova marca</h2>
-    <p class="sub" style="margin:0">A marca nasce como <b>rascunho</b> e com <b>ensaio ligado</b>. Criar não roda estudo e não gasta nada.</p>
+    <p class="sub" style="margin:0">A marca nasce como <b>rascunho</b> e com <b>ensaio ligado</b>. Criar não roda estudo e não gasta nada. Depois de criar, abre a página onde vocês contam tudo sobre a marca num campo só, com anexos.</p>
     <div class="campo"><label for="n-nome">Nome da marca</label><input id="n-nome" type="text" required maxlength="80" autocomplete="off"></div>
     <div class="campo"><label for="n-handle">@ no Instagram</label><input id="n-handle" type="text" placeholder="@" maxlength="60" autocomplete="off"></div>
     <div class="campo"><label for="n-site">Site</label><input id="n-site" type="url" placeholder="https://" maxlength="200" autocomplete="off"></div>
@@ -92,7 +92,7 @@ function render(){
   const cont={todas:MARCAS.length};MARCAS.forEach(m=>{const f=(ESTADOS[m.status]||ESTADOS.rascunho).f;cont[f]=(cont[f]||0)+1});
   $("#filtros").innerHTML=FILTROS.map(([k,t])=>`<button class="filtro" data-f="${k}" aria-pressed="${filtro===k}">${t} · ${cont[k]||0}</button>`).join("");
   const vis=MARCAS.filter(m=>filtro==="todas"||(ESTADOS[m.status]||ESTADOS.rascunho).f===filtro);
-  if(!MARCAS.length){$("#lista").innerHTML=`<div class="vazio"><h2>Nenhuma marca ainda</h2><p class="sub">Comece pela primeira: os sócios preenchem o que já sabem e o estudo completa o resto.</p><p><button class="btn prim" data-nova>+ Criar a primeira marca</button></p></div>`;return}
+  if(!MARCAS.length){$("#lista").innerHTML=`<div class="vazio"><h2>Nenhuma marca ainda</h2><p class="sub">Comece pela primeira: os sócios contam tudo num campo só (texto, arquivos, prints, áudio) e o estudo completa o resto.</p><p><button class="btn prim" data-nova>+ Criar a primeira marca</button></p></div>`;return}
   if(!vis.length){$("#lista").innerHTML=`<div class="vazio"><p class="sub" style="margin:0">Nenhuma marca neste estado.</p></div>`;return}
   $("#lista").innerHTML=`<div class="grade">${vis.map(cartao).join("")}</div>`;
 }
@@ -104,7 +104,7 @@ function cartao(m){
   if(m.status==="estudando_v4")info=`Estudo: ${feitos} de ${tot||"?"} partes prontas · gasto ${usd(p.gasto_usd)}${m.ensaio?" (ensaio)":""}`;
   else if(m.status==="em_aprovacao"){const a=m.aprovacao;info=a?(a.status==="aprovado"?`Aprovado por ${esc(a.aprovado_por)} em ${data(a.aprovado_em)}`:a.status==="mudanca"?"O cliente pediu mudança":"Documento com o cliente, esperando resposta"):"Documento pronto; falta mandar o link ao cliente"}
   else if(m.status==="ativa")info=`Fábrica ligada com a ficha v${m.ficha_ativa_versao??"?"}`;
-  else if(m.status==="rascunho")info="Sócios preenchendo; nada roda ainda";
+  else if(m.status==="rascunho")info="Sócios contando a marca; nada roda ainda";
   else if(m.status==="ativo")info="Marca da fábrica antiga (só leitura aqui)";
   return `<a class="cartao" href="${href}">
     <div class="l1"><span class="av">${esc(sigla(m.nome))}</span><div style="min-width:0;flex:1"><h3>${esc(m.nome||"Sem nome")}</h3><span class="h">${esc(m.handle||"sem @")}</span></div></div>
