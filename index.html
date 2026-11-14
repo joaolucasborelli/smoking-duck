@@ -351,38 +351,82 @@ h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.15}
 .feed p{margin:3px 0}.feed time{color:var(--muted);font-variant-numeric:tabular-nums;margin-right:6px}
 .explica{font-size:.84rem;background:var(--sched);color:var(--sched-ink);border-radius:8px;padding:8px 10px}
 .m.pensando{opacity:.7;font-style:italic}
+/* v4 (14/11): marca sem fábrica ainda, aviso de custo e de teto, modo ensaio, modo demonstração */
+.vazio{max-width:560px;margin:12vh auto 0;padding:24px 16px;text-align:center;display:grid;gap:12px;justify-items:center}
+.vazio h2{font-size:1.6rem}.vazio p{margin:0;color:var(--muted)}
+a.btn{text-decoration:none;display:inline-block}
+.v4card{max-width:760px;margin:0 auto;padding:22px 16px 60px;display:grid;gap:14px}
+.v4passos{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.v4passos li{border:1.5px solid var(--line);border-radius:999px;padding:3px 11px;font-size:.82rem;color:var(--muted)}
+.v4passos li.feito{border-color:var(--ok-ink);color:var(--ok-ink)}.v4passos li.agora{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.v4box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px}.v4box p{margin:0}
+.faixa-ensaio{background:var(--sched);color:var(--sched-ink);border-radius:8px;padding:8px 12px;font-size:.88rem;margin-bottom:12px}
+.gasto-hoje{font-size:.82rem;color:var(--muted);margin-top:6px}
+.faixa-demo{flex-basis:100%;background:#FFD21F;color:#111;text-align:center;font-weight:700;font-size:.85rem;padding:5px 12px;border-radius:6px}
+#layer2 .shade{z-index:44}#layer2 .modal{z-index:45}
+.custo-tab{width:100%;border-collapse:collapse;font-size:.9rem}.custo-tab td{padding:4px 0;border-bottom:1px solid var(--line)}.custo-tab td+td{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:10px}
+.custo-tot{font-size:1rem}.custo-tot b{font-family:var(--f-d)}
+.vigia-op{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;font-weight:600}.vigia-op input{width:18px;height:18px;margin-top:2px}
+.btn.danger{border-color:var(--rej-ink);color:var(--rej-ink)}
 </style>
 
 <div class="app">
   <div class="top">
     <span class="brand">Fábrica de Posts</span>
     <div class="accts" id="accts" role="group" aria-label="Escolher a conta"></div>
-    <a class="avaliar" href="padroes.html" target="_blank" rel="noopener">◆ Padrões</a><nav class="tabs" id="tabs" aria-label="Abas"></nav>
+    <a class="avaliar" href="marcas.html">◆ Marcas</a><a class="avaliar" id="lk-doc" href="documento.html" hidden>◆ Documento</a><a class="avaliar" href="padroes.html" target="_blank" rel="noopener">◆ Padrões</a><nav class="tabs" id="tabs" aria-label="Abas"></nav>
     <span class="proto" id="quem"></span>
   </div>
   <main class="view" id="view"></main>
 </div>
 <div id="layer"></div>
+<div id="layer2"></div>
 <input type="file" id="filepick" multiple hidden>
 
 <div id="login" class="login" hidden><form id="lform" class="lbox">
   <h3>Entrar na fábrica</h3>
-  <p class="sub" style="margin:0">Só o dono entra. Na primeira vez: escreva o seu e-mail e uma senha nova, clique em "Criar acesso", confirme pelo link do e-mail e depois volte aqui e clique em "Entrar".</p>
+  <p class="sub" style="margin:0">Só o dono entra. Escreva o seu e-mail e a sua senha e clique em "Entrar".</p>
   <label>E-mail<input id="l-email" type="email" autocomplete="username" required></label>
   <label>Senha<input id="l-pass" type="password" autocomplete="current-password" minlength="8" required></label>
   <p id="l-msg" class="sub" style="margin:0" role="status"></p>
-  <div class="prow" style="justify-content:flex-end"><button type="button" class="btn" id="l-criar">Criar acesso</button><button class="btn primary">Entrar</button></div>
+  <div class="prow" style="justify-content:flex-end"><button class="btn primary">Entrar</button></div>
 </form></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="escritorio.js?v=4"></script>
 <script>
-const sb=supabase.createClient("https://odwbspgnxwcqmbcegkhw.supabase.co","sb_publishable_foge1lfQeHHmC2TXOPKMFA_r1McAIjh");
-const ACC={a1:{nome:"Do outro lado da Porta",at:"@ahistoriaquemuda",av:"DP",cls:"c1",avc:"av1",amb:1}};
-// AMBIENTES: cada empresa é um ambiente com a própria fábrica (o 1 é a Do outro lado da Porta)
+// MODO DEMONSTRAÇÃO (?demo=1): não cria o cliente do servidor, não pede login, não chama função nenhuma.
+// Estados para ver cada tela: &estado=vazio | rascunho | estudando_v4 | em_aprovacao | aprovada (padrão) | ativa
+const DEMO=new URLSearchParams(location.search).has("demo");
+const DEMO_EST={v:new URLSearchParams(location.search).get("estado")||"aprovada"};const DEMO_LOG=[];
+function sbDemo(){
+  const ambs=()=>{const L=[{id:1,nome:"Base comum (não usar)",status:"ativo",ensaio:false},{id:4,nome:"ruca",status:"ativo",ensaio:false}];
+    if(DEMO_EST.v!=="vazio")L.push({id:900,nome:"Marca Exemplo",handle:"@marcaexemplo",sigla:"ME",status:DEMO_EST.v==="aprovada"?"em_aprovacao":DEMO_EST.v,ensaio:true,ficha_ativa_versao:DEMO_EST.v==="ativa"?1:null,marca:{}});return L};
+  const tabela=n=>n==="ambientes"?ambs():n==="gasto_hoje"?{usd:"0.20",teto:"5"}:n==="aprovacoes"?(["aprovada","ativa"].includes(DEMO_EST.v)?[{ambiente_id:900,versao:1,status:"aprovado",aprovado_por:"Fulano (exemplo)",aprovado_em:"2026-11-14T15:00:00Z"}]:DEMO_EST.v==="em_aprovacao"?[{ambiente_id:900,versao:1,status:"aberto"}]:[]):[];
+  const consulta=n=>{const c=new Proxy({},{get:(_,k)=>k==="then"?(a,b)=>Promise.resolve({data:tabela(n),error:null}).then(a,b):()=>c});return c};
+  const canal={on(){return canal},subscribe(){return canal}};
+  return {from:consulta,channel:()=>canal,removeChannel(){},
+    functions:{invoke:async(nome,o)=>{DEMO_LOG.push(nome+"."+((o&&o.body&&o.body.acao)||""));return {data:{ok:true,demo:true},error:null}}},
+    storage:{from:()=>({createSignedUrls:async()=>({data:[]})})},
+    auth:{getSession:async()=>({data:{session:{user:{email:"modo demonstração"}}}}),signInWithPassword:async()=>({error:{message:"modo demonstração"}}),signUp:async()=>({error:{message:"modo demonstração"}})}};
+}
+const sb=DEMO?sbDemo():supabase.createClient("https://odwbspgnxwcqmbcegkhw.supabase.co","sb_publishable_foge1lfQeHHmC2TXOPKMFA_r1McAIjh");
+if(DEMO)document.querySelector(".top").insertAdjacentHTML("afterbegin",`<div class="faixa-demo">Modo demonstração · Marca Exemplo (fictícia) · nada é salvo</div>`);
+// v4: a Base comum (1) e a Rucá (4) nunca aparecem como aba; status das marcas novas
+const OCULTOS=new Set([1,4]);const V4_ESPERA=["rascunho","estudando_v4","em_aprovacao"];const V4=[...V4_ESPERA,"ativa"];
+let APROV={},GASTO=null;
+// CUSTOS (medidor da fábrica, em US$) [estimativa]. O real da conta da OpenAI é ~1,4× o medidor (plano v4, régua de dinheiro).
+const REAL=1.4;
+const CUSTO={variacao:0.10,pauta:0.08,vigia:0.20,montar:1.16,plano:0.08,capas3:0.20,conversa:0.08,estudo_antigo:2.30};
+const ASSUNTO_VIGIA="o que está acontecendo hoje (notícias, mudanças, assuntos do momento) que importa para o público desta marca";
+const ACC={a1:{nome:"Smoking Duck",at:"@smokingduck",av:"SD",cls:"c1",avc:"av1",amb:1}};
+// AMBIENTES: cada empresa é um ambiente com a própria fábrica (o 1 é a Base comum, só configuração)
 let AMBS=[],novoAmb=null,excluirAmb=null;const AVISOS={};
 async function carregarAmbientes(){
-  const {data}=await sb.from("ambientes").select("id,nome,handle,sigla,status,estudo,estudo_log,entrada,marca").order("id");
-  AMBS=data||[];
+  const {data}=await sb.from("ambientes").select("id,nome,handle,sigla,status,estudo,estudo_log,entrada,marca,ensaio,ficha_ativa_versao").order("id");
+  AMBS=(data||[]).filter(A=>!OCULTOS.has(A.id)); // v4: Base comum e Rucá ficam fora das abas
+  OCULTOS.forEach(id=>{if(id!==1)delete ACC["a"+id]});
+  await carregarAprovacoes();
+  sb.from("gasto_hoje").select("usd,teto").single().then(({data})=>{if(data){GASTO={usd:+data.usd||0,teto:+data.teto||0};if(tab==="posts"&&!aberto&&document.getElementById("gasto-hoje"))document.getElementById("gasto-hoje").innerHTML=gastoHojeTxt()}});
   const {data:ps}=await sb.from("personas").select("id,nome,ambiente_id").neq("ambiente_id",1);
   for(const A of AMBS){const k="a"+A.id;
     ACC[k]=Object.assign(ACC[k]||{},{nome:A.nome,at:A.handle||(ACC[k]&&ACC[k].at)||"",av:A.sigla||A.nome.slice(0,2).toUpperCase(),cls:"c1",avc:A.id===1?"av1":"av2",amb:A.id,A,mk:!!(A.marca&&A.marca.perfil)});
@@ -391,9 +435,71 @@ async function carregarAmbientes(){
     if(!CHAT[k]||!CHAT[k].length)CHAT[k]=[{w:"ag",f:"Fábrica",t:`Oi! Aqui é o ambiente ${A.nome}. Pode pedir posts, ajustes ou análises só desta empresa.`}];}
   const {data:av}=await sb.from("avisos_ambiente").select("*").eq("status","novo").order("id",{ascending:false});
   for(const k in AVISOS)delete AVISOS[k];(av||[]).forEach(x=>{(AVISOS["a"+x.ambiente_id]=AVISOS["a"+x.ambiente_id]||[]).push(x)});
-  clearTimeout(window._tAmb);if(AMBS.some(A=>A.status==="estudando"))window._tAmb=setTimeout(async()=>{await carregarAmbientes();render()},15000);
+  clearTimeout(window._tAmb);if(AMBS.some(A=>A.status==="estudando"||A.status==="estudando_v4"))window._tAmb=setTimeout(async()=>{await carregarAmbientes();render()},15000);
 }
-const ambAtual=()=>(ACC[acc]&&ACC[acc].A)||{id:1,status:"ativo"};
+// v4: última aprovação de cada marca (marca.listar; se a função ainda não responder a lista, lê a tabela direto, pelas regras do dono)
+async function carregarAprovacoes(){
+  APROV={};
+  try{const {data}=await sb.functions.invoke("marca",{body:{acao:"listar"}});
+    if(data&&Array.isArray(data.marcas)){data.marcas.forEach(m=>{if(m.aprovacao)APROV[m.id]=m.aprovacao});return}}catch(_){}
+  try{const {data}=await sb.from("aprovacoes").select("ambiente_id,versao,status,aprovado_por,aprovado_em,pedido_mudanca").order("id",{ascending:false}).limit(200);
+    (data||[]).forEach(x=>{if(!APROV[x.ambiente_id])APROV[x.ambiente_id]=x})}catch(_){}
+}
+const gastoHojeTxt=()=>GASTO?`Gasto de hoje: ${usd(GASTO.usd)} de ${usd(GASTO.teto)} (teto do dia, no medidor). Ao bater o teto, a fábrica para sozinha.`:"";
+// ---------- AVISO DE CUSTO E DE TETO: aparece antes de QUALQUER botão que gasta (regra do dono, 10/11) ----------
+// itens = [[o que, US$ no medidor], ...]. Devolve true só se o dono clicar em "Sim".
+async function confirmarGasto(oque,itens,A,nota){
+  try{const {data}=await sb.from("gasto_hoje").select("usd,teto").single();if(data)GASTO={usd:+data.usd||0,teto:+data.teto||0}}catch(_){}
+  const tot=itens.reduce((s,x)=>s+x[1],0),ens=DEMO||!!(A&&A.ensaio);
+  const g=GASTO,bateu=g&&g.teto&&g.usd>=g.teto,passa=g&&g.teto&&g.usd+tot>g.teto;
+  return new Promise(ok=>{const L=document.getElementById("layer2");
+    L.innerHTML=`<div class="shade" data-g2="0"></div><div class="modal" role="dialog" aria-modal="true" aria-label="Confirmar gasto">
+     <h3>${ens?"Modo ensaio":"Isso gasta crédito de IA"}</h3>
+     <p class="sub" style="margin:0"><b>${esc(oque)}</b>${A&&A.nome?" · "+esc(A.nome):""}</p>
+     <table class="custo-tab"><tbody>${itens.map(([o,v])=>`<tr><td>${esc(o)}</td><td>${usd(v)} medidor · ${usd(v*REAL)} real</td></tr>`).join("")}</tbody></table>
+     <p class="custo-tot" style="margin:0">Custo estimado: <b>~${usd(tot*REAL)} real</b> <span class="small">(${usd(tot)} no medidor × 1,4; é estimativa)</span></p>
+     ${g?`<p class="sub" style="margin:0">Hoje a fábrica já gastou ${usd(g.usd)} de ${usd(g.teto)} (teto do dia, no medidor).${!ens&&!bateu?` Depois disto: ~${usd(g.usd+tot)}.`:""}</p>`:`<p class="sub" style="margin:0">Não consegui ler o gasto de hoje. O teto do dia continua valendo: ao bater, a fábrica para sozinha.</p>`}
+     ${ens?`<p class="okbox" style="margin:0">Modo ensaio ligado: nada vai ser gerado nem cobrado. Só vou mostrar quanto teria custado.</p>`:bateu?`<p class="warn" style="margin:0">Teto do dia atingido. A fábrica volta a funcionar à meia-noite (Brasília).</p>`:passa?`<p class="warn" style="margin:0">Isso pode passar do teto do dia. Se bater no meio, a fábrica para sozinha e o resto fica para amanhã.</p>`:""}
+     ${nota?`<p class="small" style="margin:0">${esc(nota)}</p>`:""}
+     <div class="prow" style="justify-content:flex-end"><button class="btn" data-g2="0">Cancelar</button><button class="btn primary" data-g2="1" ${!ens&&bateu?"disabled":""}>${ens?"Rodar em ensaio":`Sim, pode gastar ~${usd(tot*REAL)}`}</button></div></div>`;
+    const f=e=>{const b=e.target.closest("[data-g2]");if(!b||!L.contains(b))return;e.stopPropagation();L.removeEventListener("click",f,true);L.innerHTML="";ok(b.dataset.g2==="1")};
+    L.addEventListener("click",f,true);L.querySelector('[data-g2="1"]').focus()});
+}
+// pergunta simples (sem gasto), no mesmo estilo
+function perguntar(titulo,texto,botao){return new Promise(ok=>{const L=document.getElementById("layer2");
+  L.innerHTML=`<div class="shade" data-g2="0"></div><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(titulo)}"><h3>${esc(titulo)}</h3><p class="sub" style="margin:0">${esc(texto)}</p><div class="prow" style="justify-content:flex-end"><button class="btn" data-g2="0">Cancelar</button><button class="btn primary" data-g2="1">${esc(botao)}</button></div></div>`;
+  const f=e=>{const b=e.target.closest("[data-g2]");if(!b||!L.contains(b))return;e.stopPropagation();L.removeEventListener("click",f,true);L.innerHTML="";ok(b.dataset.g2==="1")};
+  L.addEventListener("click",f,true)})}
+// confirma e, se a marca estiver em ensaio, NÃO chama nada: só registra na tela quanto teria custado
+async function gastar(oque,itens,fn,nota){const A=ambAtual();
+  if(!(await confirmarGasto(oque,itens,A,nota)))return false;
+  const tot=itens.reduce((s,x)=>s+x[1],0);
+  if(DEMO||A.ensaio){const t=`ensaio: nada foi gerado. Teria custado ~${usd(tot)} no medidor (≈ ${usd(tot*REAL)} real).`;conta("Ensaio",`${oque}: ${t}`);toast(t);return false}
+  try{await tetoOk()}catch(e){toast(e.message);return false}
+  await fn();return true}
+const itensGerar=o=>[...((o.vigia||o.assunto)?[["vigiar notícias antes / pesquisar o assunto",CUSTO.vigia]]:[]),["pauta (Planejadora)",CUSTO.pauta],[`${o.qtd} ${o.qtd>1?"variações":"variação"} (escrever + conferir + plateia)`,o.qtd*CUSTO.variacao]];
+const ambAtual=()=>(ACC[acc]&&ACC[acc].A)||{id:0,status:"nenhuma"};
+// v4: sem marca nenhuma, a tela não cai mais na Base comum
+function renderVazio(){return `<div class="vazio"><h2>Nenhuma marca ainda</h2><p>Nenhuma marca ainda · criar a primeira. Cada marca nasce em rascunho e em modo ensaio: nada roda e nada gasta até você confirmar.</p><a class="btn primary" href="marcas.html">Criar a primeira marca</a></div>`}
+// v4: marca que ainda não está ligada na fábrica (rascunho → estudo → cliente aprovando)
+function renderV4(A){
+  const ap=APROV[A.id]||null,id=A.id,ordem=["rascunho","estudando_v4","em_aprovacao","ativa"],i=ordem.indexOf(A.status);
+  const passos=`<ol class="v4passos">${[["rascunho","1 · Sócios preenchem"],["estudando_v4","2 · Estudo"],["em_aprovacao","3 · Cliente aprova"],["ativa","4 · Fábrica ligada"]].map(([s,l],k)=>`<li class="${k<i?"feito":k===i?"agora":""}">${l}</li>`).join("")}</ol>`;
+  const ens=A.ensaio?`<p class="faixa-ensaio" style="margin:0">Modo ensaio ligado nesta marca: nenhum botão gera nada de verdade nem gasta. Só o dono desliga.</p>`:"";
+  let corpo="";
+  if(A.status==="rascunho")corpo=`<h2>Os sócios estão preenchendo ${esc(A.nome)}</h2><div class="v4box"><p>Enquanto a marca está em rascunho, nada roda e nada gasta.</p><p>Na tela dos sócios entram as variáveis (quem é, modelo de negócio, tipos de post…) e os anexos. O estudo é pedido de lá, com o custo na frente e a sua confirmação.</p><p><a class="btn primary" href="marca-socios.html?amb=${id}">Abrir a tela dos sócios</a></p></div>`;
+  else if(A.status==="estudando_v4")corpo=`<h2>O estudo de ${esc(A.nome)} está rodando</h2><div class="v4box"><p>Os agentes estão estudando grupo por grupo. A lista ao vivo mostra quem está esperando, rodando ou pronto, e quanto já foi gasto.</p><p><a class="btn primary" href="marca-socios.html?amb=${id}">Ver a lista ao vivo</a></p></div>`;
+  else{const st=ap&&ap.status;
+    const sit=!ap?`<p>O link do cliente ainda não foi criado. Abra o documento e clique em "Copiar link do cliente".</p>`
+      :st==="aprovado"?`<p class="okbox" style="margin:0">Aprovado por <b>${esc(ap.aprovado_por||"cliente")}</b>${ap.aprovado_em?` em ${esc(fdt(new Date(ap.aprovado_em)))}`:""}${ap.versao?` (versão ${esc(ap.versao)})`:""}.</p>`
+      :st==="mudanca"?`<p class="warn" style="margin:0">O cliente pediu mudança${ap.pedido_mudanca?`: "${esc(ap.pedido_mudanca)}"`:""}. Corrija no documento e crie um link novo.</p>`
+      :`<p>Link enviado. O cliente ainda não respondeu.</p>`;
+    const pode=A.status==="em_aprovacao"&&st==="aprovado";
+    corpo=`<h2>O documento de ${esc(A.nome)} está com o cliente</h2><div class="v4box">${sit}
+      <p><a class="btn" href="documento.html?amb=${id}">Abrir o documento</a></p>
+      ${pode?`<p>Ativar liga a ficha aprovada na fábrica (descrição, voz, tipos de post, personas, ganchos). Não gasta nada, não liga o vigia e não desliga o modo ensaio.</p><p><button class="btn primary" data-ativar="${id}">Ativar ${esc(A.nome)}</button></p>`:`<p class="small">O botão "Ativar" aparece aqui quando o cliente clicar em "Aprovo a v1".</p>`}</div>`}
+  return `<div class="v4card">${passos}${ens}${corpo}</div>`;
+}
 const AGENTES_ESTUDO=["Pesquisador da empresa","Leitor das redes","Pesquisador de mercado","Analista de público","Estrategista de marca","Guardião das regras","Diretor de Arte","Roteirista","Editor-chefe"];
 function renderEstudo(A){
   const linhas=String(A.estudo_log||"").split("\n").filter(l=>l&&!/^(em andamento|na fila|estudo pronto)$/.test(l.trim()));
@@ -420,16 +526,12 @@ function renderEstudo(A){
 function avisosHTML(){const L=AVISOS[acc]||[];if(!L.length)return "";
   return `<div class="avisos"><b>O vigia viu ${L.length} novidade${L.length>1?"s":""}</b>${L.map(v=>`<div class="aviso"><div><b>${esc(v.titulo)}</b><p>${esc(v.texto||"")}</p>${v.proposta&&v.proposta.regra_nova?`<small>Se aprovar, a fábrica passa a seguir: ${esc(v.proposta.regra_nova)}</small>`:""}</div><div class="av-bt"><button class="btn primary" data-aviso="${v.id}" data-dec="aprovar">Aprovar</button><button class="btn" data-aviso="${v.id}" data-dec="ignorar">Ignorar</button></div></div>`).join("")}</div>`}
 function drawExcluirAmb(){const A=AMBS.find(x=>x.id===excluirAmb)||{nome:""};
-  document.getElementById("layer").innerHTML=`<div class="shade" data-mclose></div><div class="modal" role="dialog" aria-modal="true" aria-label="Excluir ambiente" style="width:min(460px,calc(100% - 32px))">
-   <h3>Excluir ${esc(A.nome)}?</h3><p class="sub" style="margin:0">Apaga o estudo, as regras, as personas, as propostas, os posts e o chat deste ambiente. Não dá para desfazer. A Do outro lado da Porta não é afetada.</p>
+  // v4: marca nova se exclui pela ação excluir_v4 (guarda os custos); exige escrever o nome exato
+  document.getElementById("layer").innerHTML=`<div class="shade" data-mclose></div><div class="modal" role="dialog" aria-modal="true" aria-label="Excluir marca" style="width:min(460px,calc(100% - 32px))">
+   <h3>Excluir ${esc(A.nome)}?</h3><p class="sub" style="margin:0">Apaga as variáveis, os anexos, o estudo, o documento, os posts e o chat desta marca. Não dá para desfazer. O que já foi gasto continua registrado.</p>
+   <label class="gl">Para confirmar, escreva o nome exato da marca<input id="ex-nome" autocomplete="off" placeholder="${esc(A.nome)}"></label>
    <div class="prow" style="justify-content:flex-end"><button class="btn" data-mclose>Cancelar</button><button class="btn danger" data-confexcluir="${excluirAmb}">Excluir de vez</button></div></div>`}
-function drawNovoAmb(){
-  document.getElementById("layer").innerHTML=`<div class="shade" data-mclose></div><div class="modal" role="dialog" aria-modal="true" aria-label="Novo ambiente" style="width:min(680px,calc(100% - 32px))">
-   <h3>Novo ambiente</h3><p class="sub" style="margin:0">Cada empresa ganha uma fábrica própria, sem misturar com as outras. Cole tudo o que você sabe dela. O time de agentes estuda por uns 20 minutos e volta com o documento para você aprovar.</p>
-   <label class="gl">Nome da empresa<input id="na-nome" value="${esc(novoAmb.nome||"")}" placeholder="ex.: Rede de Clínicas do pai do Davi"></label>
-   <label class="gl">Tudo sobre a empresa<textarea id="na-texto" class="est-texto" rows="12" placeholder="Cole aqui: @ do Instagram, TikTok, site, o que ela vende, cidades e unidades, o que o cliente pediu, o que ele não quer, concorrentes que você conhece, anotações...">${esc(novoAmb.texto||"")}</textarea></label>
-   <div class="prow" style="justify-content:flex-end"><button class="btn" data-mclose>Cancelar</button><button class="btn primary" data-ncriar>Estudar</button></div></div>`;
-}
+// (14/11) o modal antigo "Novo ambiente" saiu: ele estudava pago na hora. Marca nova agora nasce em marcas.html, em rascunho e ensaio.
 // status provisórios: ainda vamos decidir quais ficam
 const ST={prop:["Proposta","st-prop"],gen:["Gerando","st-draft"],draft:["Rascunho","st-draft"],wait:["Para revisar","st-wait"],sched:["Agendado","st-sched"],ok:["Publicado","st-ok"],fail:["Falhou","st-rej"]};
 const AGENDA={a1:["09:00","12:35","17:50","02:00"]};
@@ -459,8 +561,14 @@ function composer(where,ph){
   </form></div>`;
 }
 function renderTop(){
-  document.getElementById("accts").innerHTML=Object.entries(ACC).filter(([k])=>k!=="a1").map(([k,A])=>`<button class="acct" data-acc="${k}" aria-pressed="${k===acc}"><span class="av ${A.avc}">${A.av}</span>${A.nome}${A.A&&A.A.status!=="ativo"?`<small class="amb-st">${A.A.status==="estudando"?"estudando":A.A.status==="aguardando"?"para aprovar":"parou"}</small>`:""}</button>`).join("")+(ACC[acc]&&ACC[acc].amb&&ACC[acc].amb!==1?`<button class="acct lixo" data-excluiramb="${ACC[acc].amb}" title="Excluir este ambiente" aria-label="Excluir o ambiente ${esc(ACC[acc].nome)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button>`:"")+`<button class="acct mais" data-novoamb title="Novo ambiente" aria-label="Criar um novo ambiente">+</button>`;
-  document.getElementById("tabs").innerHTML=[["posts","Posts e capas"],["chat","Chat"]].map(([k,l])=>`<button class="tab" data-tab="${k}" ${tab===k?'aria-current="page"':""}>${l}</button>`).join("");
+  // v4: status curto na aba; lixeira só em marca nova (exclui pela excluir_v4); "+" leva para marcas.html (o modal pago saiu)
+  const CHIP={estudando:"estudando",aguardando:"para aprovar",erro:"parou",rascunho:"rascunho",estudando_v4:"estudando",em_aprovacao:"com o cliente"};
+  const chip=X=>{if(!X)return "";const t=X.status==="ativa"?(X.ensaio?"ensaio":""):X.status==="ativo"?"":(CHIP[X.status]||X.status);return t?`<small class="amb-st">${esc(t)}</small>`:""};
+  const cur=ACC[acc]&&ACC[acc].A;
+  document.getElementById("accts").innerHTML=Object.entries(ACC).filter(([k])=>k!=="a1").map(([k,A])=>`<button class="acct" data-acc="${k}" aria-pressed="${k===acc}"><span class="av ${A.avc}">${esc(A.av)}</span>${esc(A.nome)}${chip(A.A)}</button>`).join("")+(cur&&(V4.includes(cur.status)||/^TESTE-/.test(cur.nome||""))?`<button class="acct lixo" data-excluiramb="${cur.id}" title="Excluir esta marca" aria-label="Excluir a marca ${esc(cur.nome)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button>`:"")+`<a class="acct mais" href="marcas.html" title="Nova marca" aria-label="Criar uma nova marca" style="text-decoration:none;color:inherit">+</a>`;
+  const ld=document.getElementById("lk-doc");if(cur){ld.hidden=false;ld.href="documento.html?amb="+cur.id+(DEMO?"&demo=1":"")}else ld.hidden=true;
+  const temFab=cur&&(cur.status==="ativo"||cur.status==="ativa");
+  document.getElementById("tabs").innerHTML=temFab?[["posts","Posts e capas"],["chat","Chat"]].map(([k,l])=>`<button class="tab" data-tab="${k}" ${tab===k?'aria-current="page"':""}>${l}</button>`).join(""):"";
 }
 // selos do cartão: status do post + andamento da montagem e das capas (para acompanhar sem abrir)
 // quando: data de publicação/agendamento; senão, data e hora em que foi montado ou gerado
@@ -484,7 +592,8 @@ function selos(p){
 }
 function renderPosts(){
   const L=POSTS.filter(p=>p.a===acc&&(filtro==="todos"||p.s===filtro)).sort((x,y)=>(y.t||new Date(2100,0))-(x.t||new Date(2100,0)));
-  return `<div class="listaesc"><div class="lcol">${avisosHTML()}<div class="listhead"><div><h2>Posts e capas · ${ACC[acc].nome}</h2><p class="sub">Os agentes à direita mostram o que está sendo feito agora.</p></div><button class="btn primary" data-genopen>+ Gerar conteúdo</button></div>
+  return `<div class="listaesc"><div class="lcol">${avisosHTML()}<div class="listhead"><div><h2>Posts e capas · ${ACC[acc].nome}</h2><p class="sub">Os agentes à direita mostram o que está sendo feito agora.</p></div><div style="text-align:right"><button class="btn primary" data-genopen>+ Gerar conteúdo</button><div class="gasto-hoje" id="gasto-hoje">${gastoHojeTxt()}</div></div></div>
+  ${ambAtual().ensaio?`<p class="faixa-ensaio">Modo ensaio ligado nesta marca: nenhum botão gera nada de verdade nem gasta. Cada botão mostra quanto teria custado.</p>`:""}
   <div class="filters" role="group" aria-label="Filtrar por status">${[["todos","Todos"],...Object.entries(ST).map(([k,v])=>[k,v[0]])].map(([k,l])=>`<button class="f" data-f="${k}" aria-pressed="${filtro===k}">${l}</button>`).join("")}</div>
   <div class="grid">${L.map(p=>`<button class="card ${p.s==="gen"?"gen":""}" data-post="${p.id}" ${p.s==="gen"?"disabled":""}>${cover(p)}<div class="meta"><span class="when">${quando(p)}</span>${selos(p)}</div></button>`).join("")||'<p class="sub">Nenhum post com esse status.</p>'}</div></div><aside class="escgeral" id="escgeral" aria-label="Agentes trabalhando"></aside></div>`;
 }
@@ -591,18 +700,20 @@ function renderDrawer(){
    <div class="acts">${x.st==="nova"?`<button class="btn primary" data-approve="${x.id}">Aprovar</button>`:`<span class="st st-ok">${esc(x.st)}</span>`}<button class="btn" data-detail="${x.id}">Detalhar no chat</button></div></div>`).join("")}</div></aside>`;
 }
 function render(){
-  if(!ACC[acc]||acc==="a1")acc=Object.keys(ACC).find(k=>k!=="a1")||"a1"; // Smoking Duck: a base comum (ambiente 1) nao aparece como aba
+  if(!ACC[acc]||acc==="a1")acc=Object.keys(ACC).find(k=>k!=="a1")||"a1"; // Smoking Duck: a base comum (ambiente 1) e a Rucá (4) nao aparecem como aba
   renderTop();
   const AA=ambAtual();
-  if(AA.status!=="ativo"){const v0=document.getElementById("view");v0.innerHTML=renderEstudo(AA);v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";if(excluirAmb)drawExcluirAmb();else if(novoAmb)drawNovoAmb();return}
+  if(acc==="a1"){const v0=document.getElementById("view");v0.innerHTML=renderVazio();v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";return}
+  if(V4_ESPERA.includes(AA.status)){const v0=document.getElementById("view");v0.innerHTML=renderV4(AA);v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";if(excluirAmb)drawExcluirAmb();return}
+  if(AA.status!=="ativo"&&AA.status!=="ativa"){const v0=document.getElementById("view");v0.innerHTML=renderEstudo(AA);v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";if(excluirAmb)drawExcluirAmb();return}
   const v=document.getElementById("view");
   v.innerHTML=tab==="posts"?(aberto?renderPost():renderPosts()):renderChat();
   v.style.overflow=(tab==="chat"||aberto)?"hidden":"auto";
   if(tab==="posts"&&aberto){const p=POSTS.find(x=>x.id===aberto);if(p)anexarEscritorio(p)}else fecharEscritorio();
   if(tab==="posts"&&!aberto)anexarGeral();
-  if(tab==="posts"&&aberto){const p=POSTS.find(x=>x.id===aberto);if(p&&!(p.imgs&&p.imgs.length)&&!p.plano&&!p.planejando&&!p.planoErro&&p.mont!=="pendente"&&p.mont!=="montando")setTimeout(()=>planejarVisual(p),300)}
+  // (14/11) o Diretor de Arte não planeja mais sozinho ao abrir o post: planejar gasta, então só pelo botão "Planejar agora", com aviso de custo
   document.getElementById("layer").innerHTML=renderDrawer();
-  if(excluirAmb)drawExcluirAmb();else if(novoAmb)drawNovoAmb();else if(gen)drawGen();else if(capas)drawCapas();else if(modal)drawCal();
+  if(excluirAmb)drawExcluirAmb();else if(gen)drawGen();else if(capas)drawCapas();else if(modal)drawCal();
   const ms=document.getElementById("msgs");if(ms)ms.scrollTop=ms.scrollHeight;
 }
 function toast(t){const e=document.createElement("div");e.className="toast";e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),2600)}
@@ -633,6 +744,8 @@ function drawGen(){
    <div class="qty" style="justify-content:center;font-size:1rem"><button data-gq="-1" aria-label="Menos">−</button><output style="font-family:var(--f-d);font-size:1.6rem">${gen.qtd}</output><button data-gq="1" aria-label="Mais">+</button></div>
    <p class="sub" style="margin:0;text-align:center">${pouco?`Teste rápido: ${gen.qtd} proposta${gen.qtd>1?"s":""}, cada uma num tipo e numa persona diferente`:`${gen.qtd/3} de cada tipo · ${por} de cada combinação de tipo e persona`}</p>
    <label class="gl">Assunto do momento (opcional)<input id="g-ass" value="${esc(gen.assunto)}" placeholder="ex.: GTA 6"></label>
+   <label class="vigia-op"><input type="checkbox" id="g-vigia" ${gen.vigia?"checked":""}><span>Vigiar notícias antes (~${usd(CUSTO.vigia*REAL)} real)<br><small class="small" style="font-weight:400">A Planejadora olha o que está acontecendo hoje antes de montar a pauta. Só roda depois da sua confirmação.</small></span></label>
+   <p class="small" style="margin:0">Custo estimado: ~${usd(itensGerar(gen).reduce((t,x)=>t+x[1],0)*REAL)} real. Antes de começar, aparece o resumo com o teto do dia para você confirmar.</p>
    <div class="prow" style="justify-content:flex-end"><button class="btn" data-mclose>Cancelar</button><button class="btn primary" data-gdo>Gerar ${gen.qtd}</button></div></div>`;
 }
 // TETO DE GASTO (10/11): passou do teto do dia, a tela não chama a IA (o robô também para sozinho)
@@ -659,10 +772,10 @@ async function startPipe(o){
   conta("Você","pediu "+o.qtd+" variações"+(o.assunto?` sobre "${o.assunto}"`:"")+".");
   try{
     let np=0;rr();
-    if(o.assunto){
-      equipe("planejadora","trabalhando",`Pesquisando na imprensa o que está acontecendo AGORA sobre "${o.assunto}" (fatos com data e fonte). Leva uns 50 segundos.`);
-      try{const d=await chamar({acao:"pesquisar",lote,assunto:o.assunto,ambiente_id:amb});
-        if(d.dossie){equipe("planejadora","trabalhando",`Pesquisa pronta: ${(d.dossie.fatos||[]).length} fatos com fonte. ${String(d.dossie.resumo_do_momento||"").slice(0,160)}`);conta("Planejadora",`pesquisou "${o.assunto}": ${String(d.dossie.resumo_do_momento||"").slice(0,200)}`)}}
+    if(o.assunto||o.vigia){const ass=o.assunto||ASSUNTO_VIGIA;
+      equipe("planejadora","trabalhando",o.assunto?`Pesquisando na imprensa o que está acontecendo AGORA sobre "${o.assunto}" (fatos com data e fonte). Leva uns 50 segundos.`:"Vigiando as notícias de hoje antes de montar a pauta (fatos com data e fonte). Leva uns 50 segundos.");
+      try{const d=await chamar({acao:"pesquisar",lote,assunto:ass,ambiente_id:amb});
+        if(d.dossie){equipe("planejadora","trabalhando",`Pesquisa pronta: ${(d.dossie.fatos||[]).length} fatos com fonte. ${String(d.dossie.resumo_do_momento||"").slice(0,160)}`);conta("Planejadora",`pesquisou "${o.assunto||"notícias de hoje"}": ${String(d.dossie.resumo_do_momento||"").slice(0,200)}`)}}
       catch(e){equipe("planejadora","trabalhando",`A pesquisa falhou (${e.message}). Vou seguir sem afirmar fato nenhum sobre o assunto.`)}
     }
     // PAUTA DA SEMANA: a planejadora decide o conjunto inteiro (com o motivo de cada post); se falhar, volta ao jeito antigo
@@ -851,7 +964,7 @@ async function enviarMensagem(w,texto){
     if(rts.length||dfs.length)carregar();
     equipe("assistente","pronto",rts.length?"Pedi ao robô para corrigir o slide.":p&&r.nova_versao?"Pronto, editei o post que você pediu.":"Respondi sua mensagem.");
     if(r.acoes&&r.acoes.gerar){const g=r.acoes.gerar;conta("Assistente",`mandou a fábrica gerar ${g.quantidade} variações.`);
-      if(PIPE[acc]&&!PIPE[acc].done&&!PIPE[acc].erro)toast("A fábrica ainda está gerando o lote anterior.");else{startPipe({qtd:g.quantidade,assunto:g.assunto||""});toast(`Gerando ${g.quantidade} variações. Acompanhe na aba Escritório.`)}}
+      if(PIPE[acc]&&!PIPE[acc].done&&!PIPE[acc].erro)toast("A fábrica ainda está gerando o lote anterior.");else{const o={qtd:g.quantidade,assunto:g.assunto||""};gastar(`O chat pediu para gerar ${o.qtd} variações`,itensGerar(o),()=>{startPipe(o);toast(`Gerando ${o.qtd} variações. Acompanhe ao lado.`)})}}
   }catch(e){Object.assign(pensando,{w:"ag",t:"Não consegui responder: "+e.message});equipe("assistente","erro","Parei por um erro: "+e.message)}
   render();
 }
@@ -884,7 +997,7 @@ async function carregar(){
   // tipos reprovados pelo dono (página Padrões): somem das opções do Diretor de Arte
   sb.from("padroes").select("item").like("item","tipo:%").eq("escolha","nao").then(({data})=>{PROIBIDOS=new Set((data||[]).map(r=>String(r.item).slice(5)))});
   // DIRETOR DE ARTE: deixa o plano pronto junto com o esboço, sem o dono clicar (2 por vez, uma vez por proposta)
-  planejarFila();
+  // (14/11) planejarFila() não roda mais sozinho: gastava sem confirmação. O plano sai pelo botão "Planejar agora".
   // imagens montadas (bucket privado): links assinados por 1 hora
   const todos=POSTS.flatMap(p=>p.paths);
   if(todos.length){const {data:urls}=await sb.storage.from("montagens").createSignedUrls(todos,3600);
@@ -993,27 +1106,29 @@ document.addEventListener("click",e=>{
   if("vclose" in ds){viewer=null;render();return}
   if("leg" in ds){legAberta=!legAberta;render();return}
   if("sched" in ds){openSched(POSTS.find(x=>x.id===aberto));return}
-  if("genopen" in ds){if(PIPE[acc]&&!PIPE[acc].done&&!PIPE[acc].erro){toast("A fábrica ainda está gerando o lote anterior.");return}gen={qtd:9,assunto:""};drawGen();return}
-  if(ds.gq){gen.assunto=document.getElementById("g-ass")?.value||"";const up=+ds.gq>0;
+  if("genopen" in ds){if(PIPE[acc]&&!PIPE[acc].done&&!PIPE[acc].erro){toast("A fábrica ainda está gerando o lote anterior.");return}gen={qtd:9,assunto:"",vigia:false};drawGen();return}
+  if(ds.gq){gen.assunto=document.getElementById("g-ass")?.value||"";gen.vigia=!!document.getElementById("g-vigia")?.checked;const up=+ds.gq>0;
     gen.qtd=gen.qtd<9||(gen.qtd===9&&!up)?Math.max(1,Math.min(9,gen.qtd+(up?1:-1))):Math.max(9,Math.min(81,gen.qtd+(up?9:-9)));drawGen();return}
-    if("gdo" in ds){const o={qtd:gen.qtd,assunto:document.getElementById("g-ass").value.trim()};gen=null;filtro="todos";startPipe(o);render();return}
+    if("gdo" in ds){const o={qtd:gen.qtd,assunto:document.getElementById("g-ass").value.trim(),vigia:!!document.getElementById("g-vigia")?.checked};gen=null;render();
+      gastar(`Gerar ${o.qtd} ${o.qtd>1?"variações":"variação"}${o.vigia?" (com vigia de notícias antes)":""}`,itensGerar(o),()=>{filtro="todos";startPipe(o);render()});return}
   if("pipehide" in ds){if(PIPE[acc])PIPE[acc].oculto=true;render();return}
   if(ds.agente){agenteAberto=agenteAberto===ds.agente?null:ds.agente;render();return}
   if("pselall" in ds){PROPS[acc].forEach(x=>x.sel=true);render();return}
   if(ds.pdrop){PROPS[acc]=PROPS[acc].filter(x=>x.id!==+ds.pdrop);render();return}
   if(ds.pchat){const x=PROPS[acc].find(y=>y.id===+ds.pchat);atts.chat.push({kind:"analise",name:"Proposta: "+x.g.replace(/<[^>]+>/g,"")});tab="chat";render();document.getElementById("ta-chat")?.focus();return}
   if("pmount" in ds){montar();return}
-  if("papr" in ds){const p=POSTS.find(x=>x.id===aberto);b.disabled=true;chamar({acao:"escolher",variacao_id:p.id,decisao:"montar"}).then(()=>{toast("Escolhida! O robô monta os slides em até ~10 minutos e eles aparecem aqui.");aberto=null;return carregar()}).catch(e=>{toast("Erro: "+e.message);b.disabled=false});return}
+  if("papr" in ds){const p=POSTS.find(x=>x.id===aberto);gastar("Montar este post (texto, fotos e slides)",[["montagem do carrossel com foto",CUSTO.montar]],()=>{b.disabled=true;return chamar({acao:"escolher",variacao_id:p.id,decisao:"montar"}).then(()=>{toast("Escolhida! O robô monta os slides em até ~10 minutos e eles aparecem aqui.");aberto=null;return carregar()}).catch(e=>{toast("Erro: "+e.message);b.disabled=false})});return}
   if("prej" in ds){const p=POSTS.find(x=>x.id===aberto);const motivo=prompt("Por que você recusou? A fábrica usa isso para aprender (pode deixar em branco).");if(motivo===null)return;chamar({acao:"escolher",variacao_id:p.id,decisao:"recusar",motivo:motivo||null}).then(()=>{POSTS=POSTS.filter(x=>x.id!==p.id);aberto=null;render();toast("Recusada. O motivo foi guardado.")}).catch(e=>toast("Erro: "+e.message));return}
   if("capas" in ds){capas={id:aberto};drawCapas();return}
   if(ds.desfazer){b.disabled=true;
     sb.functions.invoke("opcoes",{body:{acao:"desfazer_retoque",retoque_id:+ds.desfazer}}).then(async({data,error})=>{if(error||data?.erro)throw new Error(data?.erro||error.message);toast("Voltei a versão anterior do slide");await carregar()}).catch(e=>{toast("Erro: "+e.message);b.disabled=false});return}
-  if("daplanejar" in ds){const p=POSTS.find(x=>x.id===aberto);planejarVisual(p);return}
-  if("darefazer" in ds){const p=POSTS.find(x=>x.id===aberto);planejarVisual(p,{refazer:true});return}
+  if("daplanejar" in ds){const p=POSTS.find(x=>x.id===aberto);gastar("Diretor de Arte: planejar o formato de cada slide",[["plano visual",CUSTO.plano]],()=>planejarVisual(p));return}
+  if("darefazer" in ds){const p=POSTS.find(x=>x.id===aberto);gastar("Diretor de Arte: refazer o plano",[["plano visual",CUSTO.plano]],()=>planejarVisual(p,{refazer:true}));return}
   if(ds.escolhercapa){const p=POSTS.find(x=>x.id===capas.id);b.disabled=true;
     sb.functions.invoke("opcoes",{body:{acao:"escolher",post_id:p.postId,opcao_id:+ds.escolhercapa}}).then(async({error})=>{if(error)throw error;toast("Capa trocada");await carregar();if(capas)drawCapas()}).catch(e=>{toast("Erro: "+e.message);b.disabled=false});return}
-  if("novascapas" in ds){const p=POSTS.find(x=>x.id===capas.id);b.disabled=true;
-    sb.functions.invoke("opcoes",{body:{acao:"pedir",post_id:p.postId}}).then(async({error})=>{if(error)throw error;toast("A equipe começou 3 capas novas");await carregar();if(capas)drawCapas()}).catch(e=>{toast("Erro: "+e.message);b.disabled=false});return}
+  if("novascapas" in ds){const p=POSTS.find(x=>x.id===capas.id);
+    gastar("Gerar 3 capas novas para este post",[["3 capas em imagem",CUSTO.capas3]],()=>{b.disabled=true;
+    return sb.functions.invoke("opcoes",{body:{acao:"pedir",post_id:p.postId}}).then(async({error})=>{if(error)throw error;toast("A equipe começou 3 capas novas");await carregar();if(capas)drawCapas()}).catch(e=>{toast("Erro: "+e.message);b.disabled=false})});return}
   if(ds.mmes){modal.m+=+ds.mmes;if(modal.m<0){modal.m=11;modal.y--}if(modal.m>11){modal.m=0;modal.y++}drawCal();return}
   if(ds.mdia){modal.dia=new Date(modal.y,modal.m,+ds.mdia);modal.hora=null;drawCal();return}
   if(ds.slot){modal.hora=ds.slot;drawCal();return}
@@ -1023,17 +1138,24 @@ document.addEventListener("click",e=>{
     chamar({acao:"agendar",variacao_id:p.id,quando:t.toISOString()}).then(()=>{p.t=t;p.s="sched";modal=null;render();toast(`Agendado: ${fdt(t)} (a publicação automática no Instagram ainda não está ligada)`)}).catch(e=>{toast("Erro: "+e.message);b.disabled=false});return}
   if("mclose" in ds){modal=null;gen=null;capas=null;novoAmb=null;excluirAmb=null;render();return}
   if(ds.excluiramb){excluirAmb=+ds.excluiramb;render();return}
-  if(ds.confexcluir){const id=+ds.confexcluir;b.disabled=true;b.textContent="Excluindo…";
-    sb.functions.invoke("ambientes",{body:{acao:"excluir",ambiente_id:id}}).then(async({data,error})=>{if(error||data?.erro)throw new Error(data?.erro||error.message);excluirAmb=null;delete ACC["a"+id];acc="a1";aberto=null;await carregarAmbientes();await carregar();toast("Ambiente excluído")}).catch(e=>{toast("Erro: "+e.message);b.disabled=false;b.textContent="Excluir de vez"});return}
-  if("novoamb" in ds){novoAmb={nome:"",texto:""};render();return}
-  if("ncriar" in ds){const nome=document.getElementById("na-nome").value.trim(),texto=document.getElementById("na-texto").value.trim();novoAmb={nome,texto};
-    if(!nome){toast("Dê um nome para o ambiente");return}if(texto.length<20){toast("Cole no campo o que você sabe da empresa");return}
-    b.disabled=true;b.textContent="Enviando…";
-    sb.functions.invoke("ambientes",{body:{acao:"criar",nome,entrada:texto}}).then(async({data,error})=>{if(error||data?.erro)throw new Error(data?.erro||error.message);novoAmb=null;await carregarAmbientes();acc="a"+data.ambiente.id;aberto=null;tab="posts";render();toast("O time começou a estudar "+nome)}).catch(e=>{toast("Erro: "+e.message);b.disabled=false;b.textContent="Estudar"});return}
+  if(ds.confexcluir){const id=+ds.confexcluir;const nome=(document.getElementById("ex-nome")||{}).value||"";const A=AMBS.find(x=>x.id===id)||{};
+    if(OCULTOS.has(id)){toast("Esta marca é protegida.");return}
+    if(nome.trim()!==A.nome){toast("O nome não confere. Escreva exatamente: "+A.nome);return}
+    b.disabled=true;b.textContent="Excluindo…";
+    sb.functions.invoke("marca",{body:{acao:"excluir_v4",ambiente_id:id,confirmar:nome.trim()}}).then(async({data,error})=>{if(error||data?.erro)throw new Error(data?.erro||error.message);excluirAmb=null;delete ACC["a"+id];acc="a1";aberto=null;await carregarAmbientes();await carregar();toast(DEMO?"modo demonstração: nada foi apagado":"Marca excluída")}).catch(e=>{toast("Erro: "+e.message);b.disabled=false;b.textContent="Excluir de vez"});return}
+  if("novoamb" in ds){location.href="marcas.html";return} // (14/11) o modal "Novo ambiente" (estudo pago na hora) saiu
+  if(ds.ativar){const id=+ds.ativar,A=AMBS.find(x=>x.id===id)||{};
+    perguntar(`Ativar ${A.nome||"a marca"}?`,"Liga a ficha aprovada pelo cliente na fábrica. Não gasta nada, não liga o vigia e não desliga o modo ensaio.","Ativar").then(ok=>{if(!ok)return;b.disabled=true;b.textContent="Ativando…";
+      return sb.functions.invoke("marca",{body:{acao:"ativar",ambiente_id:id,forcar:false}}).then(async({data,error})=>{
+        if(error){let m=error.message;try{const j=await error.context.json();m=j.erro||m}catch(_){}throw new Error(m)}
+        if(!data||data.ok===false)throw new Error((data&&data.erro)||"a função não respondeu");
+        if(DEMO){DEMO_EST.v="ativa";toast("modo demonstração: nada foi salvo")}
+        else{const c=data.copiado||{};toast(`Ativada (versão ${data.versao??"?"}): ${c.personas??0} personas e ${c.ganchos??0} ganchos ligados na fábrica`)}
+        await carregarAmbientes();tab="posts";render()})}).catch(e=>{toast("Erro: "+e.message);b.disabled=false;b.textContent="Ativar"});return}
   if(ds.aprovaramb){b.disabled=true;b.textContent="Ligando a fábrica…";
     sb.functions.invoke("ambientes",{body:{acao:"aprovar",ambiente_id:+ds.aprovaramb}}).then(async({data,error})=>{if(error||data?.erro)throw new Error(data?.erro||error.message);await carregarAmbientes();render();toast("Fábrica ligada! Já pode gerar posts.")}).catch(e=>{toast("Erro: "+e.message);b.disabled=false;b.textContent="Aprovar e ligar a fábrica"});return}
-  if(ds.reestudar){const ent=document.getElementById("amb-entrada");b.disabled=true;
-    sb.functions.invoke("ambientes",{body:{acao:"reestudar",ambiente_id:+ds.reestudar,entrada:ent?ent.value:undefined}}).then(async({data,error})=>{if(error||data?.erro)throw new Error(data?.erro||error.message);await carregarAmbientes();render()}).catch(e=>{toast("Erro: "+e.message);b.disabled=false});return}
+  if(ds.reestudar){const ent=document.getElementById("amb-entrada");
+    gastar("Estudar de novo (estudo antigo, 9 agentes)",[["estudo de marca",CUSTO.estudo_antigo]],()=>{b.disabled=true;return sb.functions.invoke("ambientes",{body:{acao:"reestudar",ambiente_id:+ds.reestudar,entrada:ent?ent.value:undefined}}).then(async({data,error})=>{if(error||data?.erro)throw new Error(data?.erro||error.message);await carregarAmbientes();render()}).catch(e=>{toast("Erro: "+e.message);b.disabled=false})});return}
   if(ds.aviso){b.disabled=true;
     sb.functions.invoke("ambientes",{body:{acao:"aviso",aviso_id:+ds.aviso,decisao:ds.dec}}).then(async({data,error})=>{if(error||data?.erro)throw new Error(data?.erro||error.message);await carregarAmbientes();render();toast(ds.dec==="aprovar"?"A fábrica já segue a novidade":"Aviso ignorado")}).catch(e=>{toast("Erro: "+e.message);b.disabled=false});return}
   if("drawer" in ds){drawer=true;render();return}
@@ -1056,12 +1178,19 @@ document.addEventListener("change",e=>{
   if(e.target.dataset&&e.target.dataset.psel){const x=PROPS[acc].find(y=>y.id===+e.target.dataset.psel);x.sel=e.target.checked;render();return}
   if(e.target.id==="filepick"){[...e.target.files].forEach(f=>atts[pick].push({kind:f.type.startsWith("image/")?"imagem":f.type.startsWith("audio/")?"audio":"arquivo",name:f.name,file:f}));e.target.value="";render();return}
   if(modal&&e.target.id==="mtime"){modal.hora=e.target.value||modal.hora;drawCal()}
+  if(gen&&e.target.id==="g-vigia"){gen.vigia=e.target.checked;gen.assunto=document.getElementById("g-ass")?.value||"";drawGen()}
 });
 document.addEventListener("paste",e=>{const f=e.target.closest&&e.target.closest(".composer");if(!f)return;const files=[...(e.clipboardData?.files||[])];if(!files.length)return;e.preventDefault();files.forEach(x=>atts[f.dataset.where].push({kind:x.type.startsWith("image/")?"imagem":"arquivo",name:x.name||"foto colada",file:x}));render()});
 let pick="chat";
-document.addEventListener("submit",e=>{const f=e.target.closest(".composer");if(!f)return;e.preventDefault();const w=f.dataset.where;const ta=document.getElementById("ta-"+w);const v=ta.value.trim();
+const CHAT_OK={};
+document.addEventListener("submit",async e=>{const f=e.target.closest(".composer");if(!f)return;e.preventDefault();const w=f.dataset.where;const ta=document.getElementById("ta-"+w);const v=ta.value.trim();
   if(!v&&!atts[w].length)return;
-  ta.value="";enviarMensagem(w,v)});
+  // (14/11) conversar gasta: aviso de custo e teto 1 vez por marca enquanto a aba estiver aberta
+  const A=ambAtual();if(!CHAT_OK[acc]){if(!(await confirmarGasto("Conversar com a equipe",[["cada mensagem (texto)",CUSTO.conversa]],A,"Só pergunto 1 vez por marca enquanto esta aba estiver aberta. Correção de foto pedida no chat custa mais: ~US$ 0,07 a 0,35 real cada.")))return;CHAT_OK[acc]=true}
+  ta.value="";
+  if(DEMO||A.ensaio){const p=w==="post"?POSTS.find(x=>x.id===aberto):null;const msg=[{w:"me",t:v||"(anexo)"},{w:"ag",f:"Fábrica",t:`Modo ensaio: nada foi enviado para a IA. Esta mensagem teria custado ~${usd(CUSTO.conversa)} no medidor (≈ ${usd(CUSTO.conversa*REAL)} real).`}];
+    atts[w]=[];if(p)p.log.push(...msg);else CHAT[acc].push(...msg);conta("Ensaio","mensagem no chat não enviada (ensaio).");render();return}
+  enviarMensagem(w,v)});
 document.addEventListener("keydown",e=>{
   if(viewer){if(e.key==="ArrowRight")vgo(1);if(e.key==="ArrowLeft")vgo(-1);if(e.key==="Escape"){viewer=null;render()}return}
   if(e.key==="Escape"){document.querySelector(".ctx")?.remove();if(modal){modal=null;render()}else if(drawer){drawer=false;render()}}
@@ -1075,12 +1204,7 @@ document.getElementById("lform").addEventListener("submit",async e=>{e.preventDe
   const {error}=await sb.auth.signInWithPassword({email:document.getElementById("l-email").value.trim(),password:document.getElementById("l-pass").value});
   if(error){m.textContent=/confirm/i.test(error.message)?"Falta confirmar o acesso pelo link que chegou no seu e-mail.":"Não entrou: "+error.message;return}
   entrar()});
-document.addEventListener("change",e=>{const sel=e.target.closest("[data-damolde]");if(!sel)return;const p=POSTS.find(x=>x.id===aberto);if(!p)return;planejarVisual(p,{forcar:{[sel.dataset.damolde]:sel.value}})});
-document.getElementById("l-criar").addEventListener("click",async()=>{const m=document.getElementById("l-msg");const email=document.getElementById("l-email").value.trim(),password=document.getElementById("l-pass").value;
-  if(!email||password.length<8){m.textContent="Escreva o e-mail e uma senha de pelo menos 8 caracteres.";return}
-  m.textContent="Criando…";const {data,error}=await sb.auth.signUp({email,password});
-  if(error){m.textContent="Não criou: "+error.message;return}
-  if(data.session){entrar();return}
-  m.textContent="Pronto. Abra o e-mail de confirmação e clique no link (se ele abrir uma página que não carrega, tudo bem: o acesso já fica confirmado). Depois volte aqui e clique em Entrar."});
+document.addEventListener("change",e=>{const sel=e.target.closest("[data-damolde]");if(!sel)return;const p=POSTS.find(x=>x.id===aberto);if(!p)return;
+  gastar(`Diretor de Arte: trocar o formato do slide ${sel.dataset.damolde}`,[["plano visual",CUSTO.plano]],()=>planejarVisual(p,{forcar:{[sel.dataset.damolde]:sel.value}})).then(ok=>{if(!ok)render()})});
 render();entrar();
 </script>

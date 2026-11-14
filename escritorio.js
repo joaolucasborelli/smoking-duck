@@ -287,7 +287,7 @@
     function encaixar() { const cw = palco.clientWidth, ch = palco.clientHeight; if (!cw || !ch) return; s = Math.min(cw / W, ch / H); tela.style.width = W * s + "px"; tela.style.height = H * s + "px"; }
     // placas (salas e marca) — posições em coordenadas do mundo
     const fixos = [];
-    const marca = document.createElement("div"); marca.className = "escr-marca"; marca.textContent = "DO OUTRO LADO DA PORTA"; hud.appendChild(marca); fixos.push([marca, 320, 17]);
+    const marca = document.createElement("div"); marca.className = "escr-marca"; marca.textContent = "SMOKING DUCK"; hud.appendChild(marca); fixos.push([marca, 320, 17]);
     for (const sa of Object.values(SALAS)) {
       const el = document.createElement("div"); el.className = "escr-plaq"; el.textContent = sa.nome.length > 14 ? sa.nome.split(" ")[0] : sa.nome; el.style.color = NEON[Object.keys(SALAS).find((k) => SALAS[k] === sa)]; hud.appendChild(el);
       const emCima = sa.r[1] < 176; fixos.push([el, sa.porta + 38, emCima ? sa.r[1] + sa.r[3] + 7.5 : sa.r[1] - 9.5]);
