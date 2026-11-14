@@ -369,76 +369,72 @@ a.btn{text-decoration:none;display:inline-block}
 .custo-tot{font-size:1rem}.custo-tot b{font-family:var(--f-d)}
 .vigia-op{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;font-weight:600}.vigia-op input{width:18px;height:18px;margin-top:2px}
 .btn.danger{border-color:var(--rej-ink);color:var(--rej-ink)}
-/* v4 (integração): marca nova dentro da fábrica — modal "Novo ambiente" (campo único + guia) e aba da marca (js/socios.js) */
-.soc-gl{display:flex;flex-direction:column;gap:4px;font-size:.82rem;font-weight:700}
-.soc-modal>.prow:last-child{position:sticky;bottom:-18px;margin:0 -18px -18px;padding:12px 18px;background:var(--panel);border-top:1px solid var(--line)}
+/* v4 (15/11): marca nova = UMA CONVERSA com o pato (js/socios.js): "Novo ambiente" e a aba da marca */
 .soc-caixa{background:var(--panel);border:1.5px solid var(--line);border-radius:16px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;box-shadow:0 2px 10px rgba(0,0,0,.06);font-weight:400;font-size:.95rem;min-width:0}
 .soc-caixa:focus-within{border-color:var(--ink)}
 .soc-caixa.sobre{border-color:var(--accent);border-style:dashed;background:var(--hover)}
-.soc-ta{border:0;outline:0;resize:vertical;background:transparent;font:inherit;color:var(--ink);min-height:96px;padding:4px;width:100%}
-.modal .soc-ta{min-height:180px}
+.soc-ta{border:0;outline:0;resize:none;background:transparent;font:inherit;color:var(--ink);min-height:44px;max-height:160px;padding:4px;width:100%}
 .soc-crow{flex-wrap:wrap}
-.ib.txt{width:auto;border-radius:999px;padding:0 12px 0 9px;display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:600}
+.ib.txt{width:auto;border-radius:999px;padding:0 11px 0 9px;display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;height:32px}
+.ib.soc-livre{padding:0 11px;color:var(--muted)}.ib.soc-livre[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
 .ib:disabled{opacity:.45;cursor:not-allowed}
-.soc-small{font-size:.8rem;color:var(--muted);margin:0}
-.soc-pend{display:grid;gap:6px;min-width:0}
+.soc-small{font-size:.8rem;color:var(--muted);margin:0;font-weight:400}
+.soc-pend{display:grid;gap:6px;min-width:0}.soc-pend:empty{display:none}
 .soc-ax{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--hover);border-radius:8px;padding:5px 6px;min-width:0}
 .soc-ax .ic{width:34px;height:34px;flex:none;border-radius:6px;background:var(--panel);border:1px solid var(--line);display:grid;place-items:center;font-size:.64rem;font-weight:700;text-transform:uppercase;overflow:hidden;color:var(--muted)}
 .soc-ax .ic img{width:100%;height:100%;object-fit:cover}
 .soc-ax .info{flex:1;min-width:0}.soc-ax .nm{font-size:.84rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.soc-ax .ds{font-size:.74rem;color:var(--muted)}
-.soc-lnk{border:0;background:none;padding:0;color:var(--accent);font-weight:700;font-size:inherit;text-decoration:underline}
+.soc-lnk{border:0;background:none;padding:0;color:inherit;font-weight:700;font-size:inherit;text-decoration:underline}
 .soc-papel,.modal select.soc-papel{font:inherit;font-size:.76rem;font-weight:700;padding:3px 4px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);max-width:112px;flex:none}
 .soc-papel.p-oficial,.modal select.soc-papel.p-oficial{background:var(--ok);color:var(--ok-ink)}.soc-papel.p-rascunho,.modal select.soc-papel.p-rascunho{background:var(--wait);color:var(--wait-ink)}.soc-papel.p-inspiracao,.modal select.soc-papel.p-inspiracao{background:var(--sched);color:var(--sched-ink)}
 .soc-linklinha{display:flex;gap:6px;flex-wrap:wrap}.soc-linklinha[hidden]{display:none}.soc-linklinha input{flex:1;min-width:0;font:inherit;padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
-.soc-guia{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel);display:grid;gap:8px;min-width:0}
-.soc-guia-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
-.soc-temas{list-style:none;margin:0;padding:0;display:grid;gap:4px}
-.modal .soc-temas{grid-template-columns:repeat(2,minmax(0,1fr))}
-.soc-temas li{display:flex;gap:8px;align-items:flex-start;font-size:.84rem;border-radius:8px;padding:5px 7px;min-width:0}
-.soc-temas li .mk{width:18px;height:18px;flex:none;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:.7rem;font-weight:800;margin-top:1px}
-.soc-temas li.ok{background:var(--ok);color:var(--ok-ink)}.soc-temas li.ok .mk{background:var(--ok-ink);border-color:var(--ok-ink);color:var(--ok)}
-.soc-temas p{margin:1px 0 0;color:var(--muted);font-size:.78rem}.soc-temas li.ok p{color:inherit;opacity:.85}.soc-temas .ex{font-style:italic}
-.soc-temas .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.soc-aba{max-width:1040px;grid-template-columns:minmax(0,1fr)}
-.soc-aba .soc-sec,.soc-aba .soc-etapa,.soc-guia{grid-template-columns:minmax(0,1fr)}
+/* a conversa: bolhas iguais às do chat da fábrica (.m.ag = pato, .m.me = sócios) */
+.soc-conv{display:flex;flex-direction:column;gap:10px;overflow:auto;min-height:0;padding:14px 16px}
+.soc-conv .m{max-width:88%}
+.soc-b .tx{white-space:pre-wrap;overflow-wrap:anywhere}
+.soc-qn{display:block;font-size:.7rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.soc-ex{color:var(--muted);font-style:italic;font-size:.83rem;margin-top:5px}
+.soc-qb{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.soc-qb button{border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:4px 12px;font-size:.8rem;font-weight:700;color:var(--ink)}
+.soc-qb button.pri{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.soc-nota{align-self:center;font-size:.76rem;color:var(--muted);background:var(--hover);border-radius:999px;padding:2px 10px}
+.soc-axs{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.soc-axm{display:block;font-size:.78rem;border:1px solid currentColor;border-radius:6px;padding:3px 7px;opacity:.9;overflow-wrap:anywhere}.soc-axm img{width:28px;height:28px;object-fit:cover;border-radius:4px;vertical-align:middle;margin-right:6px}.soc-axm a{color:inherit}
+.soc-cm-msg{padding:0 16px}.soc-cm-msg:empty{display:none}
+/* "Novo ambiente" */
+.modal.soc-chatmodal{width:min(720px,calc(100% - 32px));height:min(88vh,880px);padding:0;gap:0;overflow:hidden}
+.soc-cm-head{display:flex;align-items:flex-start;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}.soc-cm-head h3{margin:0}.soc-cm-head .sp{flex:1}
+.btn.soc-mini{padding:4px 10px;font-size:.8rem}
+.soc-chatmodal .soc-conv{flex:1;background:var(--bg)}
+.soc-chatmodal .soc-caixa{margin:8px 12px 12px}
+/* aba da marca */
+.soc-aba{max-width:820px;grid-template-columns:minmax(0,1fr)}
 .soc-cab{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.soc-cab h2{margin:0}
-.soc-sec{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:10px;min-width:0}
-.soc-sec h3{margin:0;font-family:var(--f-d);font-size:1.15rem}
-.soc-sec .sub{margin:0}
-.soc-papo-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
-.soc-papo{display:grid;gap:10px;min-width:0}
-.soc-hist{display:grid;gap:8px;max-height:520px;overflow:auto;min-width:0}
-.soc-msg{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg);display:grid;gap:6px;min-width:0}
-.soc-msg header{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:var(--muted);flex-wrap:wrap}.soc-msg header b{color:var(--ink)}
-.soc-msg .tx{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.92rem}
-.soc-vazia{border:1.5px dashed var(--line);border-radius:10px;padding:14px;font-size:.9rem;color:var(--muted)}
-.soc-sep{margin:6px 0 0;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.soc-formula{margin:0;font-size:.98rem;line-height:2}.soc-formula b{font-family:var(--f-d);background:var(--hover);border:1px solid var(--line);border-radius:6px;padding:1px 7px;white-space:nowrap}.soc-formula span{color:var(--muted);font-weight:800;margin:0 5px}
-.soc-trilho{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.soc-trilho li{position:relative;border:1.5px solid var(--line);border-radius:10px;padding:9px 11px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:1px 9px;align-items:center}
-.soc-trilho .n{grid-row:span 2;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-family:var(--f-d);font-weight:800;font-size:.85rem}
-.soc-trilho small{color:var(--muted);font-size:.78rem}
-.soc-trilho li.andando{border-color:var(--wait-ink);background:var(--wait);color:var(--wait-ink)}.soc-trilho li.andando small{color:inherit}
-.soc-trilho li.feita{border-color:var(--ok-ink);background:var(--ok);color:var(--ok-ink)}.soc-trilho li.feita small{color:inherit}.soc-trilho li.feita .n{background:var(--ok-ink);color:var(--ok);border-color:var(--ok-ink)}
-.soc-ir{position:absolute;inset:0;border-radius:10px}
-.soc-etapa{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:8px;min-width:0;scroll-margin-top:12px}
-.soc-etapa h4{margin:0;font-size:1rem}
-.soc-temas-det{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:8px}
-.soc-tdet{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.84rem;min-width:0}.soc-tdet p{margin:3px 0 0;color:var(--muted);overflow-wrap:anywhere}.soc-tdet.ok{background:var(--ok);color:var(--ok-ink);border-color:transparent}.soc-tdet.ok p{color:inherit}
-.soc-melhs{display:grid;gap:6px}.soc-melh{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:4px 10px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.84rem}.soc-melh small{font-weight:700;color:var(--muted);font-size:.7rem;text-transform:uppercase}.soc-melh p{margin:0}.soc-melh .pq{grid-column:1/-1}
-.soc-blocos{display:grid;gap:6px}.soc-bloco{border:1px solid var(--line);border-radius:8px;padding:7px 10px}.soc-bloco summary{cursor:pointer;display:flex;justify-content:space-between;gap:8px}
-.soc-bloco dl{margin:8px 0 0;display:grid;gap:6px}.soc-bloco dt{font-weight:700;font-size:.84rem;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.soc-bloco dd{margin:2px 0 0;font-size:.88rem;overflow-wrap:anywhere}.soc-bloco dd ul{margin:0;padding-left:18px}.soc-bloco .falta dt{color:var(--muted);font-weight:600}
-.soc-num{display:flex;gap:18px;flex-wrap:wrap}.soc-num div{display:grid}.soc-num small{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700}.soc-num b{font-family:var(--f-d);font-size:1.12rem}
-.soc-est-topo{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.soc-barra{height:8px;border-radius:99px;background:var(--hover);border:1px solid var(--line);overflow:hidden}.soc-barra i{display:block;height:100%;background:var(--ok-ink);transition:width .4s}
-.soc-g{display:grid;grid-template-columns:42px minmax(0,1fr) auto 150px;gap:8px;align-items:center;padding:6px 2px;border-bottom:1px solid var(--line);font-size:.86rem}
+.soc-chat{background:var(--panel);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.soc-chat .soc-conv{max-height:62vh;background:var(--bg)}
+.soc-chat .soc-caixa{margin:8px 10px 10px}
+.soc-and{display:grid;gap:10px}
+.soc-linha{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:.88rem}
+.soc-et{border:1.5px solid var(--line);border-radius:999px;padding:3px 11px;display:inline-flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.soc-et i{font-style:normal;font-weight:700}.soc-et small{color:var(--muted);font-size:.74rem}
+.soc-et.ok{border-color:var(--ok-ink);background:var(--ok);color:var(--ok-ink)}.soc-et.ok small{color:inherit}
+.soc-et.anda{border-color:var(--wait-ink);background:var(--wait);color:var(--wait-ink)}.soc-et.anda small{color:inherit}
+.soc-seta{color:var(--muted);font-weight:800}
+.soc-custo{font-weight:600;font-size:.78rem;opacity:.85}
+.soc-agentes summary{cursor:pointer;font-weight:700;font-size:.88rem}
+.soc-agentes[open] summary{margin-bottom:6px}
+.soc-g{display:grid;grid-template-columns:42px minmax(0,1fr) auto 130px;gap:8px;align-items:center;padding:6px 2px;border-bottom:1px solid var(--line);font-size:.86rem}
 .soc-g .id{font-family:var(--f-d);font-weight:800;color:var(--muted)}
 .soc-g .t{min-width:0}.soc-g .t span{display:block;color:var(--muted);font-size:.78rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .soc-g .u{text-align:right;font-variant-numeric:tabular-nums;font-size:.8rem}.soc-g .u small{color:var(--muted);font-size:.7rem;margin-left:6px}
 .soc-ponto{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok-ink);margin-right:6px;animation:pisca 1.4s infinite}
 .soc-grupos{display:flex;flex-wrap:wrap;gap:6px}.modal .soc-grupos label{flex-direction:row;align-items:center;gap:4px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-weight:600}.modal .soc-grupos input{padding:0}
-@media (max-width:860px){.soc-papo-grid,.soc-trilho{grid-template-columns:minmax(0,1fr)}}
-@media (max-width:560px){.modal .soc-temas{grid-template-columns:minmax(0,1fr)}.soc-g{grid-template-columns:34px minmax(0,1fr) auto}.soc-g .u{display:none}.soc-melh{grid-template-columns:minmax(0,1fr)}.soc-melh>span{display:none}}
+@media (max-width:560px){
+  .modal.soc-chatmodal{left:0;top:0;transform:none;width:100%;height:100%;max-height:100%;border-radius:0;border:0}
+  .soc-conv{padding:12px 10px}.soc-conv .m{max-width:94%}
+  .soc-g{grid-template-columns:34px minmax(0,1fr) auto}.soc-g .u{display:none}
+  .soc-chat .soc-conv{max-height:58vh}
+}
 </style>
 
 <div class="app">
@@ -464,7 +460,7 @@ a.btn{text-decoration:none;display:inline-block}
 </form></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="escritorio.js?v=4"></script>
-<script src="js/socios.js?v=2"></script>
+<script src="js/socios.js?v=3"></script>
 <script>
 // MODO DEMONSTRAÇÃO (?demo=1): não cria o cliente do servidor, não pede login, não chama função nenhuma.
 // Estados para ver cada tela: &estado=vazio | rascunho | estudando_v4 | em_aprovacao | aprovada (padrão) | ativa
@@ -554,7 +550,7 @@ const ambAtual=()=>(ACC[acc]&&ACC[acc].A)||{id:0,status:"nenhuma"};
 // v4: sem marca nenhuma, a tela não cai mais na Base comum
 function renderVazio(){return `<div class="vazio"><h2>Nenhuma marca ainda</h2><p>Nenhuma marca ainda · criar a primeira. Clique no "+" lá em cima ou no botão abaixo. Cada marca nasce em rascunho e em modo ensaio: nada roda e nada gasta até você confirmar.</p><button class="btn primary" data-novoamb>Criar a primeira marca</button></div>`}
 // v4: marca que ainda não está ligada na fábrica (rascunho → estudo → cliente aprovando)
-// v4 (integração): a aba da marca nova (campo único, 3 etapas, estudo ao vivo, ficha, link e Ativar) mora em js/socios.js, no visual da fábrica
+// v4 (15/11): a aba da marca nova (a mesma conversa + 1 linha de andamento, estudo, documento, link e Ativar) mora em js/socios.js, no visual da fábrica
 function renderV4(A){return SOC.aba(A)}
 const AGENTES_ESTUDO=["Pesquisador da empresa","Leitor das redes","Pesquisador de mercado","Analista de público","Estrategista de marca","Guardião das regras","Diretor de Arte","Roteirista","Editor-chefe"];
 function renderEstudo(A){
@@ -587,7 +583,7 @@ function drawExcluirAmb(){const A=AMBS.find(x=>x.id===excluirAmb)||{nome:""};
    <h3>Excluir ${esc(A.nome)}?</h3><p class="sub" style="margin:0">Apaga as variáveis, os anexos, o estudo, o documento, os posts e o chat desta marca. Não dá para desfazer. O que já foi gasto continua registrado.</p>
    <label class="gl">Para confirmar, escreva o nome exato da marca<input id="ex-nome" autocomplete="off" placeholder="${esc(A.nome)}"></label>
    <div class="prow" style="justify-content:flex-end"><button class="btn" data-mclose>Cancelar</button><button class="btn danger" data-confexcluir="${excluirAmb}">Excluir de vez</button></div></div>`}
-// (14/11) o modal "Novo ambiente" voltou para o "+", sem estudar na hora: nome + campo único + guia; cria em rascunho e ensaio (não gasta). Código em js/socios.js.
+// (15/11) o "+" abre o "Novo ambiente" como UMA CONVERSA com o pato (perguntas 1 por vez; tudo o que o sócio fala entra no estudo); cria em rascunho e ensaio (não gasta). Código em js/socios.js.
 // status provisórios: ainda vamos decidir quais ficam
 const ST={prop:["Proposta","st-prop"],gen:["Gerando","st-draft"],draft:["Rascunho","st-draft"],wait:["Para revisar","st-wait"],sched:["Agendado","st-sched"],ok:["Publicado","st-ok"],fail:["Falhou","st-rej"]};
 const AGENDA={a1:["09:00","12:35","17:50","02:00"]};
