@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Fábrica de Posts</title>
+<link rel="icon" href="data:,">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -368,13 +369,83 @@ a.btn{text-decoration:none;display:inline-block}
 .custo-tot{font-size:1rem}.custo-tot b{font-family:var(--f-d)}
 .vigia-op{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;font-weight:600}.vigia-op input{width:18px;height:18px;margin-top:2px}
 .btn.danger{border-color:var(--rej-ink);color:var(--rej-ink)}
+/* v4 (integração): marca nova dentro da fábrica — modal "Novo ambiente" (campo único + guia) e aba da marca (js/socios.js) */
+.soc-gl{display:flex;flex-direction:column;gap:4px;font-size:.82rem;font-weight:700}
+.soc-modal>.prow:last-child{position:sticky;bottom:-18px;margin:0 -18px -18px;padding:12px 18px;background:var(--panel);border-top:1px solid var(--line)}
+.soc-caixa{background:var(--panel);border:1.5px solid var(--line);border-radius:16px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;box-shadow:0 2px 10px rgba(0,0,0,.06);font-weight:400;font-size:.95rem;min-width:0}
+.soc-caixa:focus-within{border-color:var(--ink)}
+.soc-caixa.sobre{border-color:var(--accent);border-style:dashed;background:var(--hover)}
+.soc-ta{border:0;outline:0;resize:vertical;background:transparent;font:inherit;color:var(--ink);min-height:96px;padding:4px;width:100%}
+.modal .soc-ta{min-height:180px}
+.soc-crow{flex-wrap:wrap}
+.ib.txt{width:auto;border-radius:999px;padding:0 12px 0 9px;display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:600}
+.ib:disabled{opacity:.45;cursor:not-allowed}
+.soc-small{font-size:.8rem;color:var(--muted);margin:0}
+.soc-pend{display:grid;gap:6px;min-width:0}
+.soc-ax{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--hover);border-radius:8px;padding:5px 6px;min-width:0}
+.soc-ax .ic{width:34px;height:34px;flex:none;border-radius:6px;background:var(--panel);border:1px solid var(--line);display:grid;place-items:center;font-size:.64rem;font-weight:700;text-transform:uppercase;overflow:hidden;color:var(--muted)}
+.soc-ax .ic img{width:100%;height:100%;object-fit:cover}
+.soc-ax .info{flex:1;min-width:0}.soc-ax .nm{font-size:.84rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.soc-ax .ds{font-size:.74rem;color:var(--muted)}
+.soc-lnk{border:0;background:none;padding:0;color:var(--accent);font-weight:700;font-size:inherit;text-decoration:underline}
+.soc-papel,.modal select.soc-papel{font:inherit;font-size:.76rem;font-weight:700;padding:3px 4px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);max-width:112px;flex:none}
+.soc-papel.p-oficial,.modal select.soc-papel.p-oficial{background:var(--ok);color:var(--ok-ink)}.soc-papel.p-rascunho,.modal select.soc-papel.p-rascunho{background:var(--wait);color:var(--wait-ink)}.soc-papel.p-inspiracao,.modal select.soc-papel.p-inspiracao{background:var(--sched);color:var(--sched-ink)}
+.soc-linklinha{display:flex;gap:6px;flex-wrap:wrap}.soc-linklinha[hidden]{display:none}.soc-linklinha input{flex:1;min-width:0;font:inherit;padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.soc-guia{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel);display:grid;gap:8px;min-width:0}
+.soc-guia-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.soc-temas{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.modal .soc-temas{grid-template-columns:repeat(2,minmax(0,1fr))}
+.soc-temas li{display:flex;gap:8px;align-items:flex-start;font-size:.84rem;border-radius:8px;padding:5px 7px;min-width:0}
+.soc-temas li .mk{width:18px;height:18px;flex:none;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:.7rem;font-weight:800;margin-top:1px}
+.soc-temas li.ok{background:var(--ok);color:var(--ok-ink)}.soc-temas li.ok .mk{background:var(--ok-ink);border-color:var(--ok-ink);color:var(--ok)}
+.soc-temas p{margin:1px 0 0;color:var(--muted);font-size:.78rem}.soc-temas li.ok p{color:inherit;opacity:.85}.soc-temas .ex{font-style:italic}
+.soc-temas .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.soc-aba{max-width:1040px;grid-template-columns:minmax(0,1fr)}
+.soc-aba .soc-sec,.soc-aba .soc-etapa,.soc-guia{grid-template-columns:minmax(0,1fr)}
+.soc-cab{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.soc-cab h2{margin:0}
+.soc-sec{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:10px;min-width:0}
+.soc-sec h3{margin:0;font-family:var(--f-d);font-size:1.15rem}
+.soc-sec .sub{margin:0}
+.soc-papo-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
+.soc-papo{display:grid;gap:10px;min-width:0}
+.soc-hist{display:grid;gap:8px;max-height:520px;overflow:auto;min-width:0}
+.soc-msg{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg);display:grid;gap:6px;min-width:0}
+.soc-msg header{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:var(--muted);flex-wrap:wrap}.soc-msg header b{color:var(--ink)}
+.soc-msg .tx{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.92rem}
+.soc-vazia{border:1.5px dashed var(--line);border-radius:10px;padding:14px;font-size:.9rem;color:var(--muted)}
+.soc-sep{margin:6px 0 0;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.soc-formula{margin:0;font-size:.98rem;line-height:2}.soc-formula b{font-family:var(--f-d);background:var(--hover);border:1px solid var(--line);border-radius:6px;padding:1px 7px;white-space:nowrap}.soc-formula span{color:var(--muted);font-weight:800;margin:0 5px}
+.soc-trilho{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.soc-trilho li{position:relative;border:1.5px solid var(--line);border-radius:10px;padding:9px 11px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:1px 9px;align-items:center}
+.soc-trilho .n{grid-row:span 2;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-family:var(--f-d);font-weight:800;font-size:.85rem}
+.soc-trilho small{color:var(--muted);font-size:.78rem}
+.soc-trilho li.andando{border-color:var(--wait-ink);background:var(--wait);color:var(--wait-ink)}.soc-trilho li.andando small{color:inherit}
+.soc-trilho li.feita{border-color:var(--ok-ink);background:var(--ok);color:var(--ok-ink)}.soc-trilho li.feita small{color:inherit}.soc-trilho li.feita .n{background:var(--ok-ink);color:var(--ok);border-color:var(--ok-ink)}
+.soc-ir{position:absolute;inset:0;border-radius:10px}
+.soc-etapa{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:8px;min-width:0;scroll-margin-top:12px}
+.soc-etapa h4{margin:0;font-size:1rem}
+.soc-temas-det{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:8px}
+.soc-tdet{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.84rem;min-width:0}.soc-tdet p{margin:3px 0 0;color:var(--muted);overflow-wrap:anywhere}.soc-tdet.ok{background:var(--ok);color:var(--ok-ink);border-color:transparent}.soc-tdet.ok p{color:inherit}
+.soc-melhs{display:grid;gap:6px}.soc-melh{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:4px 10px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.84rem}.soc-melh small{font-weight:700;color:var(--muted);font-size:.7rem;text-transform:uppercase}.soc-melh p{margin:0}.soc-melh .pq{grid-column:1/-1}
+.soc-blocos{display:grid;gap:6px}.soc-bloco{border:1px solid var(--line);border-radius:8px;padding:7px 10px}.soc-bloco summary{cursor:pointer;display:flex;justify-content:space-between;gap:8px}
+.soc-bloco dl{margin:8px 0 0;display:grid;gap:6px}.soc-bloco dt{font-weight:700;font-size:.84rem;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.soc-bloco dd{margin:2px 0 0;font-size:.88rem;overflow-wrap:anywhere}.soc-bloco dd ul{margin:0;padding-left:18px}.soc-bloco .falta dt{color:var(--muted);font-weight:600}
+.soc-num{display:flex;gap:18px;flex-wrap:wrap}.soc-num div{display:grid}.soc-num small{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700}.soc-num b{font-family:var(--f-d);font-size:1.12rem}
+.soc-est-topo{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.soc-barra{height:8px;border-radius:99px;background:var(--hover);border:1px solid var(--line);overflow:hidden}.soc-barra i{display:block;height:100%;background:var(--ok-ink);transition:width .4s}
+.soc-g{display:grid;grid-template-columns:42px minmax(0,1fr) auto 150px;gap:8px;align-items:center;padding:6px 2px;border-bottom:1px solid var(--line);font-size:.86rem}
+.soc-g .id{font-family:var(--f-d);font-weight:800;color:var(--muted)}
+.soc-g .t{min-width:0}.soc-g .t span{display:block;color:var(--muted);font-size:.78rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.soc-g .u{text-align:right;font-variant-numeric:tabular-nums;font-size:.8rem}.soc-g .u small{color:var(--muted);font-size:.7rem;margin-left:6px}
+.soc-ponto{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok-ink);margin-right:6px;animation:pisca 1.4s infinite}
+.soc-grupos{display:flex;flex-wrap:wrap;gap:6px}.modal .soc-grupos label{flex-direction:row;align-items:center;gap:4px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-weight:600}.modal .soc-grupos input{padding:0}
+@media (max-width:860px){.soc-papo-grid,.soc-trilho{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.modal .soc-temas{grid-template-columns:minmax(0,1fr)}.soc-g{grid-template-columns:34px minmax(0,1fr) auto}.soc-g .u{display:none}.soc-melh{grid-template-columns:minmax(0,1fr)}.soc-melh>span{display:none}}
 </style>
 
 <div class="app">
   <div class="top">
     <span class="brand">Fábrica de Posts</span>
     <div class="accts" id="accts" role="group" aria-label="Escolher a conta"></div>
-    <a class="avaliar" href="marcas.html">◆ Marcas</a><a class="avaliar" id="lk-doc" href="documento.html" hidden>◆ Documento</a><a class="avaliar" href="padroes.html" target="_blank" rel="noopener">◆ Padrões</a><nav class="tabs" id="tabs" aria-label="Abas"></nav>
+    <a class="avaliar" id="lk-doc" href="documento.html" hidden>◆ Documento</a><a class="avaliar" href="padroes.html" target="_blank" rel="noopener">◆ Padrões</a><nav class="tabs" id="tabs" aria-label="Abas"></nav>
     <span class="proto" id="quem"></span>
   </div>
   <main class="view" id="view"></main>
@@ -393,6 +464,7 @@ a.btn{text-decoration:none;display:inline-block}
 </form></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="escritorio.js?v=4"></script>
+<script src="js/socios.js?v=2"></script>
 <script>
 // MODO DEMONSTRAÇÃO (?demo=1): não cria o cliente do servidor, não pede login, não chama função nenhuma.
 // Estados para ver cada tela: &estado=vazio | rascunho | estudando_v4 | em_aprovacao | aprovada (padrão) | ativa
@@ -435,7 +507,7 @@ async function carregarAmbientes(){
     if(!CHAT[k]||!CHAT[k].length)CHAT[k]=[{w:"ag",f:"Fábrica",t:`Oi! Aqui é o ambiente ${A.nome}. Pode pedir posts, ajustes ou análises só desta empresa.`}];}
   const {data:av}=await sb.from("avisos_ambiente").select("*").eq("status","novo").order("id",{ascending:false});
   for(const k in AVISOS)delete AVISOS[k];(av||[]).forEach(x=>{(AVISOS["a"+x.ambiente_id]=AVISOS["a"+x.ambiente_id]||[]).push(x)});
-  clearTimeout(window._tAmb);if(AMBS.some(A=>A.status==="estudando"||A.status==="estudando_v4"))window._tAmb=setTimeout(async()=>{await carregarAmbientes();render()},15000);
+  clearTimeout(window._tAmb);if(AMBS.some(A=>A.status==="estudando"))window._tAmb=setTimeout(async()=>{await carregarAmbientes();render()},15000);
 }
 // v4: última aprovação de cada marca (marca.listar; se a função ainda não responder a lista, lê a tabela direto, pelas regras do dono)
 async function carregarAprovacoes(){
@@ -480,26 +552,10 @@ async function gastar(oque,itens,fn,nota){const A=ambAtual();
 const itensGerar=o=>[...((o.vigia||o.assunto)?[["vigiar notícias antes / pesquisar o assunto",CUSTO.vigia]]:[]),["pauta (Planejadora)",CUSTO.pauta],[`${o.qtd} ${o.qtd>1?"variações":"variação"} (escrever + conferir + plateia)`,o.qtd*CUSTO.variacao]];
 const ambAtual=()=>(ACC[acc]&&ACC[acc].A)||{id:0,status:"nenhuma"};
 // v4: sem marca nenhuma, a tela não cai mais na Base comum
-function renderVazio(){return `<div class="vazio"><h2>Nenhuma marca ainda</h2><p>Nenhuma marca ainda · criar a primeira. Cada marca nasce em rascunho e em modo ensaio: nada roda e nada gasta até você confirmar.</p><a class="btn primary" href="marcas.html">Criar a primeira marca</a></div>`}
+function renderVazio(){return `<div class="vazio"><h2>Nenhuma marca ainda</h2><p>Nenhuma marca ainda · criar a primeira. Clique no "+" lá em cima ou no botão abaixo. Cada marca nasce em rascunho e em modo ensaio: nada roda e nada gasta até você confirmar.</p><button class="btn primary" data-novoamb>Criar a primeira marca</button></div>`}
 // v4: marca que ainda não está ligada na fábrica (rascunho → estudo → cliente aprovando)
-function renderV4(A){
-  const ap=APROV[A.id]||null,id=A.id,ordem=["rascunho","estudando_v4","em_aprovacao","ativa"],i=ordem.indexOf(A.status);
-  const passos=`<ol class="v4passos">${[["rascunho","1 · Sócios preenchem"],["estudando_v4","2 · Estudo"],["em_aprovacao","3 · Cliente aprova"],["ativa","4 · Fábrica ligada"]].map(([s,l],k)=>`<li class="${k<i?"feito":k===i?"agora":""}">${l}</li>`).join("")}</ol>`;
-  const ens=A.ensaio?`<p class="faixa-ensaio" style="margin:0">Modo ensaio ligado nesta marca: nenhum botão gera nada de verdade nem gasta. Só o dono desliga.</p>`:"";
-  let corpo="";
-  if(A.status==="rascunho")corpo=`<h2>Os sócios estão preenchendo ${esc(A.nome)}</h2><div class="v4box"><p>Enquanto a marca está em rascunho, nada roda e nada gasta.</p><p>Na tela dos sócios entram as variáveis (quem é, modelo de negócio, tipos de post…) e os anexos. O estudo é pedido de lá, com o custo na frente e a sua confirmação.</p><p><a class="btn primary" href="marca-socios.html?amb=${id}">Abrir a tela dos sócios</a></p></div>`;
-  else if(A.status==="estudando_v4")corpo=`<h2>O estudo de ${esc(A.nome)} está rodando</h2><div class="v4box"><p>Os agentes estão estudando grupo por grupo. A lista ao vivo mostra quem está esperando, rodando ou pronto, e quanto já foi gasto.</p><p><a class="btn primary" href="marca-socios.html?amb=${id}">Ver a lista ao vivo</a></p></div>`;
-  else{const st=ap&&ap.status;
-    const sit=!ap?`<p>O link do cliente ainda não foi criado. Abra o documento e clique em "Copiar link do cliente".</p>`
-      :st==="aprovado"?`<p class="okbox" style="margin:0">Aprovado por <b>${esc(ap.aprovado_por||"cliente")}</b>${ap.aprovado_em?` em ${esc(fdt(new Date(ap.aprovado_em)))}`:""}${ap.versao?` (versão ${esc(ap.versao)})`:""}.</p>`
-      :st==="mudanca"?`<p class="warn" style="margin:0">O cliente pediu mudança${ap.pedido_mudanca?`: "${esc(ap.pedido_mudanca)}"`:""}. Corrija no documento e crie um link novo.</p>`
-      :`<p>Link enviado. O cliente ainda não respondeu.</p>`;
-    const pode=A.status==="em_aprovacao"&&st==="aprovado";
-    corpo=`<h2>O documento de ${esc(A.nome)} está com o cliente</h2><div class="v4box">${sit}
-      <p><a class="btn" href="documento.html?amb=${id}">Abrir o documento</a></p>
-      ${pode?`<p>Ativar liga a ficha aprovada na fábrica (descrição, voz, tipos de post, personas, ganchos). Não gasta nada, não liga o vigia e não desliga o modo ensaio.</p><p><button class="btn primary" data-ativar="${id}">Ativar ${esc(A.nome)}</button></p>`:`<p class="small">O botão "Ativar" aparece aqui quando o cliente clicar em "Aprovo a v1".</p>`}</div>`}
-  return `<div class="v4card">${passos}${ens}${corpo}</div>`;
-}
+// v4 (integração): a aba da marca nova (campo único, 3 etapas, estudo ao vivo, ficha, link e Ativar) mora em js/socios.js, no visual da fábrica
+function renderV4(A){return SOC.aba(A)}
 const AGENTES_ESTUDO=["Pesquisador da empresa","Leitor das redes","Pesquisador de mercado","Analista de público","Estrategista de marca","Guardião das regras","Diretor de Arte","Roteirista","Editor-chefe"];
 function renderEstudo(A){
   const linhas=String(A.estudo_log||"").split("\n").filter(l=>l&&!/^(em andamento|na fila|estudo pronto)$/.test(l.trim()));
@@ -531,7 +587,7 @@ function drawExcluirAmb(){const A=AMBS.find(x=>x.id===excluirAmb)||{nome:""};
    <h3>Excluir ${esc(A.nome)}?</h3><p class="sub" style="margin:0">Apaga as variáveis, os anexos, o estudo, o documento, os posts e o chat desta marca. Não dá para desfazer. O que já foi gasto continua registrado.</p>
    <label class="gl">Para confirmar, escreva o nome exato da marca<input id="ex-nome" autocomplete="off" placeholder="${esc(A.nome)}"></label>
    <div class="prow" style="justify-content:flex-end"><button class="btn" data-mclose>Cancelar</button><button class="btn danger" data-confexcluir="${excluirAmb}">Excluir de vez</button></div></div>`}
-// (14/11) o modal antigo "Novo ambiente" saiu: ele estudava pago na hora. Marca nova agora nasce em marcas.html, em rascunho e ensaio.
+// (14/11) o modal "Novo ambiente" voltou para o "+", sem estudar na hora: nome + campo único + guia; cria em rascunho e ensaio (não gasta). Código em js/socios.js.
 // status provisórios: ainda vamos decidir quais ficam
 const ST={prop:["Proposta","st-prop"],gen:["Gerando","st-draft"],draft:["Rascunho","st-draft"],wait:["Para revisar","st-wait"],sched:["Agendado","st-sched"],ok:["Publicado","st-ok"],fail:["Falhou","st-rej"]};
 const AGENDA={a1:["09:00","12:35","17:50","02:00"]};
@@ -561,11 +617,11 @@ function composer(where,ph){
   </form></div>`;
 }
 function renderTop(){
-  // v4: status curto na aba; lixeira só em marca nova (exclui pela excluir_v4); "+" leva para marcas.html (o modal pago saiu)
+  // v4: status curto na aba; lixeira só em marca nova (exclui pela excluir_v4); "+" abre o modal "Novo ambiente" (cria em rascunho e ensaio, sem gastar)
   const CHIP={estudando:"estudando",aguardando:"para aprovar",erro:"parou",rascunho:"rascunho",estudando_v4:"estudando",em_aprovacao:"com o cliente"};
   const chip=X=>{if(!X)return "";const t=X.status==="ativa"?(X.ensaio?"ensaio":""):X.status==="ativo"?"":(CHIP[X.status]||X.status);return t?`<small class="amb-st">${esc(t)}</small>`:""};
   const cur=ACC[acc]&&ACC[acc].A;
-  document.getElementById("accts").innerHTML=Object.entries(ACC).filter(([k])=>k!=="a1").map(([k,A])=>`<button class="acct" data-acc="${k}" aria-pressed="${k===acc}"><span class="av ${A.avc}">${esc(A.av)}</span>${esc(A.nome)}${chip(A.A)}</button>`).join("")+(cur&&(V4.includes(cur.status)||/^TESTE-/.test(cur.nome||""))?`<button class="acct lixo" data-excluiramb="${cur.id}" title="Excluir esta marca" aria-label="Excluir a marca ${esc(cur.nome)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button>`:"")+`<a class="acct mais" href="marcas.html" title="Nova marca" aria-label="Criar uma nova marca" style="text-decoration:none;color:inherit">+</a>`;
+  document.getElementById("accts").innerHTML=Object.entries(ACC).filter(([k])=>k!=="a1").map(([k,A])=>`<button class="acct" data-acc="${k}" aria-pressed="${k===acc}"><span class="av ${A.avc}">${esc(A.av)}</span>${esc(A.nome)}${chip(A.A)}</button>`).join("")+(cur&&(V4.includes(cur.status)||/^TESTE-/.test(cur.nome||""))?`<button class="acct lixo" data-excluiramb="${cur.id}" title="Excluir esta marca" aria-label="Excluir a marca ${esc(cur.nome)}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button>`:"")+`<button class="acct mais" data-novoamb title="Novo ambiente" aria-label="Criar um novo ambiente">+</button>`;
   const ld=document.getElementById("lk-doc");if(cur){ld.hidden=false;ld.href="documento.html?amb="+cur.id+(DEMO?"&demo=1":"")}else ld.hidden=true;
   const temFab=cur&&(cur.status==="ativo"||cur.status==="ativa");
   document.getElementById("tabs").innerHTML=temFab?[["posts","Posts e capas"],["chat","Chat"]].map(([k,l])=>`<button class="tab" data-tab="${k}" ${tab===k?'aria-current="page"':""}>${l}</button>`).join(""):"";
@@ -703,9 +759,9 @@ function render(){
   if(!ACC[acc]||acc==="a1")acc=Object.keys(ACC).find(k=>k!=="a1")||"a1"; // Smoking Duck: a base comum (ambiente 1) e a Rucá (4) nao aparecem como aba
   renderTop();
   const AA=ambAtual();
-  if(acc==="a1"){const v0=document.getElementById("view");v0.innerHTML=renderVazio();v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";return}
-  if(V4_ESPERA.includes(AA.status)){const v0=document.getElementById("view");v0.innerHTML=renderV4(AA);v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";if(excluirAmb)drawExcluirAmb();return}
-  if(AA.status!=="ativo"&&AA.status!=="ativa"){const v0=document.getElementById("view");v0.innerHTML=renderEstudo(AA);v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";if(excluirAmb)drawExcluirAmb();return}
+  if(acc==="a1"){const v0=document.getElementById("view");v0.innerHTML=renderVazio();v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";if(novoAmb)SOC.drawNovo();return}
+  if(V4_ESPERA.includes(AA.status)){const v0=document.getElementById("view");v0.innerHTML=renderV4(AA);v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";SOC.depois(AA);if(excluirAmb)drawExcluirAmb();else if(novoAmb)SOC.drawNovo();return}
+  if(AA.status!=="ativo"&&AA.status!=="ativa"){const v0=document.getElementById("view");v0.innerHTML=renderEstudo(AA);v0.style.overflow="auto";fecharEscritorio();document.getElementById("layer").innerHTML="";if(excluirAmb)drawExcluirAmb();else if(novoAmb)SOC.drawNovo();return}
   const v=document.getElementById("view");
   v.innerHTML=tab==="posts"?(aberto?renderPost():renderPosts()):renderChat();
   v.style.overflow=(tab==="chat"||aberto)?"hidden":"auto";
@@ -713,7 +769,7 @@ function render(){
   if(tab==="posts"&&!aberto)anexarGeral();
   // (14/11) o Diretor de Arte não planeja mais sozinho ao abrir o post: planejar gasta, então só pelo botão "Planejar agora", com aviso de custo
   document.getElementById("layer").innerHTML=renderDrawer();
-  if(excluirAmb)drawExcluirAmb();else if(gen)drawGen();else if(capas)drawCapas();else if(modal)drawCal();
+  if(excluirAmb)drawExcluirAmb();else if(novoAmb)SOC.drawNovo();else if(gen)drawGen();else if(capas)drawCapas();else if(modal)drawCal();
   const ms=document.getElementById("msgs");if(ms)ms.scrollTop=ms.scrollHeight;
 }
 function toast(t){const e=document.createElement("div");e.className="toast";e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),2600)}
@@ -866,7 +922,7 @@ async function anexarGeral(){
   }).subscribe();
 }
 function conta(quem,texto){FEED.unshift({t:new Date(),quem,texto});if(FEED.length>80)FEED.pop();}
-function rrTudo(){if(!aberto&&!modal&&!gen&&!capas&&!viewer&&(tab==="escritorio"||tab==="posts"))render()}
+function rrTudo(){if(!aberto&&!modal&&!gen&&!capas&&!viewer&&!novoAmb&&!V4_ESPERA.includes(ambAtual().status)&&(tab==="escritorio"||tab==="posts"))render()}
 function renderEscritorio(cheio){
   const ativo=PIPE[acc]&&!PIPE[acc].done&&!PIPE[acc].erro;const P=PIPE[acc];
   const est={livre:"livre",trabalhando:"trabalhando",pronto:"terminou",erro:"parou"};
@@ -1136,14 +1192,14 @@ document.addEventListener("click",e=>{
     const t2=proximoLivre(o.a,o.id,alvo);if(!t2){toast("Não achei horário livre para o outro post.");return}o.t=t2;o.s="sched";chamar({acao:"agendar",variacao_id:o.id,quando:t2.toISOString()}).catch(e=>toast("Erro: "+e.message));drawCal();toast(`O outro post foi para ${fdt(t2)}`);return}
   if("mconfirm" in ds){const p=POSTS.find(x=>x.id===modal.id);const [h,mi]=modal.hora.split(":").map(Number);const t=new Date(modal.dia.getFullYear(),modal.dia.getMonth(),modal.dia.getDate(),h,mi);b.disabled=true;
     chamar({acao:"agendar",variacao_id:p.id,quando:t.toISOString()}).then(()=>{p.t=t;p.s="sched";modal=null;render();toast(`Agendado: ${fdt(t)} (a publicação automática no Instagram ainda não está ligada)`)}).catch(e=>{toast("Erro: "+e.message);b.disabled=false});return}
-  if("mclose" in ds){modal=null;gen=null;capas=null;novoAmb=null;excluirAmb=null;render();return}
+  if("mclose" in ds){modal=null;gen=null;capas=null;SOC.guardarNovo();novoAmb=null;excluirAmb=null;render();return}
   if(ds.excluiramb){excluirAmb=+ds.excluiramb;render();return}
   if(ds.confexcluir){const id=+ds.confexcluir;const nome=(document.getElementById("ex-nome")||{}).value||"";const A=AMBS.find(x=>x.id===id)||{};
     if(OCULTOS.has(id)){toast("Esta marca é protegida.");return}
     if(nome.trim()!==A.nome){toast("O nome não confere. Escreva exatamente: "+A.nome);return}
     b.disabled=true;b.textContent="Excluindo…";
     sb.functions.invoke("marca",{body:{acao:"excluir_v4",ambiente_id:id,confirmar:nome.trim()}}).then(async({data,error})=>{if(error||data?.erro)throw new Error(data?.erro||error.message);excluirAmb=null;delete ACC["a"+id];acc="a1";aberto=null;await carregarAmbientes();await carregar();toast(DEMO?"modo demonstração: nada foi apagado":"Marca excluída")}).catch(e=>{toast("Erro: "+e.message);b.disabled=false;b.textContent="Excluir de vez"});return}
-  if("novoamb" in ds){location.href="marcas.html";return} // (14/11) o modal "Novo ambiente" (estudo pago na hora) saiu
+  if("novoamb" in ds){novoAmb=SOC.estadoNovo();excluirAmb=null;render();return} // modal "Novo ambiente" (js/socios.js): cria em rascunho e ensaio; não estuda
   if(ds.ativar){const id=+ds.ativar,A=AMBS.find(x=>x.id===id)||{};
     perguntar(`Ativar ${A.nome||"a marca"}?`,"Liga a ficha aprovada pelo cliente na fábrica. Não gasta nada, não liga o vigia e não desliga o modo ensaio.","Ativar").then(ok=>{if(!ok)return;b.disabled=true;b.textContent="Ativando…";
       return sb.functions.invoke("marca",{body:{acao:"ativar",ambiente_id:id,forcar:false}}).then(async({data,error})=>{
@@ -1193,12 +1249,13 @@ document.addEventListener("submit",async e=>{const f=e.target.closest(".composer
   enviarMensagem(w,v)});
 document.addEventListener("keydown",e=>{
   if(viewer){if(e.key==="ArrowRight")vgo(1);if(e.key==="ArrowLeft")vgo(-1);if(e.key==="Escape"){viewer=null;render()}return}
-  if(e.key==="Escape"){document.querySelector(".ctx")?.remove();if(modal){modal=null;render()}else if(drawer){drawer=false;render()}}
-  if(e.key==="Enter"&&!e.shiftKey&&e.target.tagName==="TEXTAREA"){e.preventDefault();e.target.closest("form").requestSubmit()}});
+  if(e.key==="Escape"){document.querySelector(".ctx")?.remove();if(modal){modal=null;render()}else if(novoAmb){SOC.guardarNovo();novoAmb=null;render()}else if(drawer){drawer=false;render()}}
+  if(e.key==="Enter"&&!e.shiftKey&&e.target.tagName==="TEXTAREA"&&!e.target.dataset.socTa&&e.target.closest("form")){e.preventDefault();e.target.closest("form").requestSubmit()}});
 async function entrar(){
   const {data:{session}}=await sb.auth.getSession();const L=document.getElementById("login");
   if(!session){L.hidden=false;return}
   L.hidden=true;document.getElementById("quem").textContent=session.user.email;await carregarAmbientes();await carregar();carregarChat();
+  if(DEMO&&new URLSearchParams(location.search).has("novo")){novoAmb=SOC.estadoNovo();render()} // demonstração: index.html?demo=1&novo=1 já abre o modal "Novo ambiente"
 }
 document.getElementById("lform").addEventListener("submit",async e=>{e.preventDefault();e.stopPropagation();const m=document.getElementById("l-msg");m.textContent="Entrando…";
   const {error}=await sb.auth.signInWithPassword({email:document.getElementById("l-email").value.trim(),password:document.getElementById("l-pass").value});
