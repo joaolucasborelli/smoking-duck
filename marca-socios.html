@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marca · sócios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/marca.css?v=1">
+</head>
+<body>
+<div class="demo-faixa" id="faixa" hidden>Modo demonstração · Marca Exemplo (fictícia) · nada é salvo</div>
+<header class="topo">
+  <a class="marca-sd" href="index.html">Smoking Duck</a>
+  <span class="cam"><a href="marcas.html" id="volta">/ Marcas</a> <span id="cam-nome"></span></span>
+  <span class="esp"></span>
+  <span class="quem" id="quem"></span>
+</header>
+
+<main class="pagina">
+  <div class="cab">
+    <div style="flex:1;min-width:220px">
+      <h1 id="nome">Carregando…</h1>
+      <p class="sub" id="handle"></p>
+    </div>
+    <div class="chips" id="chips" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+  </div>
+  <div id="aviso"></div>
+
+  <nav class="abas" aria-label="Partes da página">
+    <a href="#anexos">1 · Anexos</a>
+    <a href="#socios">2 · O que os sócios sabem</a>
+    <a href="#estudo">3 · Estudo</a>
+    <a id="ir-doc" href="documento.html">Documento →</a>
+  </nav>
+
+  <!-- 1. ANEXOS -->
+  <section class="secao" id="anexos">
+    <h2>1 · Anexos</h2>
+    <p class="sub">Suba tudo o que a marca já tem: documento, logo, fotos, telas, render do 3D, áudio da reunião. Diga se cada um é <b>oficial</b>, <b>rascunho</b> ou <b>só inspiração</b>. O leitor de anexos usa isso para preencher os campos abaixo e citar a página.</p>
+    <div class="enviar">
+      <div class="caixa">
+        <h3>Arquivos</h3>
+        <label class="soltar" id="soltar" tabindex="0"><input type="file" id="arq" multiple hidden><b>Escolher arquivos</b><br>ou arraste aqui (PDF, imagem, slides, áudio; até 50 MB cada)</label>
+        <div class="campo"><span class="rot">Isso é…</span>
+          <div class="papeis" role="radiogroup">
+            <label><input type="radio" name="papel" value="oficial" checked> Oficial</label>
+            <label><input type="radio" name="papel" value="rascunho"> Rascunho</label>
+            <label><input type="radio" name="papel" value="inspiracao"> Só inspiração</label>
+          </div>
+          <p class="dica" id="papel-dica">Oficial: vale como regra da marca.</p>
+        </div>
+        <div class="campo"><label for="arq-desc">O que é e quanto vale</label><input id="arq-desc" type="text" maxlength="300" placeholder="Ex.: manual da marca, 24 páginas, versão final"></div>
+        <p class="envio" id="arq-sel">Nenhum arquivo escolhido.</p>
+        <button class="btn prim" id="arq-enviar" disabled>Enviar</button>
+      </div>
+      <div class="caixa">
+        <h3>Prints de 10 posts de referência</h3>
+        <p class="sub" style="margin:0">Posts que os sócios amam ou odeiam (da marca ou de outros perfis). Depois, em “Referências”, diga o porquê de cada um pelo número.</p>
+        <div class="prints" id="prints"></div>
+        <label class="btn leve" style="justify-content:center"><input type="file" id="prints-arq" accept="image/*" multiple hidden>Escolher prints</label>
+        <p class="envio" id="prints-msg"></p>
+      </div>
+      <div class="caixa">
+        <h3>Link (vídeo ou página)</h3>
+        <p class="sub" style="margin:0">Vídeo nunca é guardado aqui: cole o link.</p>
+        <div class="campo"><label for="lk-url">Endereço</label><input id="lk-url" type="url" placeholder="https://" maxlength="500"></div>
+        <div class="campo"><label for="lk-desc">O que é</label><input id="lk-desc" type="text" maxlength="300" placeholder="Ex.: Reels que a marca mais gostou"></div>
+        <div class="papeis" role="radiogroup">
+          <label><input type="radio" name="papel-lk" value="oficial"> Oficial</label>
+          <label><input type="radio" name="papel-lk" value="rascunho"> Rascunho</label>
+          <label><input type="radio" name="papel-lk" value="inspiracao" checked> Só inspiração</label>
+        </div>
+        <button class="btn" id="lk-enviar">Guardar link</button>
+      </div>
+    </div>
+    <div class="lista-anexos" id="lista-anexos"></div>
+  </section>
+
+  <!-- 2. VARIÁVEIS DOS SÓCIOS -->
+  <section class="secao" id="socios">
+    <h2>2 · O que os sócios sabem</h2>
+    <p class="sub">O formulário chega meio preenchido pelo leitor de anexos. Cada campo mostra de onde veio. <b>Em branco = os agentes pesquisam.</b></p>
+    <div class="resumo-origem" id="resumo-origem"></div>
+    <div id="blocos" style="margin-top:12px"></div>
+  </section>
+
+  <!-- 3. ESTUDO -->
+  <section class="secao" id="estudo">
+    <h2>3 · Estudo da marca</h2>
+    <p class="sub">O robô roda 18 grupos de pesquisa, o crítico confere cada um e o estrategista junta tudo numa ficha. A lista abaixo é lida do banco a cada 10 segundos.</p>
+    <div class="estudo-topo">
+      <div class="l1">
+        <div class="numeros">
+          <div><small>Prontos</small><b id="n-feitos">–</b></div>
+          <div><small>Gasto até agora</small><b id="n-gasto">–</b></div>
+          <div><small>Modo</small><b id="n-modo">–</b></div>
+        </div>
+        <button class="btn prim" id="rodar">Rodar estudo</button>
+      </div>
+      <div class="barra"><i id="barra" style="width:0"></i></div>
+      <p class="leitura" id="leitura"></p>
+    </div>
+    <div class="ao-vivo" id="ao-vivo"></div>
+  </section>
+</main>
+
+<div class="salvar-fixo" id="salvar-fixo" hidden>
+  <span class="msg" id="salvar-msg"></span>
+  <button class="btn leve mini" id="descartar">Desfazer</button>
+  <button class="btn prim" id="salvar-tudo">Salvar tudo</button>
+</div>
+
+<dialog id="dlg-estudo">
+  <form class="dlg" method="dialog" id="f-estudo">
+    <h2>Rodar o estudo da marca?</h2>
+    <div id="est-corpo"></div>
+    <details id="est-grupos-box">
+      <summary style="cursor:pointer;font-weight:700">Refazer só alguns grupos</summary>
+      <p class="dica" style="margin:6px 0">Sem marcar nada, roda tudo.</p>
+      <div class="papeis" id="est-grupos"></div>
+    </details>
+    <p class="sub" id="est-msg" role="status" style="margin:0"></p>
+    <div class="acoes"><button type="button" class="btn leve" id="est-cancelar">Cancelar</button><button class="btn prim" id="est-sim">Sim, rodar</button></div>
+  </form>
+</dialog>
+
+<div id="login" class="login" hidden><form id="lform" class="lbox">
+  <h3>Entrar na fábrica</h3>
+  <p class="sub" style="margin:0">Só o dono entra. Use o mesmo e-mail e senha da página da fábrica.</p>
+  <label>E-mail<input id="l-email" type="email" autocomplete="username" required></label>
+  <label>Senha<input id="l-pass" type="password" autocomplete="current-password" minlength="8" required></label>
+  <p id="l-msg" class="sub" style="margin:0" role="status"></p>
+  <div style="display:flex;justify-content:flex-end"><button class="btn prim">Entrar</button></div>
+</form></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+/* ===================== base ===================== */
+const Q=new URLSearchParams(location.search);
+const DEMO=Q.get("demo")==="1";
+const AMB=DEMO?0:parseInt(Q.get("amb")||"",10);
+const sb=DEMO?null:supabase.createClient("https://odwbspgnxwcqmbcegkhw.supabase.co","sb_publishable_foge1lfQeHHmC2TXOPKMFA_r1McAIjh");
+const PROTEGIDA=[1,4].includes(AMB);
+const LEITURA_MS=DEMO?2000:10000;
+const LIMITE_MB=50;
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const usd=n=>"US$ "+(Number(n)||0).toFixed(2).replace(".",",");
+const hora=d=>d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+function toast(t){document.querySelector(".toast")?.remove();const d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),4200)}
+const NADA_SALVO="Modo demonstração: nada foi salvo.";
+
+async function chamar(acao,corpo={}){
+  const {data,error}=await sb.functions.invoke("marca",{body:{acao,...corpo}});
+  if(error){try{const j=await error.context.json();if(j&&typeof j==="object")return j}catch(e){}return{ok:false,erro:"Não falou com o servidor: "+error.message}}
+  if(data&&data.versao==="v4-vazia")return{ok:false,vazia:true,erro:"a função do servidor ainda não tem esta ação (está vazia)"};
+  return data||{ok:false,erro:"O servidor não respondeu."};
+}
+
+/* ===================== o que os sócios preenchem (contrato B.2) ===================== */
+const FORMATOS=[["carrossel","Carrossel"],["meme","Meme (imagem)"],["noticia","Notícia útil"],["enquete","Enquete (story)"],["story_peca","Story de peça"],["reels","Pacote de Reels"]];
+const BLOCOS=[
+ {id:"quem_e",titulo:"Quem ela é",campos:[
+  {c:"nome",r:"Nome e como se escreve",t:"texto",d:"Maiúsculas, acento, artigo (“a” ou “o”)."},
+  {c:"handle",r:"@ no Instagram",t:"texto"},
+  {c:"site",r:"Site",t:"texto"},
+  {c:"uma_frase",r:"O que é, em 1 frase",t:"area"},
+  {c:"fase",r:"Fase da empresa",t:"texto",d:"Ex.: pré-lançamento, aberta há 3 anos."},
+  {c:"fundadores_historia",r:"Fundadores e história",t:"area"},
+  {c:"onde_atua",r:"Onde atua",t:"texto"},
+  {c:"nao_e_foco",r:"O que não é foco",t:"area"}]},
+ {id:"modelo_negocio",titulo:"Modelo de negócio",campos:[
+  {c:"como_ganha",r:"Como ganha dinheiro",t:"area"},
+  {c:"onde_vende",r:"Onde a venda acontece",t:"area"},
+  {c:"ticket_frequencia",r:"Ticket e frequência",t:"texto",d:"Quanto o cliente gasta e de quanto em quanto tempo."},
+  {c:"o_que_o_post_move",r:"O que o post move agora",t:"area",d:"Seguidor, visita, DM, assinatura… o que cada post precisa empurrar."},
+  {c:"tensoes",r:"Tensões",t:"area",d:"O que puxa para lados opostos (ex.: vender × não cansar)."}]},
+ {id:"como_funciona",titulo:"Como a empresa funciona",campos:[
+  {c:"jornada",r:"Jornada do cliente",t:"lista",d:"De 4 a 6 passos, um por linha."},
+  {c:"prova_central",r:"Prova central",t:"area",d:"O que faz o cliente acreditar."},
+  {c:"perguntas_frequentes",r:"Perguntas frequentes",t:"lista",d:"Uma por linha."}]},
+ {id:"estrategia",titulo:"Estratégia",campos:[
+  {c:"objetivo_90_dias",r:"Objetivo de 90 dias",t:"texto",d:"Com meta e data. Ex.: 10 mil seguidores até 15/01."},
+  {c:"marcos",r:"Marcos",t:"objs",k:[{k:"data",r:"Data",t:"date"},{k:"o_que",r:"O que acontece",t:"texto"}],novo:"marco"},
+  {c:"proporcao_marca_venda",r:"Proporção marca × venda",t:"texto",d:"Ex.: 70% marca / 30% venda."},
+  {c:"posicionamento",r:"Frase de posicionamento",t:"area"},
+  {c:"tom_humor",r:"Tom do humor",t:"area",d:"Use a palavra que a própria marca usa."},
+  {c:"ativos_distintivos",r:"Ativos distintivos",t:"lista",d:"Símbolos, cores, frases que só ela tem. Um por linha."}]},
+ {id:"tipos_post",titulo:"Tipos de post",campos:[
+  {c:"lista",r:"Tipos de post (a variável principal)",t:"objs",novo:"tipo de post",titulo:"nome",k:[
+    {k:"nome",r:"Nome",t:"texto"},{k:"formato",r:"Formato",t:"select",op:FORMATOS},{k:"pilar",r:"Pilar",t:"texto"},
+    {k:"percentual",r:"% dos posts",t:"numero"},{k:"frequencia",r:"Frequência",t:"texto"},{k:"referencia",r:"Referência",t:"texto"},
+    {k:"o_que_copiar",r:"O que copiar da referência",t:"area"},{k:"serie_fixa",r:"Série fixa?",t:"bool"},
+    {k:"quem_grava",r:"Quem grava (se Reels)",t:"texto"},{k:"nao_fazer",r:"Não fazer",t:"area"}]},
+  {c:"posts_por_dia",r:"Posts por dia",t:"numero"},
+  {c:"percentual_por_formato",r:"% por formato (soma 100)",t:"pct"}]},
+ {id:"referencias",titulo:"Referências",campos:[
+  {c:"perfis",r:"Perfis de referência",t:"objs",novo:"perfil",titulo:"perfil",k:[{k:"perfil",r:"Perfil (@ ou link)",t:"texto"},{k:"pegar",r:"O que pegar",t:"texto"},{k:"nao_pegar",r:"O que não pegar",t:"texto"}]},
+  {c:"posts_amados_odiados",r:"Posts amados e odiados",t:"objs",novo:"post",d:"Use o número do print (1 a 10) da área de anexos.",k:[{k:"anexo",r:"Anexo",t:"anexo"},{k:"post",r:"Nº do post",t:"numero"},{k:"amou",r:"Amou?",t:"bool",sim:"Amou",nao:"Odiou"},{k:"porque",r:"Por quê",t:"area"}]}]},
+ {id:"limites",titulo:"Limites e aprovação",campos:[
+  {c:"proibidos",r:"Proibidos",t:"lista",d:"O que foi falado na reunião. Um por linha."},
+  {c:"quem_aprova",r:"Quem aprova e em quanto tempo",t:"texto"},
+  {c:"ia_altera_produto",r:"A IA pode alterar o produto nas fotos?",t:"bool",d:"“Não” = a fábrica só usa a foto real do produto, sem mexer nele."}]},
+ {id:"ativos_3d",titulo:"3D e ativos especiais",campos:[
+  {c:"tem_3d",r:"Tem 3D?",t:"bool",d:"Se sim, o produto chega já renderizado (Blender) e entra como foto."},
+  {c:"arquivos",r:"Arquivos do 3D",t:"anexos",d:"Marque os anexos que são 3D."},
+  {c:"onde_usar",r:"Onde pode usar",t:"area"}]},
+ {id:"estoque",titulo:"Estoque",campos:[
+  {c:"usa_estoque",r:"Usa estoque de peças?",t:"bool",d:"Só para marca de peça única."},
+  {c:"observacao",r:"Observação",t:"area",d:"As peças em si ficam numa tabela própria."}]}
+];
+
+/* ===================== estudo (contrato B.3 e F) ===================== */
+const GRUPOS=[["G1","Negócio"],["G2","Público"],["G3","Concorrência e brechas"],["G4","Posicionamento"],["G5","Voz"],["G6","Visual"],["G7","Conteúdo"],["G8","Calendário"],["G9","Assuntos do momento"],["G10","Riscos e Pausa"],["G11","Metas"],["G12","Operação"],["G13","Comunidade"],["G14","Ativos especiais e 3D"],["G15","Perfil e vitrine"],["G16","Mecânica do formato"],["G17","Distribuição"],["G18","Estoque"]];
+const PAPEIS=[["leitor_anexos","Leitor de anexos","lê os anexos e cita a página"],["melhorador","Melhorador","devolve antes e depois do que os sócios escreveram"],["critico","Crítico","confere cada grupo e a fonte citada"],["estrategista","Estrategista","junta tudo numa ficha"],["editor","Editor","escreve o título e o número de cada página"],["cetico","Cético final","lê como se fosse o cliente"]];
+const ESTADO_T={esperando:"Esperando",rodando:"Rodando",feito:"Feito",devolvido:"Devolvido pelo crítico"};
+const COM_BUSCA=["G2","G3","G8","G9","G15","G16","G17"];
+/* estimativa da tela (seção F do contrato) — só usada quando o servidor não devolve a dele */
+function estimativaLocal(gr){const g=gr&&gr.length?gr:GRUPOS.map(x=>x[0]);let m=0;g.forEach(x=>{m+=COM_BUSCA.includes(x)?0.15:0.05;m+=0.02});m+=0.10+0.10+0.05;return{medidor_usd:+m.toFixed(2),real_usd:+(m*1.4).toFixed(2)}}
+
+/* ===================== estado ===================== */
+let MARCA=null;           // {id,nome,handle,status,ensaio}
+let META={};              // META[b][c] = {valor,origem,fonte,certeza} (como está no banco)
+let W={};                 // W[b][c] = valor sendo editado
+let ANEXOS=[];
+let LINHAS=[];            // estudo_progresso
+let ESTIMATIVA=null;
+let ultimaLeitura=null,proxima=0,timer=null,tick=null;
+
+const vazio=v=>v==null||v===""||(Array.isArray(v)&&!v.length)||(typeof v==="object"&&!Array.isArray(v)&&!Object.keys(v).length);
+function norm(v){
+  if(typeof v==="string"){const s=v.trim();return s===""?null:s}
+  if(Array.isArray(v)){const a=v.map(norm).filter(x=>!vazio(x));return a.length?a:null}
+  if(v&&typeof v==="object"){const o={};Object.entries(v).forEach(([k,x])=>{const n=norm(x);if(n!==null)o[k]=n});return Object.keys(o).length?o:null}
+  return v===undefined?null:v;
+}
+const igual=(a,b)=>JSON.stringify(norm(a))===JSON.stringify(norm(b));
+const mudou=(b,c)=>!igual(W[b]?.[c],META[b]?.[c]?.valor);
+const sujos=()=>{const r=[];BLOCOS.forEach(B=>B.campos.forEach(f=>{if(mudou(B.id,f.c))r.push([B.id,f.c])}));return r};
+const clone=v=>v==null?v:JSON.parse(JSON.stringify(v));
+function slug(s){return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"").slice(0,40)}
+
+/* ===================== origem de cada campo ===================== */
+function nomeAnexo(id){const a=ANEXOS.find(x=>String(x.id)===String(id));return a?a.nome:null}
+function selo(b,c){
+  if(mudou(b,c))return{cls:"o-novo",t:"Mudado agora · vai como sócio",tip:"Ainda não salvo"};
+  const m=META[b]?.[c];
+  if(!m||vazio(m.valor))return{cls:"o-branco",t:"Em branco · os agentes pesquisam",tip:"Ninguém preencheu ainda"};
+  const fonte=m.fonte||"";const tip=`Fonte: ${fonte||"sem fonte"} · certeza ${m.certeza||"?"}`;
+  if(m.origem==="anexo"){const x=fonte.match(/anexo\s*(\d+)\s*(?:,|·)?\s*(p\.?\s*[\d–-]+)?/i);let t="Anexo";if(x){const n=nomeAnexo(x[1]);t=`Anexo${x[2]?" "+x[2].replace(/\s+/g," "):""}${n?" · "+n:" "+x[1]}`}else if(fonte)t="Anexo · "+fonte;return{cls:"o-anexo",t,tip}}
+  if(m.origem==="socio")return{cls:"o-socio",t:"Sócio"+(fonte?" · "+fonte:""),tip};
+  if(m.origem==="cliente")return{cls:"o-cliente",t:"Cliente"+(fonte?" · "+fonte:""),tip};
+  return{cls:"o-agente",t:"Proposta do agente"+(fonte?" · "+fonte:""),tip};
+}
+function htmlSelo(b,c){const s=selo(b,c);return `<span class="origem ${s.cls}" id="selo-${b}-${c}" title="${esc(s.tip)}">${esc(s.t)}</span>`}
+
+/* ===================== desenho do formulário ===================== */
+function inpSimples(t,p,v,extra={}){
+  const id="i-"+p.replace(/\|/g,"-");const dis=PROTEGIDA?" disabled":"";
+  if(t==="area")return `<textarea id="${id}" data-p="${p}" data-t="area" rows="3"${dis}>${esc(v??"")}</textarea>`;
+  if(t==="numero")return `<input id="${id}" type="number" inputmode="decimal" data-p="${p}" data-t="numero" value="${v??""}"${dis}>`;
+  if(t==="date")return `<input id="${id}" type="date" data-p="${p}" data-t="texto" value="${esc(v??"")}"${dis}>`;
+  if(t==="lista")return `<textarea id="${id}" data-p="${p}" data-t="lista" rows="4" placeholder="Um por linha"${dis}>${esc(Array.isArray(v)?v.join("\n"):(v??""))}</textarea>`;
+  if(t==="select")return `<select id="${id}" data-p="${p}" data-t="texto"${dis}><option value="">—</option>${extra.op.map(([k,r])=>`<option value="${k}"${v===k?" selected":""}>${esc(r)}</option>`).join("")}</select>`;
+  if(t==="bool")return `<div class="simnao" role="radiogroup">${[["true",extra.sim||"Sim"],["false",extra.nao||"Não"]].map(([k,r])=>`<label><input type="radio" name="${id}" data-p="${p}" data-t="bool" value="${k}"${String(v)===k?" checked":""}${dis}> ${esc(r)}</label>`).join("")}</div>`;
+  if(t==="anexo")return `<select id="${id}" data-p="${p}" data-t="numero"${dis}><option value="">—</option>${ANEXOS.map(a=>`<option value="${a.id}"${String(v)===String(a.id)?" selected":""}>${esc(a.nome)}</option>`).join("")}</select>`;
+  return `<input id="${id}" type="text" data-p="${p}" data-t="texto" value="${esc(v??"")}"${dis}>`;
+}
+function htmlCampo(b,f){
+  const v=W[b][f.c];const p=`${b}|${f.c}`;let corpo="";
+  if(f.t==="objs"){
+    const itens=Array.isArray(v)?v:[];
+    corpo=`<div class="itens">${itens.map((it,i)=>`<div class="item">
+      <div class="cab-item"><b>${esc(f.titulo&&it[f.titulo]?it[f.titulo]:(f.novo[0].toUpperCase()+f.novo.slice(1)+" "+(i+1)))}</b>${PROTEGIDA?"":`<button type="button" class="lnk rem" data-rem="${p}|${i}">remover</button>`}</div>
+      <div class="sub-grade">${f.k.map(k=>`<div class="campo"${k.t==="area"?' style="grid-column:1/-1"':""}><label for="i-${b}-${f.c}-${i}-${k.k}">${esc(k.r)}</label>${inpSimples(k.t,`${p}|${i}|${k.k}`,it[k.k],k)}</div>`).join("")}</div>
+    </div>`).join("")}</div>${PROTEGIDA?"":`<button type="button" class="lnk" data-add="${p}">+ adicionar ${esc(f.novo)}</button>`}`;
+  }else if(f.t==="pct"){
+    const o=v&&typeof v==="object"?v:{};
+    corpo=`<div class="pct-grade">${FORMATOS.map(([k,r])=>`<div class="campo"><label for="i-${b}-${f.c}-${k}" style="font-size:.8rem;color:var(--muted)">${esc(r)}</label>${inpSimples("numero",`${p}|pct|${k}`,o[k])}</div>`).join("")}</div><span class="soma" id="soma-${b}-${f.c}"></span>`;
+  }else if(f.t==="anexos"){
+    const sel=Array.isArray(v)?v.map(String):[];
+    corpo=ANEXOS.length?`<div class="papeis">${ANEXOS.map(a=>`<label><input type="checkbox" data-p="${p}|anexos" value="${a.id}"${sel.includes(String(a.id))?" checked":""}${PROTEGIDA?" disabled":""}> ${esc(a.nome)}</label>`).join("")}</div>`:`<p class="dica">Nenhum anexo ainda. Suba o render na área de anexos.</p>`;
+  }else corpo=inpSimples(f.t,p,v,f);
+  const forId=["objs","pct","anexos","bool"].includes(f.t)?"":` for="i-${b}-${f.c}"`;
+  return `<div class="campo${mudou(b,f.c)?" mudou":""}" id="campo-${b}-${f.c}">
+    <div class="lin-rot"><label${forId} class="rot">${esc(f.r)}</label>${htmlSelo(b,f.c)}</div>
+    ${f.d?`<p class="dica">${esc(f.d)}</p>`:""}${corpo}</div>`;
+}
+function contagem(B){let pre=0,anx=0;B.campos.forEach(f=>{if(!vazio(norm(W[B.id][f.c])))pre++;if(META[B.id]?.[f.c]?.origem==="anexo"&&!vazio(META[B.id][f.c].valor))anx++});return{pre,anx,tot:B.campos.length}}
+function htmlBloco(B,i,abrir){
+  const n=contagem(B);
+  return `<details class="bloco" id="bloco-${B.id}"${abrir?" open":""}>
+    <summary><span class="n">${i+1}</span><h3>${esc(B.titulo)}</h3><span class="cont" id="cont-${B.id}">${n.pre} de ${n.tot}${n.anx?` · ${n.anx} do anexo`:""}</span></summary>
+    <div class="corpo">${B.campos.map(f=>htmlCampo(B.id,f)).join("")}
+      <div class="rodape"><span class="msg" id="msg-${B.id}"></span>${PROTEGIDA?"":`<button type="button" class="btn" data-salvar="${B.id}">Salvar este bloco</button>`}</div>
+    </div></details>`;
+}
+function renderBlocos(){
+  const abertos=new Set([...document.querySelectorAll(".bloco[open]")].map(d=>d.id.replace("bloco-","")));
+  const primeiro=!document.querySelector(".bloco");
+  $("#blocos").innerHTML=BLOCOS.map((B,i)=>htmlBloco(B,i,primeiro?i===0:abertos.has(B.id))).join("");
+  BLOCOS.forEach(B=>B.campos.forEach(f=>{if(f.t==="pct")atualizarSoma(B.id,f.c)}));
+  atualizarResumo();
+}
+function renderCampo(b,c){const B=BLOCOS.find(x=>x.id===b),f=B.campos.find(x=>x.c===c);const el=document.getElementById(`campo-${b}-${c}`);if(!el)return;el.outerHTML=htmlCampo(b,f);if(f.t==="pct")atualizarSoma(b,c);atualizarMarcas(b,c)}
+function atualizarSoma(b,c){const o=W[b][c]||{};const s=Object.values(o).reduce((a,x)=>a+(Number(x)||0),0);const el=document.getElementById(`soma-${b}-${c}`);if(!el)return;if(!Object.keys(o).length){el.textContent="";return}el.textContent=s===100?"Soma: 100% ✓":`Soma: ${s}% (precisa dar 100)`;el.className="soma "+(s===100?"boa":"ruim")}
+function atualizarMarcas(b,c){
+  const s=selo(b,c);const el=document.getElementById(`selo-${b}-${c}`);if(el){el.className="origem "+s.cls;el.textContent=s.t;el.title=s.tip}
+  document.getElementById(`campo-${b}-${c}`)?.classList.toggle("mudou",mudou(b,c));
+  const B=BLOCOS.find(x=>x.id===b);const n=contagem(B);const ct=document.getElementById("cont-"+b);if(ct)ct.textContent=`${n.pre} de ${n.tot}${n.anx?` · ${n.anx} do anexo`:""}`;
+  atualizarResumo();
+}
+function atualizarResumo(){
+  const r={anexo:0,socio:0,agente:0,branco:0};
+  BLOCOS.forEach(B=>B.campos.forEach(f=>{const m=META[B.id]?.[f.c];if(!m||vazio(m.valor))r.branco++;else if(m.origem==="anexo")r.anexo++;else if(m.origem==="socio"||m.origem==="cliente")r.socio++;else r.agente++}));
+  $("#resumo-origem").innerHTML=`<span class="origem o-anexo">${r.anexo} do anexo</span><span class="origem o-socio">${r.socio} dos sócios</span><span class="origem o-agente">${r.agente} propostas do agente</span><span class="origem o-branco">${r.branco} em branco</span>`;
+  const s=sujos();const bar=$("#salvar-fixo");bar.hidden=PROTEGIDA||!s.length;
+  if(s.length)$("#salvar-msg").textContent=`${s.length} campo${s.length>1?"s":""} mudado${s.length>1?"s":""} sem salvar`;
+}
+
+/* ===================== edição ===================== */
+function lerValor(el){
+  const t=el.dataset.t;
+  if(t==="numero"){if(el.value==="")return null;const n=Number(el.value.replace(",","."));return isNaN(n)?null:n}
+  if(t==="lista")return el.value.split("\n").map(s=>s.trim()).filter(Boolean);
+  if(t==="bool")return el.value==="true";
+  return el.value;
+}
+function aoMudar(el){
+  const p=(el.dataset.p||"").split("|");if(p.length<2)return;const [b,c]=p;
+  if(p[2]==="pct"){const o={...(W[b][c]||{})};const v=lerValor(el);if(v===null)delete o[p[3]];else o[p[3]]=v;W[b][c]=Object.keys(o).length?o:null;atualizarSoma(b,c)}
+  else if(p[2]==="anexos"){W[b][c]=[...document.querySelectorAll(`[data-p="${b}|${c}|anexos"]:checked`)].map(x=>Number(x.value))}
+  else if(p.length===4){const a=clone(W[b][c])||[];a[+p[2]]={...(a[+p[2]]||{}),[p[3]]:lerValor(el)};W[b][c]=a;
+    const f=BLOCOS.find(x=>x.id===b).campos.find(x=>x.c===c);if(f.titulo===p[3]){const h=el.closest(".item")?.querySelector(".cab-item b");if(h)h.textContent=el.value||f.novo}}
+  else W[b][c]=lerValor(el);
+  atualizarMarcas(b,c);
+}
+document.addEventListener("input",e=>{if(e.target.closest("#blocos")&&e.target.dataset.p)aoMudar(e.target)});
+document.addEventListener("change",e=>{if(e.target.closest("#blocos")&&e.target.dataset.p&&(e.target.type==="radio"||e.target.type==="checkbox"||e.target.tagName==="SELECT"))aoMudar(e.target)});
+
+function variaveisSujas(lista){
+  const dia=new Date().toLocaleDateString("pt-BR");
+  return lista.map(([b,c])=>{let v=norm(W[b][c]);
+    if(b==="tipos_post"&&c==="lista"&&Array.isArray(v))v=v.map(it=>({id:it.id||slug(it.nome)||("tipo_"+Math.random().toString(36).slice(2,7)),...it}));
+    return{bloco:b,campo:c,valor:v,origem:"socio",fonte:`tela dos sócios ${dia}`,certeza:v===null?"baixa":"alta"}});
+}
+async function salvar(lista,msgEl){
+  if(!lista.length){toast("Nada mudou.");return}
+  const vars=variaveisSujas(lista);
+  if(DEMO){toast(NADA_SALVO);if(msgEl)msgEl.textContent=NADA_SALVO;return}
+  if(PROTEGIDA){toast("Marca protegida: aqui só se lê.");return}
+  if(msgEl)msgEl.textContent="Salvando…";$("#salvar-msg").textContent="Salvando…";
+  const r=await chamar("salvar_variaveis",{ambiente_id:AMB,variaveis:vars});
+  if(!r.ok){const t="Não salvou: "+(r.erro||"erro sem texto");if(msgEl)msgEl.textContent=t;$("#salvar-msg").textContent=t;toast(t);return}
+  await carregarVariaveis();   // lê de volta do banco: a prova de que gravou
+  renderBlocos();
+  const ok=`Salvo (${r.salvas??vars.length}) e lido de volta às ${hora(new Date())}.`;
+  if(msgEl&&document.getElementById(msgEl.id))document.getElementById(msgEl.id).textContent=ok;
+  toast(ok);
+}
+document.addEventListener("click",e=>{
+  const add=e.target.closest("[data-add]");if(add){const [b,c]=add.dataset.add.split("|");W[b][c]=[...(clone(W[b][c])||[]),{}];renderCampo(b,c);return}
+  const rem=e.target.closest("[data-rem]");if(rem){const [b,c,i]=rem.dataset.rem.split("|");const a=clone(W[b][c])||[];a.splice(+i,1);W[b][c]=a.length?a:null;renderCampo(b,c);return}
+  const sv=e.target.closest("[data-salvar]");if(sv){const b=sv.dataset.salvar;salvar(sujos().filter(x=>x[0]===b),document.getElementById("msg-"+b));return}
+});
+$("#salvar-tudo").addEventListener("click",()=>salvar(sujos(),null));
+$("#descartar").addEventListener("click",()=>{BLOCOS.forEach(B=>B.campos.forEach(f=>{W[B.id][f.c]=clone(META[B.id]?.[f.c]?.valor??null)}));renderBlocos();toast("Mudanças desfeitas.")});
+window.addEventListener("beforeunload",e=>{if(!DEMO&&sujos().length){e.preventDefault();e.returnValue=""}});
+
+/* ===================== anexos ===================== */
+const PAPEL_T={oficial:"Oficial",rascunho:"Rascunho",inspiracao:"Só inspiração"};
+const PAPEL_DICA={oficial:"Oficial: vale como regra da marca.",rascunho:"Rascunho: ideia em andamento; o estudo usa com cuidado.",inspiracao:"Só inspiração: referência de gosto, nunca regra."};
+const ehPrint=a=>/^print de post de refer/i.test(a.descricao||"");
+function ext(a){if(a.tipo==="link")return"link";const m=(a.nome||"").match(/\.([a-z0-9]{1,5})$/i);return m?m[1]:(a.tipo||"").split("/")[1]||"?"}
+function tam(b){if(!b)return"";return b>1048576?(b/1048576).toFixed(1).replace(".",",")+" MB":Math.max(1,Math.round(b/1024))+" KB"}
+function renderAnexos(){
+  const l=[...ANEXOS].sort((a,b)=>String(b.criado_em||"").localeCompare(String(a.criado_em||""))||(b.id-a.id));
+  $("#lista-anexos").innerHTML=l.length?`<p class="sep">${l.length} anexo${l.length>1?"s":""} desta marca</p>`+l.map(a=>`<div class="anexo">
+    <span class="ic" data-ic="${a.id}">${esc(ext(a))}</span>
+    <div style="min-width:0"><div class="nm" title="${esc(a.nome)}">${esc(a.nome)}</div><p class="ds">${esc(a.descricao||"sem descrição")}${a.tamanho_bytes?" · "+tam(a.tamanho_bytes):""}</p></div>
+    <div class="lado"><span class="origem p-${esc(a.papel)}">${esc(PAPEL_T[a.papel]||a.papel)}</span>${a.tipo==="link"?`<a class="lnk" href="${esc(/^https?:\/\//.test(a.nome)?a.nome:"#")}" target="_blank" rel="noopener">abrir link</a>`:a.caminho?`<button class="lnk" data-abrir="${a.id}">abrir</button>`:`<span class="dica">exemplo</span>`}</div>
+  </div>`).join(""):`<p class="sub">Nenhum anexo ainda.</p>`;
+  const pr=ANEXOS.filter(ehPrint);
+  $("#prints").innerHTML=Array.from({length:10},(_,i)=>`<span class="pt${pr[i]?" tem":""}" data-pt="${pr[i]?.id||""}" title="${esc(pr[i]?.nome||"vazio")}">${i+1}</span>`).join("");
+  $("#prints-msg").textContent=`${Math.min(pr.length,10)} de 10 prints.`;
+  if(!DEMO)miniaturas();
+  // campos que listam anexos (3D, posts amados) precisam das opções novas
+  if(document.querySelector(".bloco")){renderCampo("ativos_3d","arquivos");renderCampo("referencias","posts_amados_odiados")}
+}
+async function miniaturas(){
+  const imgs=ANEXOS.filter(a=>a.caminho&&/^image\//.test(a.tipo||""));if(!imgs.length)return;
+  const {data}=await sb.storage.from("anexos").createSignedUrls(imgs.map(a=>a.caminho),3600);
+  (data||[]).forEach((d,i)=>{if(!d.signedUrl)return;const id=imgs[i].id;
+    document.querySelectorAll(`[data-ic="${id}"],[data-pt="${id}"]`).forEach(el=>{const n=el.textContent;el.innerHTML=`<img src="${esc(d.signedUrl)}" alt="${esc(n)}" loading="lazy">`})});
+}
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-abrir]");if(!b)return;const a=ANEXOS.find(x=>String(x.id)===b.dataset.abrir);if(!a)return;
+  const {data,error}=await sb.storage.from("anexos").createSignedUrl(a.caminho,3600);if(error){toast("Não abriu: "+error.message);return}window.open(data.signedUrl,"_blank","noopener")});
+
+function nomeLimpo(n){const m=n.match(/^(.*?)(\.[a-z0-9]{1,6})?$/i);const base=(m[1]||"arquivo").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"arquivo";return base+((m[2]||"").toLowerCase())}
+function carimbo(){const d=new Date(),z=n=>String(n).padStart(2,"0");return`${d.getFullYear()}${z(d.getMonth()+1)}${z(d.getDate())}-${z(d.getHours())}${z(d.getMinutes())}${z(d.getSeconds())}`}
+let escolhidos=[];
+function escolher(files){
+  const ok=[],fora=[];[...files].forEach(f=>{if(/^video\//.test(f.type))fora.push(`${f.name} (vídeo: cole o link)`);else if(f.size>LIMITE_MB*1048576)fora.push(`${f.name} (mais de ${LIMITE_MB} MB)`);else ok.push(f)});
+  escolhidos=ok;$("#arq-enviar").disabled=!ok.length||PROTEGIDA;
+  $("#arq-sel").textContent=(ok.length?`${ok.length} arquivo${ok.length>1?"s":""}: ${ok.map(f=>f.name).join(", ")}`:"Nenhum arquivo escolhido.")+(fora.length?` · Fora: ${fora.join("; ")}`:"");
+}
+$("#arq").addEventListener("change",e=>escolher(e.target.files));
+const zona=$("#soltar");
+["dragenter","dragover"].forEach(ev=>zona.addEventListener(ev,e=>{e.preventDefault();zona.classList.add("sobre")}));
+["dragleave","drop"].forEach(ev=>zona.addEventListener(ev,e=>{e.preventDefault();zona.classList.remove("sobre")}));
+zona.addEventListener("drop",e=>escolher(e.dataTransfer.files));
+zona.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("#arq").click()}});
+document.querySelectorAll('[name="papel"]').forEach(r=>r.addEventListener("change",()=>$("#papel-dica").textContent=PAPEL_DICA[r.value]));
+
+async function subir(f,papel,descricao,nomeFinal){
+  const caminho=`amb_${AMB}/${carimbo()}_${nomeLimpo(nomeFinal||f.name)}`;
+  const up=await sb.storage.from("anexos").upload(caminho,f,{contentType:f.type||"application/octet-stream",upsert:false});
+  if(up.error)return{ok:false,erro:`${f.name}: não subiu (${up.error.message})`};
+  const r=await chamar("anexar",{ambiente_id:AMB,caminho,nome:f.name,tipo:f.type||"application/octet-stream",papel,descricao,tamanho_bytes:f.size});
+  if(!r.ok)return{ok:false,erro:`${f.name}: subiu, mas não registrou (${r.erro})`};
+  return{ok:true};
+}
+async function enviarVarios(lista,msgEl){
+  if(DEMO){toast(NADA_SALVO);msgEl.textContent=NADA_SALVO;return}
+  if(PROTEGIDA){toast("Marca protegida: aqui só se lê.");return}
+  const erros=[];let n=0;
+  for(const [f,papel,desc,nome] of lista){n++;msgEl.textContent=`Enviando ${n} de ${lista.length}…`;const r=await subir(f,papel,desc,nome);if(!r.ok)erros.push(r.erro);}
+  await carregarVariaveis();renderAnexos();
+  msgEl.textContent=erros.length?`Enviados ${lista.length-erros.length} de ${lista.length}. ${erros.join(" · ")}`:`${lista.length} enviado${lista.length>1?"s":""} e conferido${lista.length>1?"s":""} na lista.`;
+  toast(erros.length?"Alguns arquivos não foram.":"Anexos guardados.");
+}
+$("#arq-enviar").addEventListener("click",async()=>{
+  const papel=document.querySelector('[name="papel"]:checked').value,desc=$("#arq-desc").value.trim();
+  await enviarVarios(escolhidos.map(f=>[f,papel,desc]),$("#arq-sel"));
+  if(!DEMO){escolhidos=[];$("#arq").value="";$("#arq-desc").value="";$("#arq-enviar").disabled=true}
+});
+$("#prints-arq").addEventListener("change",async e=>{
+  const ja=ANEXOS.filter(ehPrint).length;const vaga=Math.max(0,10-ja);
+  const fs=[...e.target.files].filter(f=>/^image\//.test(f.type)).slice(0,vaga);
+  if(!fs.length){$("#prints-msg").textContent=vaga?"Escolha imagens (prints).":"Já tem 10 prints.";return}
+  await enviarVarios(fs.map((f,i)=>[f,"inspiracao",`Print de post de referência ${ja+i+1}`,`referencia-${String(ja+i+1).padStart(2,"0")}-${f.name}`]),$("#prints-msg"));
+  e.target.value="";
+});
+$("#lk-enviar").addEventListener("click",async()=>{
+  const url=$("#lk-url").value.trim(),desc=$("#lk-desc").value.trim(),papel=document.querySelector('[name="papel-lk"]:checked').value;
+  if(!/^https?:\/\/\S+\.\S+/.test(url)){toast("Cole um endereço que comece com https://");return}
+  if(DEMO){toast(NADA_SALVO);return}
+  if(PROTEGIDA){toast("Marca protegida: aqui só se lê.");return}
+  const r=await chamar("anexar",{ambiente_id:AMB,caminho:`amb_${AMB}/${carimbo()}_link`,nome:url,tipo:"link",papel,descricao:desc,tamanho_bytes:0});
+  if(!r.ok){toast("Não guardou: "+r.erro);return}
+  $("#lk-url").value="";$("#lk-desc").value="";await carregarVariaveis();renderAnexos();toast("Link guardado.");
+});
+
+/* ===================== estudo ao vivo ===================== */
+function renderEstudo(){
+  const por={};LINHAS.forEach(l=>por[l.grupo]=l);
+  const pedidas=LINHAS.length;const feitos=LINHAS.filter(l=>l.estado==="feito").length;
+  const gasto=LINHAS.reduce((a,l)=>a+(Number(l.gasto_usd)||0),0);
+  const ensaio=MARCA?.ensaio!==false;
+  $("#n-feitos").textContent=pedidas?`${feitos} de ${pedidas}`:"–";
+  $("#n-gasto").textContent=usd(gasto);
+  $("#n-modo").textContent=ensaio?"Ensaio":"Real";
+  $("#barra").style.width=pedidas?Math.round(100*feitos/pedidas)+"%":"0";
+  const docHref=DEMO?"documento.html?demo=1":`documento.html?amb=${AMB}`;
+  const linha=(id,nome,sub,cls="")=>{const l=por[id];const est=l?.estado;
+    return `<div class="g-linha ${cls}"><span class="g">${esc(cls?"·":id)}</span>
+      <div class="t"><b>${esc(nome)}</b><span>${esc(l?.resumo||sub||(l?"":"ainda não pedido"))}</span></div>
+      ${l?`<span class="chip e-${esc(est)}">${esc(ESTADO_T[est]||est)}</span>`:`<span class="chip e-esperando" style="opacity:.5">—</span>`}
+      <span class="usd">${l?usd(l.gasto_usd):""}${l&&l.ensaio?"<small>ensaio</small>":""}${l&&est==="feito"&&!cls?`<small><a href="${docHref}#${id}">ler</a></small>`:""}</span></div>`};
+  let h=`<p class="sep">Os 18 grupos</p>`+GRUPOS.map(([g,t])=>linha(g,`${t}`,"")).join("");
+  const papeis=PAPEIS.filter(([p])=>por[p]);
+  if(papeis.length)h+=`<p class="sep">Quem confere e junta</p>`+papeis.map(([p,n,s])=>linha(p,n,s,"papel")).join("");
+  $("#ao-vivo").innerHTML=h;
+  // botão: mostra o custo antes de pedir
+  const rodando=LINHAS.some(l=>l.estado==="rodando"||l.estado==="esperando")&&(MARCA?.status==="estudando_v4");
+  const est=ESTIMATIVA||estimativaLocal();
+  $("#rodar").textContent=rodando?"Estudo em andamento":ensaio?"Rodar estudo (ensaio, US$ 0)":`Rodar estudo (~${usd(est.real_usd)} real)`;
+  $("#rodar").disabled=PROTEGIDA||rodando;
+}
+function mostrarLeitura(){
+  if(!ultimaLeitura){$("#leitura").textContent="";return}
+  const s=Math.max(0,Math.ceil((proxima-Date.now())/1000));
+  $("#leitura").innerHTML=`<span class="ponto"></span>Lido às ${hora(ultimaLeitura)} · próxima leitura em ${s} s${DEMO?" (demonstração: a cada 2 s; no real, a cada 10 s)":""}`;
+}
+async function lerProgresso(){
+  if(DEMO){passoDemo();}
+  else{
+    const r=await chamar("progresso",{ambiente_id:AMB});
+    if(r.ok&&Array.isArray(r.linhas)){LINHAS=r.linhas;if(r.status&&MARCA)MARCA.status=r.status}
+    else{const {data,error}=await sb.from("estudo_progresso").select("grupo,estado,gasto_usd,ensaio,resumo,atualizado_em").eq("ambiente_id",AMB);if(!error)LINHAS=data||[]}
+  }
+  ultimaLeitura=new Date();proxima=Date.now()+LEITURA_MS;renderEstudo();renderChips();mostrarLeitura();
+}
+function ligarLeitura(){clearInterval(timer);clearInterval(tick);lerProgresso();timer=setInterval(()=>{if(!document.hidden)lerProgresso()},LEITURA_MS);tick=setInterval(mostrarLeitura,1000)}
+
+/* simulação da demonstração: esperando → rodando → feito (um grupo é devolvido pelo crítico uma vez) */
+let DEMO_FICHA=null,demoPasso=0;
+function iniciarDemo(){demoPasso=0;LINHAS=[...GRUPOS.map(([g])=>({grupo:g,estado:"esperando",gasto_usd:0,ensaio:true,resumo:""})),...PAPEIS.map(([p])=>({grupo:p,estado:"esperando",gasto_usd:0,ensaio:true,resumo:""}))];MARCA.status="estudando_v4"}
+function passoDemo(){
+  if(!LINHAS.length)return;demoPasso++;
+  const ordem=["leitor_anexos","melhorador",...GRUPOS.map(x=>x[0]),"critico","estrategista","editor","cetico"];
+  ordem.forEach((g,i)=>{const l=LINHAS.find(x=>x.grupo===g);const ini=Math.floor(i/3);const fim=ini+2+(g==="G5"?2:0);
+    if(demoPasso<=ini)l.estado="esperando";
+    else if(g==="G5"&&demoPasso===ini+2)l.estado="devolvido";
+    else if(demoPasso<fim)l.estado="rodando";
+    else{l.estado=DEMO_FICHA?.grupos?.[g]?.estado||"feito";l.resumo=DEMO_FICHA?.grupos?.[g]?.resumo||(PAPEIS.find(p=>p[0]===g)?.[2]||"")}
+    if(l.estado==="devolvido")l.resumo="o crítico pediu outra fonte para os pares de voz";});
+  if(LINHAS.every(l=>l.estado==="feito"))MARCA.status="em_aprovacao";
+}
+
+/* janela de confirmação do custo */
+function corpoEstudo(est,origem,grupos){
+  const ensaio=MARCA?.ensaio!==false;const g=grupos&&grupos.length?grupos:GRUPOS.map(x=>x[0]);
+  return `<p style="margin:0"><b>O que vai rodar:</b></p>
+  <ul><li>Leitor de anexos (${ANEXOS.length} anexo${ANEXOS.length===1?"":"s"}) e Melhorador</li><li><b>${g.length} grupo${g.length>1?"s":""}</b> de pesquisa: ${g.join(", ")}</li><li>Crítico em cada grupo, Estrategista junta, Editor e Cético final</li></ul>
+  <div class="custo${ensaio?" ens":""}"><div><small>Custo real estimado</small><b>${usd(est.real_usd)}</b></div><div><small>Medidor da fábrica</small><b>${usd(est.medidor_usd)}</b></div></div>
+  ${ensaio?`<p class="ensaio-tag">Ensaio ligado: nada é chamado na IA. Custo: US$ 0 (teria custado ~${usd(est.real_usd)}).</p>`:`<p class="aviso-caixa" style="margin:0">Gasta de verdade. Ocupa o dia: o robô trabalha sozinho e a lista mostra cada grupo. A fábrica para sozinha ao bater o teto de US$ 5 no dia.</p>`}
+  <p class="dica" style="margin:0">${esc(origem)}</p>`;
+}
+async function pedirEstimativa(grupos){
+  if(DEMO)return{est:estimativaLocal(grupos),origem:"Estimativa de exemplo (demonstração)."};
+  const r=await chamar("estudar",{ambiente_id:AMB,grupos:grupos&&grupos.length?grupos:undefined});
+  if(r.estimativa)return{est:r.estimativa,origem:"Estimativa do servidor.",erro:r.ok?null:(r.erro==="precisa confirmar"?null:r.erro)};
+  return{est:estimativaLocal(grupos),origem:"Estimativa da tela (pelas regras de preço): o servidor não devolveu a dele"+(r.erro?` (${r.erro})`:"")+".",erro:r.erro&&r.erro!=="precisa confirmar"?r.erro:null};
+}
+const gruposMarcados=()=>[...document.querySelectorAll("#est-grupos input:checked")].map(x=>x.value);
+async function abrirEstudo(){
+  $("#est-grupos").innerHTML=GRUPOS.map(([g,t])=>`<label title="${esc(t)}"><input type="checkbox" value="${g}"> ${g}</label>`).join("");
+  $("#est-msg").textContent="";$("#est-corpo").innerHTML=`<p class="sub">Calculando o custo…</p>`;$("#est-sim").disabled=true;
+  $("#dlg-estudo").showModal();
+  await atualizarCorpo();
+}
+async function atualizarCorpo(){
+  const g=gruposMarcados();const e=await pedirEstimativa(g);ESTIMATIVA=e.est;
+  $("#est-corpo").innerHTML=corpoEstudo(e.est,e.origem,g);
+  $("#est-msg").textContent=e.erro?"Aviso do servidor: "+e.erro:"";
+  $("#est-sim").disabled=false;$("#est-sim").textContent=MARCA?.ensaio!==false?"Sim, rodar em ensaio (US$ 0)":`Sim, gastar ~${usd(e.est.real_usd)}`;
+}
+$("#est-grupos").addEventListener("change",atualizarCorpo);
+$("#rodar").addEventListener("click",abrirEstudo);
+$("#est-cancelar").addEventListener("click",()=>$("#dlg-estudo").close());
+$("#f-estudo").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(DEMO){$("#dlg-estudo").close();toast(NADA_SALVO+" A lista abaixo simula o estudo.");iniciarDemo();ligarLeitura();location.hash="estudo";return}
+  $("#est-sim").disabled=true;$("#est-msg").textContent="Pedindo…";
+  const g=gruposMarcados();
+  const r=await chamar("estudar",{ambiente_id:AMB,confirmar:true,grupos:g.length?g:undefined});
+  if(!r.ok){$("#est-msg").textContent="Não rodou: "+(r.erro||"erro sem texto");$("#est-sim").disabled=false;return}
+  $("#dlg-estudo").close();
+  if(MARCA)MARCA.status="estudando_v4";
+  toast(`Estudo pedido (modo ${r.modo==="real"?"real":"ensaio"}). A lista atualiza a cada 10 s.`);
+  ligarLeitura();location.hash="estudo";
+});
+
+/* ===================== topo ===================== */
+const ESTADOS={rascunho:["Rascunho","s-rascunho"],estudando_v4:["Estudando","s-estudando"],estudando:["Estudando (antigo)","s-estudando"],em_aprovacao:["Em aprovação","s-aprovacao"],aguardando:["Em aprovação (antigo)","s-aprovacao"],ativa:["Ativa","s-ativa"],ativo:["Ativa (fábrica antiga)","s-antiga"],erro:["Com erro","s-erro"]};
+function renderChips(){
+  if(!MARCA)return;const e=ESTADOS[MARCA.status]||[MARCA.status||"?","s-rascunho"];
+  $("#chips").innerHTML=`<span class="chip ${e[1]}">${esc(e[0])}</span>${MARCA.ensaio!==false?'<span class="chip ensaio" title="Ensaio ligado: nada chama a IA, nada gasta">Ensaio · US$ 0</span>':'<span class="chip s-erro">Gasta de verdade</span>'}`;
+}
+function renderTopo(){
+  document.title=`${MARCA.nome||"Marca"} · sócios`;
+  $("#nome").textContent=MARCA.nome||"Sem nome";
+  $("#handle").textContent=[MARCA.handle,"o que os sócios sabem, anexos e estudo"].filter(Boolean).join(" · ");
+  $("#cam-nome").textContent="/ "+(MARCA.nome||"");
+  $("#ir-doc").href=DEMO?"documento.html?demo=1":`documento.html?amb=${AMB}`;
+  if(DEMO)$("#volta").href="marcas.html?demo=1";
+  renderChips();
+  if(PROTEGIDA)$("#aviso").innerHTML=`<p class="aviso-caixa">Esta marca é protegida (base comum ou fábrica antiga). Aqui só se lê: nada pode ser salvo, enviado ou estudado.</p>`;
+}
+
+/* ===================== carregar ===================== */
+function montarDe(rows){
+  META={};W={};
+  BLOCOS.forEach(B=>{META[B.id]={};W[B.id]={}});
+  rows.forEach(r=>{if(META[r.bloco])META[r.bloco][r.campo]={valor:r.valor??null,origem:r.origem,fonte:r.fonte,certeza:r.certeza}});
+  BLOCOS.forEach(B=>B.campos.forEach(f=>{W[B.id][f.c]=clone(META[B.id][f.c]?.valor??null)}));
+}
+async function carregarVariaveis(){
+  const r=await chamar("variaveis",{ambiente_id:AMB});
+  if(r.ok&&Array.isArray(r.variaveis)){montarDe(r.variaveis);ANEXOS=r.anexos||[];return}
+  const [v,a]=await Promise.all([
+    sb.from("marca_variaveis").select("bloco,campo,valor,origem,fonte,certeza").eq("ambiente_id",AMB),
+    sb.from("marca_anexos").select("id,caminho,nome,tipo,papel,descricao,tamanho_bytes,criado_em").eq("ambiente_id",AMB)]);
+  if(v.error||a.error)throw new Error((v.error||a.error).message);
+  montarDe(v.data||[]);ANEXOS=a.data||[];
+}
+async function carregar(){
+  if(DEMO){
+    try{DEMO_FICHA=await (await fetch("exemplos/ficha_demo.json")).json()}catch(e){$("#aviso").innerHTML=`<p class="aviso-caixa erro">Não li exemplos/ficha_demo.json (abra pelo servidor local).</p>`;return}
+    MARCA={id:0,nome:DEMO_FICHA.marca.nome,handle:DEMO_FICHA.marca.handle,status:"em_aprovacao",ensaio:true};
+    const rows=[];Object.entries(DEMO_FICHA.socios||{}).forEach(([b,B])=>Object.entries(B.campos||{}).forEach(([c,C])=>rows.push({bloco:b,campo:c,...C})));
+    montarDe(rows);ANEXOS=(DEMO_FICHA.anexos||[]).map(a=>({...a,caminho:null}));
+    renderTopo();renderBlocos();renderAnexos();iniciarDemo();ligarLeitura();return;
+  }
+  if(!AMB){$("#nome").textContent="Marca não escolhida";$("#aviso").innerHTML=`<p class="aviso-caixa erro">Abra esta página pela <a href="marcas.html">lista de marcas</a>.</p>`;return}
+  const {data:amb,error}=await sb.from("ambientes").select("id,nome,handle,status,ensaio").eq("id",AMB).maybeSingle();
+  if(error||!amb){$("#nome").textContent="Marca não encontrada";$("#aviso").innerHTML=`<p class="aviso-caixa erro">Não achei a marca ${AMB}${error?": "+esc(error.message):""}.</p>`;return}
+  MARCA=amb;renderTopo();
+  try{await carregarVariaveis()}catch(e){$("#aviso").insertAdjacentHTML("beforeend",`<p class="aviso-caixa erro">Não li o que os sócios já preencheram: ${esc(e.message)}</p>`);montarDe([])}
+  renderBlocos();renderAnexos();
+  if(!PROTEGIDA&&MARCA.ensaio===false){pedirEstimativa().then(e=>{ESTIMATIVA=e.est;renderEstudo()})}
+  ligarLeitura();
+}
+
+/* login: o mesmo do index.html */
+async function entrar(){
+  if(DEMO){$("#faixa").hidden=false;document.body.classList.add("demo");
+    const faixa=()=>document.documentElement.style.setProperty("--faixa",$("#faixa").offsetHeight+"px");faixa();addEventListener("resize",faixa);
+    carregar();return}
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){$("#login").hidden=false;return}
+  $("#login").hidden=true;$("#quem").textContent=session.user.email;carregar();
+}
+$("#lform").addEventListener("submit",async e=>{e.preventDefault();const m=$("#l-msg");m.textContent="Entrando…";
+  const {error}=await sb.auth.signInWithPassword({email:$("#l-email").value.trim(),password:$("#l-pass").value});
+  if(error){m.textContent=/confirm/i.test(error.message)?"Falta confirmar o acesso pelo link que chegou no seu e-mail.":"Não entrou: "+error.message;return}
+  entrar()});
+entrar();
+</script>
+</body>
+</html>

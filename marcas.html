@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marcas · Smoking Duck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/marca.css?v=1">
+</head>
+<body>
+<div class="demo-faixa" id="faixa" hidden>Modo demonstração · Marca Exemplo (fictícia) · nada é salvo</div>
+<header class="topo">
+  <a class="marca-sd" href="index.html">Smoking Duck</a>
+  <span class="cam">/ Marcas</span>
+  <span class="esp"></span>
+  <span class="quem" id="quem"></span>
+  <a class="btn leve mini" href="index.html" id="ir-fabrica">Fábrica</a>
+</header>
+
+<main class="pagina">
+  <div class="cab">
+    <div style="flex:1;min-width:220px">
+      <h1>Marcas</h1>
+      <p class="sub">Cada marca nasce como rascunho, com ensaio ligado: nada gasta até o dono ligar de verdade.</p>
+    </div>
+    <button class="btn prim" id="nova">+ Nova marca</button>
+  </div>
+  <div id="aviso"></div>
+  <div class="filtros" id="filtros" role="group" aria-label="Filtrar por estado"></div>
+  <div id="lista"><p class="sub">Carregando…</p></div>
+</main>
+
+<dialog id="dlg-nova">
+  <form class="dlg" id="f-nova" method="dialog">
+    <h2>Nova marca</h2>
+    <p class="sub" style="margin:0">A marca nasce como <b>rascunho</b> e com <b>ensaio ligado</b>. Criar não roda estudo e não gasta nada.</p>
+    <div class="campo"><label for="n-nome">Nome da marca</label><input id="n-nome" type="text" required maxlength="80" autocomplete="off"></div>
+    <div class="campo"><label for="n-handle">@ no Instagram</label><input id="n-handle" type="text" placeholder="@" maxlength="60" autocomplete="off"></div>
+    <div class="campo"><label for="n-site">Site</label><input id="n-site" type="url" placeholder="https://" maxlength="200" autocomplete="off"></div>
+    <p class="sub" id="n-msg" role="status" style="margin:0"></p>
+    <div class="acoes"><button type="button" class="btn leve" id="n-cancelar">Cancelar</button><button class="btn prim" id="n-criar">Criar marca</button></div>
+  </form>
+</dialog>
+
+<div id="login" class="login" hidden><form id="lform" class="lbox">
+  <h3>Entrar na fábrica</h3>
+  <p class="sub" style="margin:0">Só o dono entra. Use o mesmo e-mail e senha da página da fábrica.</p>
+  <label>E-mail<input id="l-email" type="email" autocomplete="username" required></label>
+  <label>Senha<input id="l-pass" type="password" autocomplete="current-password" minlength="8" required></label>
+  <p id="l-msg" class="sub" style="margin:0" role="status"></p>
+  <div style="display:flex;justify-content:flex-end"><button class="btn prim">Entrar</button></div>
+</form></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const DEMO=new URLSearchParams(location.search).get("demo")==="1";
+const sb=DEMO?null:supabase.createClient("https://odwbspgnxwcqmbcegkhw.supabase.co","sb_publishable_foge1lfQeHHmC2TXOPKMFA_r1McAIjh");
+const PROTEGIDOS=[1,4];
+const ESTADOS={
+  rascunho:{t:"Rascunho",c:"s-rascunho",f:"rascunho"},
+  estudando_v4:{t:"Estudando",c:"s-estudando",f:"estudando"},
+  estudando:{t:"Estudando (antigo)",c:"s-estudando",f:"estudando"},
+  em_aprovacao:{t:"Em aprovação",c:"s-aprovacao",f:"aprovacao"},
+  aguardando:{t:"Em aprovação (antigo)",c:"s-aprovacao",f:"aprovacao"},
+  ativa:{t:"Ativa",c:"s-ativa",f:"ativa"},
+  ativo:{t:"Ativa (fábrica antiga)",c:"s-antiga",f:"ativa"},
+  erro:{t:"Com erro",c:"s-erro",f:"rascunho"}
+};
+const FILTROS=[["todas","Todas"],["rascunho","Rascunho"],["estudando","Estudando"],["aprovacao","Em aprovação"],["ativa","Ativa"]];
+let MARCAS=[],filtro="todas";
+try{filtro=localStorage.getItem("marcas-filtro")||"todas"}catch(e){}
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const usd=n=>"US$ "+(Number(n)||0).toFixed(2).replace(".",",");
+function toast(t){document.querySelector(".toast")?.remove();const d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),3800)}
+function sigla(n){return String(n||"?").replace(/[^\p{L}\p{N} ]/gu,"").split(/\s+/).filter(Boolean).slice(0,2).map(p=>p[0]).join("").toUpperCase()||"?"}
+function data(s){if(!s)return"";const d=new Date(/^\d{4}-\d{2}-\d{2}$/.test(s)?s+"T12:00:00":s);return isNaN(d)?"":d.toLocaleDateString("pt-BR")}
+
+/* chama a função "marca" do servidor; devolve sempre {ok, ...} (inclusive o corpo do erro 400) */
+async function chamar(acao,corpo={}){
+  const {data,error}=await sb.functions.invoke("marca",{body:{acao,...corpo}});
+  if(error){try{const j=await error.context.json();if(j&&typeof j==="object")return j}catch(e){}return{ok:false,erro:"Não falou com o servidor: "+error.message}}
+  if(data&&data.versao==="v4-vazia")return{ok:false,vazia:true,erro:"A função do servidor ainda não tem esta ação (está vazia)."};
+  return data||{ok:false,erro:"O servidor não respondeu."};
+}
+
+function render(){
+  const cont={todas:MARCAS.length};MARCAS.forEach(m=>{const f=(ESTADOS[m.status]||ESTADOS.rascunho).f;cont[f]=(cont[f]||0)+1});
+  $("#filtros").innerHTML=FILTROS.map(([k,t])=>`<button class="filtro" data-f="${k}" aria-pressed="${filtro===k}">${t} · ${cont[k]||0}</button>`).join("");
+  const vis=MARCAS.filter(m=>filtro==="todas"||(ESTADOS[m.status]||ESTADOS.rascunho).f===filtro);
+  if(!MARCAS.length){$("#lista").innerHTML=`<div class="vazio"><h2>Nenhuma marca ainda</h2><p class="sub">Comece pela primeira: os sócios preenchem o que já sabem e o estudo completa o resto.</p><p><button class="btn prim" data-nova>+ Criar a primeira marca</button></p></div>`;return}
+  if(!vis.length){$("#lista").innerHTML=`<div class="vazio"><p class="sub" style="margin:0">Nenhuma marca neste estado.</p></div>`;return}
+  $("#lista").innerHTML=`<div class="grade">${vis.map(cartao).join("")}</div>`;
+}
+function cartao(m){
+  const e=ESTADOS[m.status]||{t:m.status||"sem estado",c:"s-rascunho"};
+  const p=m.progresso||{};const tot=p.total||0,feitos=p.feitos||0;const pct=tot?Math.round(100*feitos/tot):0;
+  const href=DEMO?"marca-socios.html?demo=1":`marca-socios.html?amb=${m.id}`;
+  let info="";
+  if(m.status==="estudando_v4")info=`Estudo: ${feitos} de ${tot||"?"} partes prontas · gasto ${usd(p.gasto_usd)}${m.ensaio?" (ensaio)":""}`;
+  else if(m.status==="em_aprovacao"){const a=m.aprovacao;info=a?(a.status==="aprovado"?`Aprovado por ${esc(a.aprovado_por)} em ${data(a.aprovado_em)}`:a.status==="mudanca"?"O cliente pediu mudança":"Documento com o cliente, esperando resposta"):"Documento pronto; falta mandar o link ao cliente"}
+  else if(m.status==="ativa")info=`Fábrica ligada com a ficha v${m.ficha_ativa_versao??"?"}`;
+  else if(m.status==="rascunho")info="Sócios preenchendo; nada roda ainda";
+  else if(m.status==="ativo")info="Marca da fábrica antiga (só leitura aqui)";
+  return `<a class="cartao" href="${href}">
+    <div class="l1"><span class="av">${esc(sigla(m.nome))}</span><div style="min-width:0;flex:1"><h3>${esc(m.nome||"Sem nome")}</h3><span class="h">${esc(m.handle||"sem @")}</span></div></div>
+    <div class="chips"><span class="chip ${e.c}">${esc(e.t)}</span>${m.ensaio?'<span class="chip ensaio" title="Ensaio ligado: nada chama a IA, nada gasta">Ensaio · US$ 0</span>':""}${PROTEGIDOS.includes(m.id)?'<span class="chip ensaio">protegida</span>':""}</div>
+    ${m.status==="estudando_v4"?`<div class="barra" aria-label="${pct}% pronto"><i style="width:${pct}%"></i></div>`:""}
+    <p class="info">${info}</p>
+    ${m.criado_em?`<p class="info" style="font-size:.78rem">Criada em ${data(m.criado_em)}</p>`:""}
+  </a>`;
+}
+
+async function carregar(){
+  $("#aviso").innerHTML="";
+  if(DEMO){
+    let f=null;try{f=await (await fetch("exemplos/ficha_demo.json")).json()}catch(e){}
+    const total=f?Object.keys(f.grupos||{}).length+6:24;
+    MARCAS=[{id:0,nome:f?.marca?.nome||"Marca Exemplo",handle:f?.marca?.handle||"@marcaexemplo",status:"em_aprovacao",ensaio:true,ficha_ativa_versao:null,criado_em:f?.gerada_em||null,progresso:{feitos:total,total,gasto_usd:0},aprovacao:{status:"aberto",aprovado_por:null,aprovado_em:null}}];
+    render();return;
+  }
+  const r=await chamar("listar");
+  if(r.ok&&Array.isArray(r.marcas)){MARCAS=r.marcas.filter(m=>m.id!==1);render();return}
+  // reserva: a função ainda não tem "listar" → lê direto do banco (só leitura, pela regra do dono)
+  const {data,error}=await sb.from("ambientes").select("id,nome,handle,status,ensaio,ficha_ativa_versao").neq("id",1).in("status",["rascunho","estudando_v4","em_aprovacao","ativa","ativo"]).order("id");
+  if(error){$("#aviso").innerHTML=`<p class="aviso-caixa erro">Não consegui ler as marcas: ${esc(r.erro||error.message)}</p>`;MARCAS=[];render();return}
+  MARCAS=data||[];
+  $("#aviso").innerHTML=`<p class="aviso-caixa">Lista lida direto do banco: ${esc(r.erro||"a função do servidor não respondeu a lista.")} Progresso e aprovação aparecem quando ela estiver pronta.</p>`;
+  render();
+}
+
+document.addEventListener("click",e=>{
+  const f=e.target.closest("[data-f]");if(f){filtro=f.dataset.f;try{localStorage.setItem("marcas-filtro",filtro)}catch(x){}render();return}
+  if(e.target.closest("#nova,[data-nova]")){$("#n-msg").textContent="";$("#f-nova").reset();$("#dlg-nova").showModal();$("#n-nome").focus()}
+});
+$("#n-cancelar").addEventListener("click",()=>$("#dlg-nova").close());
+$("#f-nova").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const nome=$("#n-nome").value.trim();let handle=$("#n-handle").value.trim();const site=$("#n-site").value.trim();
+  if(!nome){$("#n-msg").textContent="Escreva o nome da marca.";return}
+  if(handle&&!handle.startsWith("@"))handle="@"+handle;
+  if(DEMO){$("#dlg-nova").close();toast("Modo demonstração: nada foi salvo.");return}
+  $("#n-criar").disabled=true;$("#n-msg").textContent="Criando…";
+  const r=await chamar("criar",{nome,handle,site});
+  $("#n-criar").disabled=false;
+  if(!r.ok||!r.ambiente){$("#n-msg").textContent="Não criou: "+(r.erro||"resposta sem a marca nova.");return}
+  location.href=`marca-socios.html?amb=${r.ambiente.id}`;
+});
+
+/* login: o mesmo do index.html (a sessão fica guardada no navegador e vale para as duas páginas) */
+async function entrar(){
+  if(DEMO){$("#faixa").hidden=false;document.body.classList.add("demo");$("#ir-fabrica").href="index.html?demo=1";carregar();return}
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){$("#login").hidden=false;return}
+  $("#login").hidden=true;$("#quem").textContent=session.user.email;carregar();
+}
+$("#lform").addEventListener("submit",async e=>{e.preventDefault();const m=$("#l-msg");m.textContent="Entrando…";
+  const {error}=await sb.auth.signInWithPassword({email:$("#l-email").value.trim(),password:$("#l-pass").value});
+  if(error){m.textContent=/confirm/i.test(error.message)?"Falta confirmar o acesso pelo link que chegou no seu e-mail.":"Não entrou: "+error.message;return}
+  entrar()});
+entrar();
+</script>
+</body>
+</html>

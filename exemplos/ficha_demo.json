@@ -1,0 +1,1908 @@
+{
+ "formato": "ficha-v4",
+ "versao": 1,
+ "status": "rascunho",
+ "gerada_em": "2026-11-14",
+ "demo": true,
+ "marca": {
+  "nome": "Marca Exemplo",
+  "handle": "@marcaexemplo",
+  "site": "https://exemplo.invalid",
+  "tipo_empresa": "produto_recorrente"
+ },
+ "anexos": [
+  {
+   "id": 1,
+   "nome": "manual-da-marca-exemplo.pdf",
+   "tipo": "application/pdf",
+   "papel": "oficial",
+   "descricao": "Manual da marca, 24 páginas: cores, fontes, voz"
+  },
+  {
+   "id": 2,
+   "nome": "referencias-posts.png",
+   "tipo": "image/png",
+   "papel": "inspiracao",
+   "descricao": "Prints de 10 posts de referência com o porquê"
+  },
+  {
+   "id": 3,
+   "nome": "plano-trimestre.pdf",
+   "tipo": "application/pdf",
+   "papel": "rascunho",
+   "descricao": "Plano do trimestre, versão de trabalho"
+  }
+ ],
+ "socios": {
+  "quem_e": {
+   "titulo": "Quem ela é",
+   "campos": {
+    "nome": {
+     "valor": "Marca Exemplo (sempre com M e E maiúsculos)",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "handle": {
+     "valor": "@marcaexemplo",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "site": {
+     "valor": "exemplo.invalid",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "uma_frase": {
+     "valor": "Cafeteria de bairro que torra o próprio café e entrega café em grão por assinatura.",
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 2",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "fase": {
+     "valor": "Loja aberta há 3 anos; assinatura lançada há 2 meses",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "fundadores_historia": {
+     "valor": "Dois amigos que trocaram o escritório pela torra; a loja nasceu num ponto pequeno de esquina",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "onde_atua": {
+     "valor": "Loja física num bairro; entrega da assinatura na cidade toda",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "nao_e_foco": {
+     "valor": "Não é restaurante; não vende máquinas de café",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    }
+   }
+  },
+  "modelo_negocio": {
+   "titulo": "Modelo de negócio",
+   "campos": {
+    "como_ganha": {
+     "valor": "Venda no balcão + assinatura mensal de café em grão",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "onde_vende": {
+     "valor": "Balcão da loja e página da assinatura (link na bio)",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "ticket_frequencia": {
+     "valor": "Balcão R$ 15 por visita, 3x por semana; assinatura R$ 69 por mês",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "o_que_o_post_move": {
+     "valor": "Assinaturas novas e visitas à loja nos dias fracos (segunda e terça)",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "tensoes": {
+     "valor": "Post de produto demais cansa; post só de clima não vende assinatura",
+     "origem": "agente",
+     "fonte": "G1",
+     "certeza": "media",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "como_funciona": {
+   "titulo": "Como a empresa funciona",
+   "campos": {
+    "jornada": {
+     "valor": [
+      "vê o post do café da semana",
+      "visita a loja ou abre o link",
+      "prova",
+      "assina",
+      "recebe em casa todo mês"
+     ],
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "prova_central": {
+     "valor": "Data da torra impressa em cada pacote",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "perguntas_frequentes": {
+     "valor": [
+      "Posso pausar a assinatura?",
+      "Vocês moem o café?",
+      "Qual o mais suave?"
+     ],
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    }
+   }
+  },
+  "estrategia": {
+   "titulo": "Estratégia",
+   "campos": {
+    "objetivo_90_dias": {
+     "valor": "Chegar a 300 assinantes até 15/02",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "marcos": {
+     "valor": [
+      {
+       "data": "2026-12-01",
+       "o_que": "Café de Natal"
+      },
+      {
+       "data": "2027-01-15",
+       "o_que": "Nova origem"
+      },
+      {
+       "data": "2027-02-15",
+       "o_que": "Meta 300"
+      }
+     ],
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "proporcao_marca_venda": {
+     "valor": "70% marca / 30% venda",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "posicionamento": {
+     "valor": "O café fresco do seu bairro, sem frescura.",
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 6",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "tom_humor": {
+     "valor": "Humor leve, nunca sarcástico (palavra do manual: \"acolhedor\")",
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 9",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "ativos_distintivos": {
+     "valor": [
+      "selo da data da torra",
+      "xícara laranja",
+      "letreiro escrito à mão"
+     ],
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 11",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "tipos_post": {
+   "titulo": "Tipos de post",
+   "campos": {
+    "lista": {
+     "valor": [
+      {
+       "id": "cafe_da_semana",
+       "nome": "Café da semana",
+       "formato": "carrossel",
+       "pilar": "produto",
+       "percentual": 30,
+       "frequencia": "2x por semana",
+       "referencia": "anexo 2, post 3",
+       "o_que_copiar": "foto do grão bem de perto",
+       "serie_fixa": true,
+       "quem_grava": null,
+       "nao_fazer": "preço na capa"
+      },
+      {
+       "id": "meme_balcao",
+       "nome": "Meme do balcão",
+       "formato": "meme",
+       "pilar": "atrair",
+       "percentual": 25,
+       "frequencia": "2x por semana",
+       "referencia": "anexo 2, post 7",
+       "o_que_copiar": "situação real de quem pede café",
+       "serie_fixa": false,
+       "quem_grava": null,
+       "nao_fazer": "zoar cliente"
+      },
+      {
+       "id": "noticia_util",
+       "nome": "Notícia útil do bairro",
+       "formato": "noticia",
+       "pilar": "reter",
+       "percentual": 15,
+       "frequencia": "1x por semana",
+       "referencia": "anexo 2, post 1",
+       "o_que_copiar": "1 fato + 1 dica",
+       "serie_fixa": false,
+       "quem_grava": null,
+       "nao_fazer": "notícia sem link oficial"
+      },
+      {
+       "id": "enquete_sabado",
+       "nome": "Enquete de sábado",
+       "formato": "enquete",
+       "pilar": "comunidade",
+       "percentual": 10,
+       "frequencia": "1x por semana",
+       "referencia": null,
+       "o_que_copiar": null,
+       "serie_fixa": true,
+       "quem_grava": null,
+       "nao_fazer": null
+      },
+      {
+       "id": "bastidor_torra",
+       "nome": "Bastidor da torra",
+       "formato": "reels",
+       "pilar": "prova",
+       "percentual": 20,
+       "frequencia": "1x por semana",
+       "referencia": "anexo 2, post 9",
+       "o_que_copiar": "som da torra nos 3 primeiros segundos",
+       "serie_fixa": true,
+       "quem_grava": "time da loja",
+       "nao_fazer": "música com direito autoral"
+      }
+     ],
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "posts_por_dia": {
+     "valor": 1,
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "percentual_por_formato": {
+     "valor": {
+      "carrossel": 30,
+      "meme": 25,
+      "noticia": 15,
+      "enquete": 10,
+      "reels": 20
+     },
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    }
+   }
+  },
+  "referencias": {
+   "titulo": "Referências",
+   "campos": {
+    "perfis": {
+     "valor": [
+      {
+       "perfil": "@perfil_referencia_1",
+       "pegar": "fotos de grão bem de perto",
+       "nao_pegar": "texto longo na imagem"
+      },
+      {
+       "perfil": "@perfil_referencia_2",
+       "pegar": "humor de balcão",
+       "nao_pegar": "palavrão"
+      }
+     ],
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "posts_amados_odiados": {
+     "valor": [
+      {
+       "anexo": 2,
+       "post": 3,
+       "amou": true,
+       "porque": "capa que se entende em 1 segundo"
+      },
+      {
+       "anexo": 2,
+       "post": 5,
+       "amou": false,
+       "porque": "parece anúncio de supermercado"
+      }
+     ],
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    }
+   }
+  },
+  "limites": {
+   "titulo": "Limites e aprovação",
+   "campos": {
+    "proibidos": {
+     "valor": [
+      "falar mal de outra cafeteria",
+      "promessa de saúde",
+      "preço riscado",
+      "desconto no feed"
+     ],
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "quem_aprova": {
+     "valor": "Um dos sócios, em até 24 h",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "ia_altera_produto": {
+     "valor": false,
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    }
+   }
+  },
+  "ativos_3d": {
+   "titulo": "3D e ativos especiais",
+   "campos": {
+    "tem_3d": {
+     "valor": false,
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "arquivos": {
+     "valor": [],
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    },
+    "onde_usar": {
+     "valor": null,
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "baixa",
+     "conferido_por": null
+    }
+   }
+  },
+  "estoque": {
+   "titulo": "Estoque",
+   "campos": {
+    "usa_estoque": {
+     "valor": true,
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "media",
+     "conferido_por": "socio"
+    },
+    "observacao": {
+     "valor": "Microlotes especiais acabam rápido; marcar 'vendida' quando acabar",
+     "origem": "socio",
+     "fonte": "reunião 10/11 (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "socio"
+    }
+   }
+  }
+ },
+ "grupos": {
+  "G1": {
+   "titulo": "Negócio",
+   "feito_por": "estrategista",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "Assinatura é o produto que o post precisa mover.",
+   "campos": {
+    "receita_simples": {
+     "valor": "Ganha no balcão todo dia e na assinatura todo mês; a assinatura é o que cresce.",
+     "origem": "agente",
+     "fonte": "sócios + anexo 3 p. 2",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "metrica_que_o_post_move": {
+     "valor": "Assinaturas novas por semana",
+     "origem": "agente",
+     "fonte": "sócios",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "por_que_agora": {
+     "valor": "Fim de ano: café vira presente; dado de busca sobe em dezembro",
+     "origem": "agente",
+     "fonte": "https://exemplo.invalid/fonte-busca",
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "produto_heroi": {
+     "valor": "Assinatura do café da semana",
+     "origem": "agente",
+     "fonte": "sócios",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "numero_destaque": {
+     "valor": {
+      "valor": "3 dias",
+      "texto": "do torrador à sua casa",
+      "fonte": "anexo 1 p. 4"
+     },
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 4",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G2": {
+   "titulo": "Público",
+   "feito_por": "pesquisador_publico",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "personas": {
+     "valor": [
+      {
+       "slug": "vizinho_da_manha",
+       "nome": "Vizinho da manhã",
+       "faixa": "30–45",
+       "descricao": "Passa antes do trabalho, pede o de sempre, quer rapidez.",
+       "dores": [
+        "fila"
+       ],
+       "desejos": [
+        "café bom sem pensar"
+       ],
+       "objecoes": [
+        "assinatura parece compromisso"
+       ]
+      },
+      {
+       "slug": "curioso_do_grao",
+       "nome": "Curioso do grão",
+       "faixa": "25–35",
+       "descricao": "Gosta de saber a origem e o jeito de preparar.",
+       "dores": [
+        "não sabe moer"
+       ],
+       "desejos": [
+        "aprender"
+       ],
+       "objecoes": [
+        "preço"
+       ]
+      },
+      {
+       "slug": "quem_presenteia",
+       "nome": "Quem presenteia",
+       "faixa": "35–55",
+       "descricao": "Procura presente diferente no fim de ano.",
+       "dores": [
+        "falta de ideia"
+       ],
+       "desejos": [
+        "presente bonito"
+       ],
+       "objecoes": [
+        "entrega no prazo"
+       ]
+      }
+     ],
+     "origem": "agente",
+     "fonte": "reviews públicos + anexo 3 p. 5",
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "horarios": {
+     "valor": "7h–9h e 15h–17h (palpite até haver dados do perfil)",
+     "origem": "agente",
+     "fonte": "sócios",
+     "certeza": "baixa",
+     "conferido_por": "critico"
+    },
+    "glossario": {
+     "valor": [
+      "o de sempre",
+      "pingado",
+      "café coado",
+      "torra média"
+     ],
+     "origem": "agente",
+     "fonte": "comentários públicos do perfil (links no apêndice)",
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "o_que_faz_marcar_amigo": {
+     "valor": "Situação de balcão que todo mundo já viveu",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "publicos_escondidos": {
+     "valor": [
+      "quem trabalha de casa",
+      "pequenos escritórios"
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "baixa",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G3": {
+   "titulo": "Concorrência e brechas",
+   "feito_por": "pesquisador_concorrencia",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "concorrentes": {
+     "valor": [
+      {
+       "perfil": "@concorrente_a",
+       "tipo": "produto",
+       "frequencia": "1/dia",
+       "formatos": [
+        "foto"
+       ],
+       "tom": "sério",
+       "brecha": "não mostra a torra"
+      },
+      {
+       "perfil": "@concorrente_b",
+       "tipo": "atencao",
+       "frequencia": "2/dia",
+       "formatos": [
+        "meme",
+        "reels"
+       ],
+       "tom": "piada",
+       "brecha": "não vende nada"
+      },
+      {
+       "perfil": "@concorrente_c",
+       "tipo": "produto",
+       "frequencia": "3/semana",
+       "formatos": [
+        "carrossel"
+       ],
+       "tom": "técnico",
+       "brecha": "texto difícil"
+      },
+      {
+       "perfil": "@concorrente_d",
+       "tipo": "atencao",
+       "frequencia": "1/dia",
+       "formatos": [
+        "notícia"
+       ],
+       "tom": "neutro",
+       "brecha": "sem humor"
+      },
+      {
+       "perfil": "@concorrente_e",
+       "tipo": "produto",
+       "frequencia": "2/semana",
+       "formatos": [
+        "reels"
+       ],
+       "tom": "luxo",
+       "brecha": "distante"
+      }
+     ],
+     "origem": "agente",
+     "fonte": "perfis públicos (links no apêndice)",
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "promessas_gastas": {
+     "valor": [
+      "melhor café da cidade",
+      "feito com amor"
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "mapa_eixos": {
+     "valor": {
+      "x": "sério → divertido",
+      "y": "só clima → vende",
+      "nossa_posicao": "divertido e vende"
+     },
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G4": {
+   "titulo": "Posicionamento",
+   "feito_por": "estrategista",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "frase": {
+     "valor": "O café fresco do seu bairro, sem frescura.",
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 6",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "teste_de_troca": {
+     "valor": "Se trocar o nome por outra cafeteria, a frase perde a data da torra: passa no teste.",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "promessa_prova": {
+     "valor": [
+      {
+       "promessa": "fresco",
+       "prova": "data da torra no pacote"
+      }
+     ],
+     "origem": "agente",
+     "fonte": "anexo 1 p. 4",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "vilao": {
+     "valor": "Café velho de prateleira (nunca uma pessoa ou empresa)",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "e_nao_e": {
+     "valor": {
+      "e": [
+       "perto",
+       "fresco",
+       "simples"
+      ],
+      "nao_e": [
+       "chique",
+       "técnico",
+       "apressado"
+      ]
+     },
+     "origem": "agente",
+     "fonte": "anexo 1 p. 7",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G5": {
+   "titulo": "Voz",
+   "feito_por": "redator_voz",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "personalidade": {
+     "valor": "Vizinho simpático que entende de café e não se acha",
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 9",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "reguas_tom": {
+     "valor": [
+      {
+       "de": "sério",
+       "ate": "brincalhão",
+       "nos": 6
+      },
+      {
+       "de": "técnico",
+       "ate": "simples",
+       "nos": 8
+      }
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "pares": {
+     "valor": [
+      {
+       "em_vez_de": "Adquira já nosso blend premium",
+       "fala_assim": "Chegou café novo. Cheira a chocolate."
+      },
+      {
+       "em_vez_de": "Promoção imperdível",
+       "fala_assim": "Segunda tem pão de queijo junto. Só isso."
+      },
+      {
+       "em_vez_de": "Notas sensoriais complexas",
+       "fala_assim": "Doce, sem amargar."
+      },
+      {
+       "em_vez_de": "Assine nosso clube exclusivo",
+       "fala_assim": "Todo mês um café fresco em casa."
+      },
+      {
+       "em_vez_de": "Prezado cliente",
+       "fala_assim": "Oi, vizinho."
+      },
+      {
+       "em_vez_de": "Torra artesanal de excelência",
+       "fala_assim": "A gente torra aqui atrás, toda terça."
+      },
+      {
+       "em_vez_de": "Experiência gastronômica",
+       "fala_assim": "Um café e um bom dia."
+      },
+      {
+       "em_vez_de": "Não perca!",
+       "fala_assim": "Acaba sábado."
+      },
+      {
+       "em_vez_de": "Produto de alta qualidade",
+       "fala_assim": "Torrado há 3 dias."
+      },
+      {
+       "em_vez_de": "Venha nos visitar",
+       "fala_assim": "Passa aqui, a xícara laranja te espera."
+      },
+      {
+       "em_vez_de": "Clique no link da bio",
+       "fala_assim": "O link tá lá em cima."
+      },
+      {
+       "em_vez_de": "Inovação no café",
+       "fala_assim": "Testamos um café novo. Conta o que achou."
+      }
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "palavras_sim": {
+     "valor": [
+      "vizinho",
+      "fresco",
+      "torra",
+      "de sempre"
+     ],
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 10",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "palavras_nunca": {
+     "valor": [
+      "premium",
+      "gourmet",
+      "imperdível"
+     ],
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 10",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "emojis": {
+     "valor": "No máximo 1 por legenda: ☕",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G6": {
+   "titulo": "Visual",
+   "feito_por": "diretor_arte_marca",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "paleta": {
+     "valor": {
+      "fundo": "#F6F1EA",
+      "texto": "#2B2118",
+      "destaque": "#C8553D",
+      "apoio": "#5B7F6A",
+      "alerta": "#B23A2E"
+     },
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 14",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "papel_das_cores": {
+     "valor": {
+      "fundo": "fundo de quase tudo",
+      "destaque": "1 palavra por slide, nunca fundo inteiro",
+      "apoio": "selos e detalhes"
+     },
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 14",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "contraste": {
+     "valor": "Destaque sobre fundo claro passa (4,6:1); destaque sobre apoio não passa: evitar",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "fontes": {
+     "valor": {
+      "titulo": "DM Serif Display",
+      "texto": "DM Sans",
+      "substituta_gratis": null
+     },
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 15",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "logo": {
+     "valor": {
+      "arquivo": "anexo 1",
+      "uso": "canto inferior, pequeno"
+     },
+     "origem": "anexo",
+     "fonte": "anexo 1 p. 16",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "estilo_foto": {
+     "valor": "Foto real da loja e do grão, luz da manhã; foto da loja primeiro, IA só para fundo",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "moldes_por_formato": {
+     "valor": {
+      "carrossel": {
+       "capas": [
+        "capa_f1",
+        "capa_numero"
+       ],
+       "slides": [
+        "f1_corrido",
+        "lista_linhas"
+       ]
+      },
+      "meme": "meme_imagem",
+      "noticia": "noticia_util",
+      "enquete": "story_enquete",
+      "reels": "capa_reels_9x16"
+     },
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "perfil_montagem": {
+     "valor": {
+      "claro": "#F6F1EA",
+      "sup": "#EADFD2",
+      "escuro": "#2B2118",
+      "medio": "#5B7F6A",
+      "destaque": "#C8553D",
+      "suave": "#D9A595",
+      "display": "DM Serif Display",
+      "texto": "DM Sans",
+      "estilo": "creme",
+      "handle": "@marcaexemplo"
+     },
+     "origem": "agente",
+     "fonte": "G6.paleta + G6.fontes",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G7": {
+   "titulo": "Conteúdo",
+   "feito_por": "estrategista",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "pilares": {
+     "valor": [
+      {
+       "nome": "atrair",
+       "percentual": 25
+      },
+      {
+       "nome": "produto",
+       "percentual": 30
+      },
+      {
+       "nome": "prova",
+       "percentual": 20
+      },
+      {
+       "nome": "reter",
+       "percentual": 15
+      },
+      {
+       "nome": "comunidade",
+       "percentual": 10
+      }
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "funil": {
+     "valor": {
+      "topo": [
+       "meme_balcao"
+      ],
+      "meio": [
+       "noticia_util",
+       "bastidor_torra"
+      ],
+      "fundo": [
+       "cafe_da_semana"
+      ]
+     },
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "moldes_vencedores": {
+     "valor": [
+      {
+       "tipo": "meme_balcao",
+       "do_print": "anexo 2 post 7",
+       "por_que_funciona": "situação reconhecível em 1 segundo",
+       "adaptar": "trocar a situação, manter o formato"
+      }
+     ],
+     "origem": "agente",
+     "fonte": "anexo 2",
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "series": {
+     "valor": [
+      "Café da semana",
+      "Enquete de sábado",
+      "Bastidor da torra"
+     ],
+     "origem": "socio",
+     "fonte": "sócios",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "banco_ganchos": {
+     "valor": [
+      {
+       "texto": "Você pede 'o de sempre' e a gente já sabe.",
+       "por_que": "reconhecimento"
+      },
+      {
+       "texto": "Esse café foi torrado terça. Hoje é sexta.",
+       "por_que": "prova em número"
+      },
+      {
+       "texto": "3 jeitos de errar o café coado (o 2º todo mundo faz).",
+       "por_que": "curiosidade + lista"
+      }
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "cta_padrao": {
+     "valor": "Comenta CAFÉ que a gente manda o link da assinatura",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "palavra_comentario": {
+     "valor": "CAFÉ",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G8": {
+   "titulo": "Calendário",
+   "feito_por": "calendarista",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "marcos": {
+     "valor": [
+      {
+       "data": "2026-12-01",
+       "o_que": "Café de Natal",
+       "regra": "participa"
+      },
+      {
+       "data": "2027-01-15",
+       "o_que": "Nova origem",
+       "regra": "participa"
+      }
+     ],
+     "origem": "socio",
+     "fonte": "sócios",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "datas_cultura": {
+     "valor": [
+      {
+       "data": "2026-12-25",
+       "o_que": "Natal",
+       "regra": "participa"
+      },
+      {
+       "data": "2027-04-14",
+       "o_que": "Dia do Café",
+       "regra": "participa"
+      },
+      {
+       "data": "2026-11-20",
+       "o_que": "Feriado municipal (exemplo)",
+       "regra": "so_informa"
+      }
+     ],
+     "origem": "agente",
+     "fonte": "calendário oficial (link no apêndice)",
+     "certeza": "media",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G9": {
+   "titulo": "Assuntos do momento",
+   "feito_por": "guardiao_riscos",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "fontes_vigiar": {
+     "valor": [
+      "prefeitura (obras na rua)",
+      "previsão do tempo",
+      "agenda cultural do bairro"
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "regra": {
+     "valor": {
+      "entra": "afeta quem passa na rua da loja",
+      "adapta": "frio, chuva, feriado",
+      "nunca": "política, tragédia"
+     },
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "validade_horas": {
+     "valor": 24,
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "politica": {
+     "valor": "Neutra: nem exaltar nem atacar",
+     "origem": "socio",
+     "fonte": "regra fixa da fábrica",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G10": {
+   "titulo": "Riscos e Pausa",
+   "feito_por": "guardiao_riscos",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "proibidos": {
+     "valor": [
+      "falar mal de concorrente",
+      "promessa de saúde",
+      "desconto no feed",
+      "foto de cliente sem autorização"
+     ],
+     "origem": "socio",
+     "fonte": "sócios + anexo 1 p. 20",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "gatilhos_pausa": {
+     "valor": [
+      "acidente na rua da loja",
+      "luto no bairro",
+      "problema sanitário"
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "marcas_terceiros": {
+     "valor": "Não mostrar marca de máquina ou leite em destaque",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "direitos_imagem_audio": {
+     "valor": "Só áudio livre ou original; pessoa só com autorização escrita",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "sendo_sincero": {
+     "valor": "A assinatura tem só 2 meses: ainda não há números de retenção para mostrar.",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "alta",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G11": {
+   "titulo": "Metas",
+   "feito_por": "calendarista",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "meta": {
+     "valor": {
+      "valor": 300,
+      "unidade": "assinantes",
+      "data": "2027-02-15"
+     },
+     "origem": "socio",
+     "fonte": "sócios",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "ritmo_necessario": {
+     "valor": "~3 assinaturas novas por dia",
+     "origem": "agente",
+     "fonte": "conta: (300 − 80) ÷ 90 dias",
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "metrica_por_pilar": {
+     "valor": {
+      "atrair": "alcance e envios",
+      "produto": "cliques no link",
+      "prova": "salvamentos",
+      "reter": "salvamentos",
+      "comunidade": "respostas"
+     },
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "revisao_mix": {
+     "valor": "A cada 2 semanas",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G12": {
+   "titulo": "Operação",
+   "feito_por": "estrategista",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "posts_dia_por_formato": {
+     "valor": {
+      "carrossel": 0.3,
+      "meme": 0.25,
+      "noticia": 0.15,
+      "enquete": 0.1,
+      "reels": 0.2
+     },
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "quem_aprova": {
+     "valor": "Um dos sócios",
+     "origem": "socio",
+     "fonte": "sócios",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "quem_posta": {
+     "valor": "Time da loja, à mão",
+     "origem": "socio",
+     "fonte": "sócios",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "gravacao_humana": {
+     "valor": [
+      "bastidor_torra"
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "custo_mes": {
+     "valor": {
+      "medidor_usd": 18,
+      "real_usd": 25,
+      "cota_dia_usd": 1.0
+     },
+     "origem": "agente",
+     "fonte": "estimativa (fator ×1,4)",
+     "certeza": "baixa",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G13": {
+   "titulo": "Comunidade",
+   "feito_por": "estrategista",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "repostar": {
+     "valor": "Foto de cliente com a xícara, só com autorização por mensagem",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "respostas_padrao": {
+     "valor": [
+      {
+       "pergunta": "Entrega no meu bairro?",
+       "resposta": "Entrega na cidade toda. O link tá na bio."
+      }
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "enquetes_fixas": {
+     "valor": [
+      "Coado ou espresso?",
+      "Doce ou amargo?"
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G14": {
+   "titulo": "Ativos especiais e 3D",
+   "feito_por": "estrategista",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "registro": {
+     "valor": "Nenhum 3D entregue pelos sócios",
+     "origem": "socio",
+     "fonte": "sócios",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G15": {
+   "titulo": "Perfil e vitrine",
+   "feito_por": "especialista_instagram",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "bio": {
+     "valor": "Café torrado aqui no bairro ☕ Assinatura: todo mês em casa ↓",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "nome_busca": {
+     "valor": "Marca Exemplo | Café de bairro",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "link": {
+     "valor": "página da assinatura",
+     "origem": "socio",
+     "fonte": "sócios",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "destaques": {
+     "valor": [
+      "Assinatura",
+      "Cafés",
+      "Loja",
+      "Dúvidas"
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "fixados": {
+     "valor": [
+      "como funciona a assinatura",
+      "bastidor da torra",
+      "meme mais compartilhado"
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G16": {
+   "titulo": "Mecânica do formato",
+   "feito_por": "especialista_instagram",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "reels": {
+     "valor": {
+      "gancho_3s": "som da torra + texto 'isso é terça aqui'",
+      "duracao_s": "15–25",
+      "texto_por_quadro": true,
+      "audio": "original ou livre",
+      "capa_grade": "legível em miniatura"
+     },
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "carrossel": {
+     "valor": {
+      "primeiro_slide": "1 frase + foto do grão",
+      "n_slides": "5–7"
+     },
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "story": {
+     "valor": {
+      "enquete": "2 opções curtas",
+      "figurinhas": [
+       "enquete",
+       "link"
+      ]
+     },
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G17": {
+   "titulo": "Distribuição",
+   "feito_por": "especialista_instagram",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "gera_envio": {
+     "valor": "Meme do balcão: 'manda pra quem pede o de sempre'",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "gera_salvamento": {
+     "valor": "Dicas de preparo em carrossel",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "palavras_busca": {
+     "valor": [
+      "café de bairro",
+      "café em grão",
+      "assinatura de café"
+     ],
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "hashtags": {
+     "valor": "Nenhuma ou no máximo 3",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "horarios": {
+     "valor": "7h e 15h: palpite até haver dados do perfil",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "baixa",
+     "conferido_por": "critico"
+    }
+   }
+  },
+  "G18": {
+   "titulo": "Estoque",
+   "feito_por": "estrategista",
+   "conferido_por": "critico",
+   "estado": "feito",
+   "gasto_usd": 0,
+   "resumo": "",
+   "campos": {
+    "aplica": {
+     "valor": true,
+     "origem": "socio",
+     "fonte": "sócios",
+     "certeza": "media",
+     "conferido_por": "critico"
+    },
+    "regra": {
+     "valor": "A Planejadora só propõe lote 'disponivel'; 'vendida' nunca aparece em post novo",
+     "origem": "agente",
+     "fonte": null,
+     "certeza": "alta",
+     "conferido_por": "critico"
+    },
+    "pecas_exemplo": {
+     "valor": [
+      {
+       "nome": "Microlote Serra 1",
+       "grife": "Sítio Exemplo",
+       "tamanho": "250 g",
+       "estado": "torra média",
+       "status": "disponivel"
+      },
+      {
+       "nome": "Microlote Vale 2",
+       "grife": "Fazenda Modelo",
+       "tamanho": "250 g",
+       "estado": "torra clara",
+       "status": "reservada"
+      },
+      {
+       "nome": "Microlote Pico 3",
+       "grife": "Sítio Exemplo",
+       "tamanho": "250 g",
+       "estado": "torra escura",
+       "status": "vendida"
+      }
+     ],
+     "origem": "socio",
+     "fonte": "tabela pecas (exemplo)",
+     "certeza": "alta",
+     "conferido_por": "critico"
+    }
+   }
+  }
+ },
+ "conflitos": [
+  {
+   "caminho": "socios.estrategia.campos.proporcao_marca_venda",
+   "socios_disseram": "70% marca / 30% venda",
+   "pesquisa_indica": "60% / 40% até o Natal",
+   "porque": "dezembro é o pico de presente (G1.por_que_agora)"
+  }
+ ],
+ "faltando": [
+  {
+   "caminho": "socios.ativos_3d.campos.onde_usar",
+   "pergunta": "Vocês têm algum objeto da marca em 3D?",
+   "opcoes": [
+    "Não temos",
+    "Temos, mando depois",
+    "Não sei"
+   ]
+  },
+  {
+   "caminho": "grupos.G2.campos.horarios",
+   "pergunta": "Em que horário o perfil tem mais gente olhando?",
+   "opcoes": [
+    "Manhã",
+    "Tarde",
+    "Noite",
+    "Não sei: usar palpite"
+   ]
+  }
+ ],
+ "documento": {
+  "paginas": [
+   {
+    "n": 1,
+    "parte": "capa",
+    "modelo": "capa_parte",
+    "titulo": "Marca Exemplo · Estratégia de conteúdo · v1",
+    "numero_destaque": null,
+    "fontes": [],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 2,
+    "parte": "capa",
+    "modelo": "como_ler",
+    "titulo": "Verde é confirmado, amarelo é proposta com fonte, cinza é o que falta",
+    "numero_destaque": null,
+    "fontes": [],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 3,
+    "parte": "0",
+    "modelo": "frase_numero",
+    "titulo": "300 assinantes até 15 de fevereiro",
+    "numero_destaque": {
+     "valor": "300",
+     "fonte": "sócios"
+    },
+    "fontes": [
+     "grupos.G11.campos.meta"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 4,
+    "parte": "1",
+    "modelo": "frase_numero",
+    "titulo": "Fresco de verdade: 3 dias do torrador à sua casa",
+    "numero_destaque": {
+     "valor": "3 dias",
+     "fonte": "anexo 1 p. 4"
+    },
+    "fontes": [
+     "grupos.G1"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 5,
+    "parte": "2",
+    "modelo": "persona",
+    "titulo": "Quem passa de manhã quer o de sempre, rápido",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G2.campos.personas"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 6,
+    "parte": "2",
+    "modelo": "persona",
+    "titulo": "Quem presenteia quer algo bonito e no prazo",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G2.campos.personas"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 7,
+    "parte": "3",
+    "modelo": "concorrente",
+    "titulo": "Ninguém por aqui mostra a torra",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G3.campos.concorrentes"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 8,
+    "parte": "3",
+    "modelo": "concorrente",
+    "titulo": "Quem faz rir não vende; quem vende não faz rir",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G3.campos.mapa_eixos"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 9,
+    "parte": "4",
+    "modelo": "frase_numero",
+    "titulo": "O café fresco do seu bairro, sem frescura",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G4"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 10,
+    "parte": "5",
+    "modelo": "em_vez_de",
+    "titulo": "A gente fala como vizinho, não como vitrine",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G5.campos.pares"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 11,
+    "parte": "5",
+    "modelo": "em_vez_de",
+    "titulo": "Palavras que usamos e palavras que nunca usamos",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G5.campos.palavras_sim",
+     "grupos.G5.campos.palavras_nunca"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 12,
+    "parte": "6",
+    "modelo": "frase_numero",
+    "titulo": "Quem chega pelo meme decide em 3 segundos",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G15"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 13,
+    "parte": "6",
+    "modelo": "frase_numero",
+    "titulo": "Creme, marrom e um laranja que aparece pouco",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G6"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 14,
+    "parte": "7",
+    "modelo": "roda_pilares",
+    "titulo": "Um post por dia, cinco pilares",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G7.campos.pilares"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 15,
+    "parte": "8",
+    "modelo": "tipo_post",
+    "titulo": "Café da semana: o grão de perto vende sozinho",
+    "numero_destaque": null,
+    "fontes": [
+     "socios.tipos_post"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 16,
+    "parte": "8",
+    "modelo": "tipo_post",
+    "titulo": "Meme do balcão: a situação que todo mundo já viveu",
+    "numero_destaque": null,
+    "fontes": [
+     "socios.tipos_post"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 17,
+    "parte": "8",
+    "modelo": "tipo_post",
+    "titulo": "Bastidor da torra: o som nos 3 primeiros segundos",
+    "numero_destaque": null,
+    "fontes": [
+     "socios.tipos_post",
+     "grupos.G16.campos.reels"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 18,
+    "parte": "9",
+    "modelo": "calendario",
+    "titulo": "Até o Natal, café vira presente",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G8",
+     "grupos.G9"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 19,
+    "parte": "10",
+    "modelo": "semaforo",
+    "titulo": "Na dúvida, pausa",
+    "numero_destaque": null,
+    "fontes": [
+     "grupos.G10"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 20,
+    "parte": "11",
+    "modelo": "frase_numero",
+    "titulo": "3 assinaturas novas por dia",
+    "numero_destaque": {
+     "valor": "3/dia",
+     "fonte": "conta do G11"
+    },
+    "fontes": [
+     "grupos.G11",
+     "grupos.G12"
+    ],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   },
+   {
+    "n": 21,
+    "parte": "aprovacao",
+    "modelo": "aprovacao",
+    "titulo": "É a nossa cara?",
+    "numero_destaque": null,
+    "fontes": [],
+    "feito_por": "editor",
+    "conferido_por": "cetico"
+   }
+  ]
+ }
+}

@@ -10,8 +10,6 @@ on:
         description: "vazio = estudo; vigia = roda o vigia agora"
         required: false
         default: ""
-  schedule:
-    - cron: "0 10 * * *"
 
 permissions:
   id-token: write
