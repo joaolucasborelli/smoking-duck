@@ -1,0 +1,45 @@
+name: Gerar bonecos
+
+# Gera poses novas do boneco da TRIPE (juiz, sentado, dormindo, dançando...) a partir do render oficial.
+# Só roda quando alguém aperta "Run workflow" (cada imagem custa; o dono confirma antes).
+# Identidade: token OIDC do próprio GitHub (nenhum segredo guardado aqui). A chave da OpenAI fica no servidor (função capas).
+# As imagens saem como artefato do run.
+on:
+  workflow_dispatch:
+    inputs:
+      so:
+        description: "ids separados por vírgula (vazio = todos os pedidos)"
+        required: false
+        default: ""
+      tentativas:
+        description: "quantas versões de cada (1 a 3)"
+        required: false
+        default: "1"
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: gerar-bonecos
+  cancel-in-progress: false
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Gerar
+        env:
+          SO: ${{ github.event.inputs.so }}
+          TENTATIVAS: ${{ github.event.inputs.tentativas }}
+        run: python montagem/gerar_bonecos.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bonecos
+          path: saida_bonecos/

@@ -1,0 +1,32 @@
+[
+ {
+  "id": "juiz",
+  "size": "1024x1536",
+  "prompt": "The reference images all show the same 3D mascot character (TRIPE): a smooth matte lime-green (#D7FF00) plastic figure with a rounded head that leans forward, two black oval eyes, no mouth, and stubby legs, like a soft toy. Keep the character IDENTICAL to the references: same color, same smooth matte material, same eyes, same proportions, same 3D render style. New image: the mascot is a football (soccer) referee RUNNING across a green football pitch, body leaning forward in motion, one leg off the ground. It wears a black referee cap, a black referee shirt with a small collar and sleeve details, and a silver whistle on a black cord around its neck. Night stadium with floodlights, blurred crowd in the background, grass with white pitch lines, cinematic photo look, shallow depth of field. Leave calm empty space in the upper third for text. No text, no logos, no team colors, no numbers.",
+  "quality": "medium"
+ },
+ {
+  "id": "sete",
+  "size": "1536x1024",
+  "prompt": "The reference images all show the same 3D mascot character (TRIPE): a smooth matte lime-green (#D7FF00) plastic figure with a rounded head that leans forward, two black oval eyes, no mouth, stubby legs. Keep every copy IDENTICAL to the references in color, material, eyes and proportions. New image: SEVEN copies of this mascot sitting on the seats inside a city bus in Sao Paulo at 6 a.m., soft cool interior light, dark blue sky through the windows. Each one shows a different mood only through eye shape, head tilt and pose (no mouths): 1) asleep standing and holding the yellow pole, 2) wide awake and alert, 3) holding a paper coffee cup, 4) yawning with eyes squeezed shut, 5) wearing one earbud looking at a phone held facing the viewer, 6) head resting on the shoulder of the one beside it, sleeping, 7) staring out the window half asleep. Realistic photo of the bus interior, mascots rendered as 3D toys in the scene. Leave empty space in the top third for text. No text, no logos, no line numbers.",
+  "quality": "medium"
+ },
+ {
+  "id": "dormindo",
+  "size": "1024x1536",
+  "prompt": "The reference images all show the same 3D mascot character (TRIPE): a smooth matte lime-green (#D7FF00) plastic figure with a rounded head, two black oval eyes, no mouth, stubby legs. Keep it IDENTICAL to the references in color, material and proportions. New image: the mascot is SITTING properly in a city bus seat by the window, its body fitted into the seat with the back against the backrest and legs hanging off the seat edge, head tilted and resting against the window glass, eyes closed (two thin curved closed lines instead of ovals), peacefully asleep. Late afternoon golden light through the window, Sao Paulo street softly blurred outside. Realistic photo of the bus interior. Leave empty space in the top third for text. No text, no logos, no line numbers.",
+  "quality": "medium"
+ },
+ {
+  "id": "show",
+  "size": "1024x1536",
+  "prompt": "The reference images all show the same 3D mascot character (TRIPE): a smooth matte lime-green (#D7FF00) plastic figure with a rounded head, two black oval eyes, no mouth, stubby legs. Keep it IDENTICAL to the references in color, material and proportions. New image: the mascot DANCING happily in the crowd of a big stadium concert at night, body tilted with one leg kicked up, seen from the side, with the bright stage lights far away in the background and the audience as dark silhouettes with raised arms. No performer face visible, the stage is distant and blurred. Concert photo look. Leave empty space in the top third for text. No text, no logos, no brand names.",
+  "quality": "medium"
+ },
+ {
+  "id": "ccxp",
+  "size": "1024x1536",
+  "prompt": "The reference images all show the same 3D mascot character (TRIPE): a smooth matte lime-green (#D7FF00) plastic figure with a rounded head, two black oval eyes, no mouth, stubby legs. Keep it IDENTICAL to the references in color, material and proportions. New image: the mascot WALKING through the aisle of a large pop culture convention hall, between colorful booths with comics, action figures and posters, turned toward a friendly booth attendant (seen from the side or from behind) as if chatting. Busy but cheerful fair atmosphere, bright indoor lights. Leave empty space in the top third for text. No text, no logos, no trademarked characters, no brand names.",
+  "quality": "medium"
+ }
+]
