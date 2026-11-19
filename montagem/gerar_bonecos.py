@@ -31,12 +31,20 @@ def main():
     SAIDA.mkdir(parents=True, exist_ok=True)
     pedidos = json.loads((REFS / "pedidos.json").read_text(encoding="utf-8"))
     so = set(filter(None, (os.environ.get("SO") or "").split(",")))
-    base = subir(REFS / "boneco_oficial.png")
-    refs = [subir(p) for p in sorted(REFS.glob("ref_*.png"))]
+    subidos = {}
+
+    def cam(nome):
+        if nome not in subidos:
+            subidos[nome] = subir(REFS / nome)
+        return subidos[nome]
+
     log = []
     for p in pedidos:
         if so and p["id"] not in so:
             continue
+        # cada pedido diz a foto base e as referências; sem isso, vale o render oficial + 1 ângulo do Instagram
+        base = cam(p.get("base", "boneco_oficial.png"))
+        refs = [cam(r) for r in p.get("refs", ["ref_ig06.png"])]
         for t in range(1, TENTATIVAS + 1):
             destino = f"{PASTA}/saida/{p['id']}_{t}.png"
             r = robo.chamar({"acao": "editar", "caminho": base, "referencias": refs, "destino": destino, "instrucao": p["prompt"],
