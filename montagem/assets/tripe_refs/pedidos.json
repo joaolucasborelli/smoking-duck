@@ -61,5 +61,14 @@
   "refs": [],
   "size": "1024x1536",
   "prompt": "Keep the mascot IDENTICAL to the official 3D mascot reference: one continuous smooth capsule-shaped body in matte soft-touch lime-green vinyl (#D7FF00); the head is the rounded top of the body with no neck, the body tilts forward like a bean; two vertical black oval eyes close together near the front of the head; four short thick tube-shaped limbs with rounded ends. No hands, no fingers, no mouth, no nose, no eyebrows, no hair. Same 3D render quality. New image: realistic photo at golden hour outside a big football stadium in Sao Paulo on concert day. The mascot walks toward the illuminated stadium entrance holding a paper concert ticket with one rounded arm and wearing a fabric concert wristband, eyes happy. Walking beside it, an older couple in their 60s, seen from behind holding hands, casually dressed. Other concert-goers in the distance, the stadium lights glowing. Calm, safe, joyful mood. Leave calm space in the top third for text. No text, no logos, no brand names, no artist faces, no recognizable human faces."
+ },
+ {
+  "id": "mae_v2",
+  "base": "base_mae.png",
+  "refs": [
+   "boneco_oficial.png"
+  ],
+  "size": "1024x1536",
+  "prompt": "Image 1 is a realistic photo of a woman at a kitchen table at night typing on her phone; the phone shows its black back to the camera. Image 2 is the official 3D mascot (TRIPE). Edit Image 1: REMOVE the small mascot that is standing on the table (leave the table, cup and towel clean where it was). ADD one mascot from Image 2 standing BEHIND the woman, just over her right shoulder (left side of the picture from the viewer), leaning in and peeking at her phone screen with curious, slightly worried eyes, as if reading the messages with her. Its size is like a person standing behind her: its head is about the size of the woman's head, its body partly hidden behind her shoulder and the chair. Keep the mascot IDENTICAL to Image 2: one continuous smooth capsule-shaped body in matte lime-green vinyl (#D7FF00), the head is the rounded top of the body with no neck, two vertical black oval eyes, short thick tube-shaped limbs with rounded ends, no hands, no fingers, no mouth. Keep the woman, her face and expression, her hands, the phone (back facing the camera), the kitchen, the light and the photo grain exactly the same. No text, no logos."
  }
 ]
