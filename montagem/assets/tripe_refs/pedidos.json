@@ -71,5 +71,15 @@
   ],
   "size": "1024x1536",
   "prompt": "Image 1 is a realistic photo of a woman at a kitchen table at night typing on her phone; the phone shows its black back to the camera. Image 2 is the official 3D mascot (TRIPE). Edit Image 1: REMOVE the small mascot that is standing on the table (leave the table, cup and towel clean where it was). ADD one mascot from Image 2 standing BEHIND the woman, just over her right shoulder (left side of the picture from the viewer), leaning in and peeking at her phone screen with curious, slightly worried eyes, as if reading the messages with her. Its size is like a person standing behind her: its head part is about the size of the woman's head, the lower body hidden behind her shoulder and the chair; one short rounded arm rests on her shoulder. Keep the mascot IDENTICAL to Image 2 and Image 3 (same character, other angle) — copy its exact silhouette: the whole body is ONE bean-shaped piece that bends FORWARD, the upper part (head) leans forward and down toward the phone like a curious bean, NOT an upright round ball on a body, no neck, no shoulders; one continuous smooth capsule-shaped body in matte lime-green vinyl (#D7FF00), the head is the rounded top of the body with no neck, two vertical black oval eyes, short thick tube-shaped limbs with rounded ends, no hands, no fingers, no mouth. Keep the woman, her face and expression, her hands, the phone (back facing the camera), the kitchen, the light and the photo grain exactly the same. No text, no logos."
+ },
+ {
+  "id": "mae_v3",
+  "base": "base_mae.png",
+  "refs": [
+   "boneco_oficial.png",
+   "ref_ig06.png"
+  ],
+  "size": "1024x1536",
+  "prompt": "Image 1 is a realistic photo of a woman at a kitchen table at night typing on her phone; the phone shows its black back to the camera. Images 2 and 3 show the official 3D mascot (TRIPE) from two angles. Edit Image 1: REMOVE the small mascot standing on the table (leave the table, cup and towel clean). ADD one mascot STANDING ON THE FLOOR right next to the woman's chair, on the left side of the picture, its WHOLE BODY visible from its rounded feet on the floor to the top of its head, standing upright on its two short legs exactly like in Image 2. Its upper body (the head part) bends forward toward the woman to peek at her phone screen, with curious, slightly worried eyes. Size: when standing, the top of its head reaches about the height of the seated woman's head. Copy its exact silhouette from Images 2 and 3: the whole body is ONE bean-shaped piece that bends FORWARD, no neck, no shoulders, two vertical black oval eyes near the front of the head, four short thick tube-shaped limbs with rounded ends, no hands, no fingers, no mouth; matte lime-green vinyl (#D7FF00). Keep the woman, her face and expression, her hands, the phone (back facing the camera), the chair, the kitchen, the light and the photo grain exactly the same. No text, no logos."
  }
 ]
